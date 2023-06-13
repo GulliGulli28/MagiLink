@@ -1,6 +1,9 @@
 /* */
 body {
   background-color: #393c43;
+  background-image: url("../assets/wphl.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
