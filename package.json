@@ -1,0 +1,32 @@
+{
+  "name": "magilink",
+  "version": "1.0.0",
+  "description": "Meet other Harry Potter fans with MagiLink!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GulliGulli28/MagiLink.git"
+  },
+  "keywords": [
+    "Harry_Potter",
+    "community",
+    "meeting",
+    "chat",
+    "nodejs",
+    "html"
+  ],
+  "author": "EPutes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GulliGulli28/MagiLink/issues"
+  },
+  "homepage": "https://github.com/GulliGulli28/MagiLink#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sequelize": "^6.32.0",
+    "socket.io": "^4.6.2"
+  }
+}
