@@ -22,9 +22,14 @@ const http = require("http").createServer(app);
 //on importe le module socket.io pour pouvoir utiliser les websockets
 const io = require("socket.io")(http);
 
-//renvoie à la page connection.html lorsque l'on accède à la racine du serveur
+//renvoie à la page connexion.html lorsque l'on accède à la racine du serveur
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
+});
+
+//À l'envoie du formulaire de connexion, on renvoie à la page index.html (pour l'instant).
+app.get("/signin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/pages/index.html"));
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
