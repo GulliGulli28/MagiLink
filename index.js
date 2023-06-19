@@ -1,6 +1,8 @@
 //On import le module express
 const express = require("express");
 
+const cookieParser = require('cookie-parser');
+
 //on instancie express dans une constante app
 const app = express();
 
@@ -9,6 +11,9 @@ const path = require("path");
 
 //on dit à app d'utiliser le module express.urlencoded pour parser les données envoyées par le formulaire de connexion
 app.use(express.urlencoded({ extended: false }));
+
+app.use(cookieParser());
+
 
 //On permet à express d'utiliser le dossier public pour les fichiers statiques
 app.use(express.static(path.join(__dirname, "public")));
@@ -28,10 +33,15 @@ app.get("/", (req, res) => {
   //res.sendFile permet de renvoyé le client sur une page html.
   //il est possible de renvoyer du texte avec res.send("texte") ou du json avec res.json({json: "json"}) etc...
   res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
-});
 
 app.get("/signin", (req, res) => {
+  const monCookie = req.cookies.agh_session;
+  if (monCookie){
+    res.sendFile(path.join(__dirname, "public/pages/index.html"));
+  }
+  else{
   res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
+  }
 });
 
 app.get("/signup", (req, res) => {
