@@ -1,10 +1,15 @@
 const {User} = require('./db.js');
 const Op = require('sequelize').Op;
+const sanitizeHtml = require('sanitize-html');
+
 const crypto = require('crypto');
 
 //Securisation de l'entrée de l'utilisateur
 
-function secure(input){
+function secure(input){    
+    console.log(typeof input);
+    for (let key in input)
+        input[key] = sanitizeHtml(input[key]).replace(/[.*+?^${}=`()|[\]\\]/g, '\\$&');
     return input;
 }
 
