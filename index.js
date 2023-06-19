@@ -34,8 +34,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
 });
 
+app.get("/pages", (req, res) => {
+  console.log("ici");
+});
+
 app.get("/signin", (req, res) => {
-  const monCookie = req.cookies.agh_session;
   res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
 });
 
@@ -52,21 +55,20 @@ app.get("/pages", (req, res) => {
 app.post("/signin", async (req, res) => {
   //req.body contient les données envoyées par le formulaire, on peut y accéder avec req.body.nomDuChamp
   console.log(req.body);
-  const {secure,trylogin} = require('./serverside/js/connexion.js');
+  const { secure, trylogin } = require("./serverside/js/connexion.js");
   validated_input = secure(req.body);
   login = await trylogin(validated_input);
   console.log("login", login);
   if (login){
     res.sendFile(path.join(__dirname, "public/pages/index.html"));
-  }
-  else {
+  } else {
     res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
   }
 });
 
 app.post("/signup", async (req, res) => {
   console.log(req.body);
-  const {secure,register} = require('./serverside/js/register.js');
+  const { secure, register } = require("./serverside/js/register.js");
   validated_input = secure(req.body);
   const check = await register(validated_input);
   if (check) {
@@ -88,5 +90,3 @@ http.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   
 });
-
-
