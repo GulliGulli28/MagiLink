@@ -33,6 +33,7 @@ app.get("/", (req, res) => {
   //res.sendFile permet de renvoyé le client sur une page html.
   //il est possible de renvoyer du texte avec res.send("texte") ou du json avec res.json({json: "json"}) etc...
   res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
+});
 
 app.get("/signin", (req, res) => {
   const monCookie = req.cookies.agh_session;
