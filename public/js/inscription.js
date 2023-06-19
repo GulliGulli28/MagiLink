@@ -4,7 +4,6 @@ function verifierEmail(email) {
 }
 
 document.getElementById("myForm").addEventListener("submit", function (event) {
-  // Empêche le comportement par défaut de l'envoi du formulaire
   const mail = document.getElementById("mail").value;
   const checkmail = verifierEmail(mail);
   console.log(checkmail);

@@ -2,12 +2,12 @@ var audio = new Audio();
 audio.src = "../assets/generic.mp3";
 
 audio.play();
-
 document.getElementById("myForm").addEventListener("submit", function (event) {
   //event.preventDefault();  Empêche le comportement par défaut de l'envoi du formulaire
   var username = document.getElementById("username").value; // Récupère la valeur du champ username
   //setCookie("monCookie", username, 1); // Crée le cookie avec la valeur du champ username pour une durée de 1 jour
 });
+
 
 function setCookie(name, value, days) {
   var expires = "";

@@ -46,35 +46,47 @@ app.get("/signup", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/inscription.html"));
 });
 
+app.get("/pages", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
+  console.log("petit malin");
+});
+
 //À l'envoie du formulaire de connexion, on renvoie à la page index.html (pour l'instant, plus tard il faudra gérer avec la base de donnée etc...).
-app.post("/signin", (req, res) => {
+app.post("/signin", async (req, res) => {
   //req.body contient les données envoyées par le formulaire, on peut y accéder avec req.body.nomDuChamp
   console.log(req.body);
   const { secure, trylogin } = require("./serverside/js/connexion.js");
   validated_input = secure(req.body);
-  login = trylogin(validated_input);
-  //On importe le module connexion.js qui contient la fonction secure qui permet de sécuriser les données envoyées par le formulaire
-  if (login) {
+  login = await trylogin(validated_input);
+  console.log("login", login);
+  if (login){
     res.sendFile(path.join(__dirname, "public/pages/index.html"));
   } else {
     res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
   }
 });
 
-app.post("/signup", (req, res) => {
+app.post("/signup", async (req, res) => {
   console.log(req.body);
   const { secure, register } = require("./serverside/js/register.js");
   validated_input = secure(req.body);
-  if (register(validated_input)) {
-    res.sendFile(path.join(__dirname, "public/pages/validate_account.html"));
+  const check = await register(validated_input);
+  if (check) {
+    res.sendFile(path.join(__dirname, "public/pages/index.html"));
+  }
+  else {
+    res.sendFile(path.join(__dirname, "public/pages/inscription.html"));
   }
 });
 
-app.post("/signin", (req, res) => {
+
+app.post("/validate_email", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/index.html"));
+  console.log("cc");
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
 http.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+  
 });
