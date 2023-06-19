@@ -1,7 +1,7 @@
 //On import le module express
 const express = require("express");
 
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
 //on instancie express dans une constante app
 const app = express();
@@ -13,7 +13,6 @@ const path = require("path");
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
-
 
 //On permet à express d'utiliser le dossier public pour les fichiers statiques
 app.use(express.static(path.join(__dirname, "public")));
@@ -72,6 +71,10 @@ app.post("/signup", (req, res) => {
   if (register(validated_input)){
     res.sendFile(path.join(__dirname, "public/pages/validate_account.html"));
   }
+});
+
+app.post("/signin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/pages/index.html"));
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
