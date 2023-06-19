@@ -1,4 +1,6 @@
-const {connect, disconnect, checkUser} = require('./db.js');
+const {User} = require('./db.js');
+const Op = require('sequelize').Op;
+const crypto = require('crypto');
 
 //Securisation de l'entrée de l'utilisateur
 
@@ -6,13 +8,23 @@ function secure(input){
     return input;
 }
 
-function trylogin(valide_input){
-    //On vérifie que le nom d'utilisateur existe dans la base de donnée
-    //On vérifie que le mot de passe correspond à celui de la base de donnée
-    //On renvoie true si les deux conditions sont remplies, false sinon
-    connect();
-    checkUser(valide_input.username, valide_input.password);
-    disconnect();
+async function trylogin(valide_input){
+    console.log(valide_input);
+    psd = crypto.createHash('sha256').update(valide_input.password).digest('hex');
+    try {
+        const user = await User.findOne({where: { [Op.or]: [{username : valide_input.username}, {login: valide_input.username}], pswd: psd}});
+        if (user != null){
+            console.log("user found");
+            return true;
+        } else {
+            console.log("user not found");
+            return false;
+        }
+    }
+    catch (error) {
+        console.error(error);
+        return false;
+    }
 }
 
 

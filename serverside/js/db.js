@@ -6,67 +6,54 @@ const dbis = new Sequelize('magilink', 'magilink_server', 'b/U4+Vru$*K685Aah%ZW^
     host: 'localhost',
     dialect: 'mysql',
     logging: console.log,
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    },
 });
 
-console.log = (msg) => {
-    let num = 0;
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1; // Adding 1 to get the month as a 1-based index
-    const date = currentDate.getDate();
-    const path = "../logs/" + year + month + date + "-" + num +".log";
-    console.error(path);
-    while(fs.existsSync(path)){
-        if (fs.statSync(path).size > 1000000){
-            num++;
-            path = "../logs/" + year + month + date + "-" + num +".log";
-        }
-        else {
-            break;
-        }
-    }
-    fs.appendFile(path, msg, err => { console.error(err) });
-}
+// console.log = (msg) => {
+//     let num = 0;
+//     const currentDate = new Date();
+//     const year = currentDate.getFullYear();
+//     const month = currentDate.getMonth() + 1; // Adding 1 to get the month as a 1-based index
+//     const date = currentDate.getDate();
+//     const path = "../logs/" + year + month + date + "-" + num +".log";
+//     console.error(path);
+//     while(fs.existsSync(path)){
+//         if (fs.statSync(path).size > 1000000){
+//             num++;
+//             path = "../logs/" + year + month + date + "-" + num +".log";
+//         }
+//         else {
+//             break;
+//         }
+//     }
+//     fs.appendFile(path, msg, err => { console.error(err) });
+// }
 
-console.error = (msg) => {
-    let num = 0;
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1; // Adding 1 to get the month as a 1-based index
-    const date = currentDate.getDate();
-    const path = "../errors/" + year + month + date + "-" + num +".log";
-    while(fs.existsSync(path)){
-      if (fs.statSync(path).size > 1000000){
-          num++;
-          path = "../errors/" + year + month + date + "-" + num +".log";
-      }
-      else {
-          break;
-      }
-    }
-    fs.appendFile(path, msg, err => { console.error(err) });
-}
+// console.error = (msg) => {
+//     let num = 0;
+//     const currentDate = new Date();
+//     const year = currentDate.getFullYear();
+//     const month = currentDate.getMonth() + 1; // Adding 1 to get the month as a 1-based index
+//     const date = currentDate.getDate();
+//     const path = "../errors/" + year + month + date + "-" + num +".log";
+//     while(fs.existsSync(path)){
+//       if (fs.statSync(path).size > 1000000){
+//           num++;
+//           path = "../errors/" + year + month + date + "-" + num +".log";
+//       }
+//       else {
+//           break;
+//       }
+//     }
+//     fs.appendFile(path, msg, err => { console.error(err) });
+// }
 
 //Connexion
-async function connect(){
-    dbis.authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch((error) => {
-        console.error('Unable to connect to the database:', error);
-    });
-}
-
-async function disconnect(){
-    dbis.close()
-    .then(() => {
-        console.log('Connection has been closed successfully.');
-    })
-    .catch((error) => {
-        console.error('Unable to close the database:', error);
-    });
-}
 
 async function sync(){
     dbis.sync({alter: true})
@@ -77,7 +64,6 @@ async function sync(){
         console.error('Unable to sync tables:', error);
     });
 }
-
 
 //Création des modeles des tables
 const Channel = dbis.define('Channel',{
@@ -221,66 +207,4 @@ Channel.belongsTo(House, { foreignKey: 'channel' });
 User.hasOne(Profile, { foreignKey: 'userId' });
 Profile.belongsTo(User, { foreignKey: 'userId' });
 
-async function getUsers(){
-  try {
-    const users = await User.findAll();
-    return users;
-  }
-  catch (error) {
-    console.error(error);
-  }
-}
-
-async function checkUser(login,password){
-  const compare_pwd = crypto.createHash('sha256').update(password).digest('hex');
-  try {
-    const users = await User.findAll({
-      where: {
-        login: login,
-        pswd: compare_pwd
-      }
-    });
-    if (users.length == 0) {
-      return 2;
-    }
-    else if (users.length == 1) {
-      return 1;
-    }
-    else {
-      return 0;
-    }
-  }
-  catch (error) {
-    console.error(error);
-  }
-}
-
-async function checkUser_availability(login){
-  try {
-    const users = await User.findAll({
-      where: {
-        login: login
-      }
-    });
-    if (users.length == 0) {
-      return 1;
-    }
-    else {
-      return 0;
-    }
-  }
-  catch (error) {
-    console.error(error);
-  }
-}
-
-async function createUser(user){
-  try {
-    User.create(user);
-  }
-  catch{
-    console.error(error);
-  }
-}
-
-module.exports = { connect, disconnect, sync, Channel, House, Message, User, Profile, getUsers, checkUser, checkUser_availability, createUser};
+module.exports = {dbis, sync, Channel, House, Message, User, Profile};
