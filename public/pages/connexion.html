@@ -14,7 +14,7 @@
         <form id="myForm" action="/signin" method="POST" class="form">
           <div class="input-group">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username" placeholder="" />
+            <input type="text" name="username" id="username" placeholder="" required/>
           </div>
           <div class="input-group">
             <label for="password">Password</label>
@@ -23,6 +23,7 @@
               name="password"
               id="password"
               placeholder=""
+              required
             />
             <div class="forgot">
               <a rel="noopener noreferrer" href="#">Forgot Password ?</a>
