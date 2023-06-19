@@ -11,7 +11,7 @@ Requis: nodejs et npm (Node Package Manager, qui permet de télécharger des pac
 
 <br>
 
-Pour lancer le serveur, dans la racine du projet, tapez **node index.js**
+Pour lancer le serveur, dans la racine du projet, tapez **nodemon -x "clear;node" index**
 
 
 Sinon, il est possible de lancer un daemon, qui redémarera le serveur à chaque modification de celui-ci (c'est plus pratique).

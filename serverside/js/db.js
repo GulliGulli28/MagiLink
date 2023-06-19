@@ -283,4 +283,4 @@ async function createUser(user){
   }
 }
 
-module.exports = { connect, disconnect, sync, Channel, House, Message, User, Profile, getUsers, checkUser, checkUser_availability, checkUser_availability_troll };
+module.exports = { connect, disconnect, sync, Channel, House, Message, User, Profile, getUsers, checkUser, checkUser_availability, createUser};
