@@ -19,4 +19,3 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
     }
     document.cookie = name + "=" + value + expires + "; path=/";
   }
-  
