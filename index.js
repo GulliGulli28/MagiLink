@@ -34,14 +34,12 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
 });
 
+app.get("/pages", (req, res) => {
+  console.log("ici");
+});
+
 app.get("/signin", (req, res) => {
-  const monCookie = req.cookies.agh_session;
-  if (monCookie){
-    res.sendFile(path.join(__dirname, "public/pages/index.html"));
-  }
-  else{
   res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
-  }
 });
 
 app.get("/signup", (req, res) => {
@@ -52,23 +50,22 @@ app.get("/signup", (req, res) => {
 app.post("/signin", (req, res) => {
   //req.body contient les données envoyées par le formulaire, on peut y accéder avec req.body.nomDuChamp
   console.log(req.body);
-  const {secure,trylogin} = require('./serverside/js/connexion.js');
+  const { secure, trylogin } = require("./serverside/js/connexion.js");
   validated_input = secure(req.body);
   login = trylogin(validated_input);
   //On importe le module connexion.js qui contient la fonction secure qui permet de sécuriser les données envoyées par le formulaire
-  if (login){
+  if (login) {
     res.sendFile(path.join(__dirname, "public/pages/index.html"));
-  }
-  else {
+  } else {
     res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
   }
 });
 
 app.post("/signup", (req, res) => {
   console.log(req.body);
-  const {secure,register} = require('./serverside/js/register.js');
+  const { secure, register } = require("./serverside/js/register.js");
   validated_input = secure(req.body);
-  if (register(validated_input)){
+  if (register(validated_input)) {
     res.sendFile(path.join(__dirname, "public/pages/validate_account.html"));
   }
 });
@@ -81,5 +78,3 @@ app.post("/signin", (req, res) => {
 http.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
