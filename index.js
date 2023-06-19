@@ -1,7 +1,7 @@
 //On import le module express
 const express = require("express");
 
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
 //on instancie express dans une constante app
 const app = express();
@@ -13,7 +13,6 @@ const path = require("path");
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
-
 
 //On permet à express d'utiliser le dossier public pour les fichiers statiques
 app.use(express.static(path.join(__dirname, "public")));
@@ -32,16 +31,19 @@ app.get("/", (req, res) => {
   //deux arguments: req pour la reqête du client et res pour la réponse du serveur, tu peux essayer de print l'un ou l'autre pour voir, c'est lourd.
   //res.sendFile permet de renvoyé le client sur une page html.
   //il est possible de renvoyer du texte avec res.send("texte") ou du json avec res.json({json: "json"}) etc...
-  const monCookie = req.cookies.agh_session;
-  if (monCookie){
+  const monCookie = req.cookies.monCookie;
+  if (monCookie) {
     res.sendFile(path.join(__dirname, "public/pages/index.html"));
-  }
-  else{
-  res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
+  } else {
+    res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
   }
 });
 
 //À l'envoie du formulaire de connexion, on renvoie à la page index.html (pour l'instant, plus tard il faudra gérer avec la base de donnée etc...).
+app.post("/signin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/pages/index.html"));
+});
+
 app.post("/signin", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/index.html"));
 });
