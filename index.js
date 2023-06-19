@@ -77,6 +77,11 @@ app.post("/signin", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/index.html"));
 });
 
+app.post("/validate_email", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/pages/index.html"));
+  console.log("cc");
+});
+
 //On demande au serveur d'écouter sur le port défini plus haut
 http.listen(port, () => {
   console.log(`Server is running on port ${port}`);

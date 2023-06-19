@@ -1,4 +1,5 @@
 const {connect, disconnect, checkUser_availability,User,createUser} = require('./db.js'); 
+const crypto = require('crypto');
 
 //Securisation de l'entrée de l'utilisateur
 function secure(input){
@@ -21,5 +22,6 @@ function register(valide_input){
     }
     disconnect();
     return true;
-
 }
+
+module.exports = { secure, register };
