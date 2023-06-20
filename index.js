@@ -70,7 +70,7 @@ app.use((req, res, next) => {
   req.session.failedAttempts = req.session.failedAttempts || {};
   req.session.failedAttempts[ipAddress] = req.session.failedAttempts[ipAddress] || 0;
 
-  if (req.session.failedAttempts[ipAddress] >= 3) {
+  if (req.session.failedAttempts[ipAddress] >= 10) {
     // Bloquer l'adresse IP
     req.session.blockedIPs = req.session.blockedIPs || [];
     req.session.blockedIPs.push({ ipAddress: ipAddress, timestamp: new Date().getTime() });
