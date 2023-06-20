@@ -105,13 +105,15 @@ const io = require("socket.io")(http);
 //renvoie à la page connexion.html lorsque l'on accède à la racine du serveur (pour l'instant localhost:port)
 
 app.get("/signin", (req, res) => {
+  console.log("signin");
   if (req.cookies.token){
     res.redirect("/section_choice");
   }
   res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
 });
 
-app.get("/signup", (req, res) => { 
+app.get("/signup", (req, res) => {
+  console.log("signup");
   if (req.cookies.token){
     res.redirect("/section_choice");
   }
@@ -119,10 +121,12 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/validate_account", (req, res) => {
+  console.log("validate_account");
   res.sendFile(path.join(__dirname, "public/pages/validate_account.html"));
 });
 
 app.get("/meet/swap", (req, res) => {
+  console.log("meet/swap");
   if (!req.cookies.token){
     res.redirect("/signin");
   }
@@ -130,6 +134,7 @@ app.get("/meet/swap", (req, res) => {
 });
 
 app.get("/meet/message", (req, res) => {
+  console.log("meet/message");
   if (!req.cookies.token){
     res.redirect("/signin");
   }
@@ -137,6 +142,7 @@ app.get("/meet/message", (req, res) => {
 });
 
 app.get("/community/swap", (req, res) => {
+  console.log("community/swap");
   if (!req.cookies.token){
     res.redirect("/signin");
   }
@@ -144,6 +150,7 @@ app.get("/community/swap", (req, res) => {
 });
 
 app.get("/community/message", (req, res) => {
+  console.log("community/message");
   if (!req.cookies.token){
     res.redirect("/signin");
   }
@@ -151,6 +158,7 @@ app.get("/community/message", (req, res) => {
 });
 
 app.get("/section_choice", async (req, res) => {
+  console.log("section_choice");
   if (!req.cookies.token){
     res.redirect("/signin");
   }
@@ -162,14 +170,15 @@ app.get("/section_choice", async (req, res) => {
     res.redirect("/setup_profile");
   }
   else if (check_if_data_is_null("maison", pid)) {
-    res.redirect("/test_maison");
+    res.redirect("/test_house1");
   }
   else {
     res.sendFile(path.join(__dirname, "public/pages/section_choice.html"));
   }
 });
 
-app.get("/test_maison", async (req, res) => {
+app.get("/test_house1", async (req, res) => {
+  console.log("test_house1");
   const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
 
   if (!req.cookies.token){
@@ -182,7 +191,7 @@ app.get("/test_maison", async (req, res) => {
     }
     const check = await check_if_data_is_null("maison", pid);
     if (check) {
-      res.sendFile(path.join(__dirname, "public/pages/testmaison1.html"));
+      res.sendFile(path.join(__dirname, "public/pages/test_house1.html"));
     }
     else {
       res.redirect("/");
@@ -190,8 +199,75 @@ app.get("/test_maison", async (req, res) => {
   }
 });
 
-app.get("/setup_profile" , async (req, res) => {
+app.get("/test_house2", async (req, res) => {
+  console.log("test_house2");
   const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
+
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  else{
+    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
+    if (!pid){
+      res.redirect("/setup_profile");
+    }
+    const check = await check_if_data_is_null("maison", pid);
+    if (check) {
+      res.sendFile(path.join(__dirname, "public/pages/test_house2.html"));
+    }
+    else {
+      res.redirect("/");
+    }
+  }
+});
+
+app.get("/test_house3", async (req, res) => {
+  console.log("test_house3");
+  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
+
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  else{
+    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
+    if (!pid){
+      res.redirect("/setup_profile");
+    }
+    const check = await check_if_data_is_null("maison", pid);
+    if (check) {
+      res.sendFile(path.join(__dirname, "public/pages/test_house3.html"));
+    }
+    else {
+      res.redirect("/");
+    }
+  }
+});
+
+app.get("/house_setup", async (req, res) => {
+  console.log("house_setup");
+  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  else{
+    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
+    if (!pid){
+      res.redirect("/setup_profile");
+    }
+    const check = await check_if_data_is_null("maison", pid);
+    if (check) {
+      res.sendFile(path.join(__dirname, "public/pages/house_discovery.html"));
+    }
+    else {
+      res.redirect("/test_house1");
+    }
+  }
+});
+
+
+app.get("/setup_profile" , async (req, res) => {
+  console.log("setup_profile");
+  const {profile_id_from_user} = require('./serverside/js/profile.js');
   if (!req.cookies.token){
     res.redirect("/signin");
   }
@@ -200,7 +276,9 @@ app.get("/setup_profile" , async (req, res) => {
     if (!pid){
       res.sendFile(path.join(__dirname, "public/pages/setup_profile.html"));
     }
-    res.redirect("/section_choice");
+    else{
+      res.redirect("/section_choice");
+    }
   }
 });
 
@@ -282,6 +360,19 @@ app.post("/meet/message", (req, res) => {
 
 app.post("/community/message", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/community/message.html"));
+});
+
+app.post("/test_house1", async (req, res) => {
+  console.log(req.body);
+  res.redirect("/test_house2");
+});
+
+app.post("/test_house2", async (req, res) => {
+  res.redirect("/test_house3");
+});
+
+app.post("/test_house3", async (req, res) => {
+  res.redirect("/house_setup");
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
