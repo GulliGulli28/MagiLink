@@ -1,16 +1,9 @@
-const sanitizeHtml = require('sanitize-html');
+function identify_by_cookie(){
+    return
+}
 
-function secure(userInput) {
-  // Filtrage des caractères spéciaux
-  const sanitizedInput = sanitizeHtml(userInput);
-
-  // Échappement des caractères spéciaux
-  return sanitizedInput.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}  
-
-const userInput = 'Exemple de texte contenant des caractères spéciaux: $^*{}';
-const escapedInput = secure(userInput);
-
-console.log(escapedInput);
-  
-
+function secure(input){    
+    for (let key in input)
+        input[key] = sanitizeHtml(input[key]).replace(/[.*+?^${}=`()|[\]\\]/g, '\\$&');
+    return input;
+}
