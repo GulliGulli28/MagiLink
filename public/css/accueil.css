@@ -7,7 +7,7 @@
 
 .hero {
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   background-image: url(../assets/H2.jpg);
   background-size: cover;
   background-position: center;
@@ -28,6 +28,11 @@ nav {
   font-size: 35px;
   letter-spacing: 1px;
   cursor: pointer;
+}
+
+.navbar .menu-hamburger {
+  display: none;
+  width: 35px;
 }
 
 span {
@@ -192,4 +197,108 @@ button:hover {
   width: 430px;
   margin-bottom: 45px;
   margin-right: 45px;
+}
+
+@media screen and (max-width: 1150px) {
+  .hero {
+    height: 100vh;
+    width: 100vw;
+    background-image: url(../assets/H2.jpg);
+    background-size: cover;
+    background-position: center;
+    overflow-x: hidden;
+  }
+
+  .navbar {
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  #logo h2 {
+    display: none;
+  }
+
+  .navbar .menu-hamburger {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 35px;
+    right: 0;
+  }
+
+  .btn {
+    display: none;
+  }
+
+  .nav-links {
+    top: 0;
+    left: 0;
+    z-index: 1;
+    position: absolute;
+    background-color: black;
+    backdrop-filter: blur(2px);
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 100%;
+    transition: all 0.5s ease;
+  }
+
+  .nav-links ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar .nav-links ul li {
+    margin: 25px 0px;
+    font-size: 1.2em;
+    color: white;
+  }
+
+  .mobile-menu {
+    margin-left: 50%;
+  }
+
+  .content {
+    z-index: 0;
+  }
+
+  .about {
+    width: 100vw;
+    background-color: #080e13;
+  }
+
+  .contact-us {
+    width: 100vw;
+    background-color: #13222e;
+  }
+
+  .Safety {
+    width: 100vw;
+    background-color: #2e1b13;
+  }
+
+  .about img {
+    height: auto;
+    width: 100vw;
+    margin-bottom: 45px;
+    margin-right: 0;
+  }
+
+  .contact-us img {
+    height: auto;
+    width: 100vw;
+    margin-bottom: 45px;
+    margin-left: 0px;
+  }
+
+  .Safety img {
+    height: auto;
+    width: 100vw;
+    margin-top: 45px;
+    margin-right: 0px;
+  }
 }
