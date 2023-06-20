@@ -1,4 +1,4 @@
-document.querySelectorAll(".smooth-scroll").forEach((link) => {
+document.querySelectorAll(".nav-link").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
     const targetId = link.getAttribute("href");
@@ -27,11 +27,4 @@ document.querySelectorAll(".smooth-scroll").forEach((link) => {
 
     requestAnimationFrame(scrollStep);
   });
-});
-
-const menuHamburger = document.querySelector(".menu-hamburger");
-const nav_links = document.querySelector(".nav-links");
-
-menuHamburger.addEventListener("click", () => {
-  nav_links.classList.toggle("mobile-menu");
 });
