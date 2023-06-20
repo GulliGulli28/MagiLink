@@ -112,7 +112,6 @@ app.get("/signin", (req, res) => {
 
 app.get("/signup", (req, res) => { 
   res.sendFile(path.join(__dirname, "public/pages/inscription.html"));
-  
 });
 
 app.get("/validate_account", (req, res) => {
@@ -157,6 +156,10 @@ app.get("/test_maison", (req, res) => {
 
 app.get("/setup_profile" , (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/setup_profile.html"));
+});
+
+app.get("/meet", (req, res) => { 
+  res.sendFile(path.join(__dirname, "public/pages/inscription.html"));
 });
 
 app.get("/", (req, res) => {
@@ -229,6 +232,10 @@ app.post("/meet/message", (req, res) => {
 
 app.post("/community/message", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/community/message.html"));
+});
+
+app.post("/meet", (req, res) => {
+  pick(uid);
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
