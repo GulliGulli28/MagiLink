@@ -131,6 +131,10 @@ const User = dbis.define('User', {
         type: DataTypes.STRING(255),
         allowNull: false,
     },
+    pid: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
     pswd : {
         type: DataTypes.STRING(255),
         allowNull: false,
@@ -191,6 +195,15 @@ const Profile = dbis.define('Profile', {
     bio: {
       type: DataTypes.TEXT,
     },
+    affinity: { 
+      type: DataTypes.JSON,
+    },
+    meet_picture: {
+      type: DataTypes.BLOB,
+    },
+    commu_picture: {
+      type: DataTypes.BLOB,
+    },
   }, {freezeTableName: true});
 
 //Relations
@@ -204,7 +217,7 @@ Channel.belongsTo(Message, { foreignKey: 'channel' });
 House.hasOne(Channel, { foreignKey: 'channel' });
 Channel.belongsTo(House, { foreignKey: 'channel' });
 //Profil - User
-User.hasOne(Profile, { foreignKey: 'userId' });
-Profile.belongsTo(User, { foreignKey: 'userId' });
+User.hasOne(Profile, { foreignKey: 'pid' });
+Profile.belongsTo(User, { foreignKey: 'pid' });
 
 module.exports = {dbis, sync, Channel, House, Message, User, Profile};
