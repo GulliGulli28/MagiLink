@@ -170,7 +170,7 @@ const Profile = dbis.define('Profile', {
       type: DataTypes.STRING(255),
     },
     dob: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING(10),
     },
     ville: {
       type: DataTypes.STRING(255),
