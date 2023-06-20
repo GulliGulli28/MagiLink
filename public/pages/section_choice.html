@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interface avec deux boutons géants</title>
+  <style>
+    /* Style pour diviser l'écran en deux parties */
+    .container {
+      display: flex;
+      height: 100%;
+    }
+    
+    /* Style pour les boutons géants */
+    .button {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      background-color: #e0e0e0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form action="/meet/message" class = "form"method = "POST"><button><div class="button" >Meet</div></button></form>
+    <form action="/community/message" class = "form"method = "POST"><button><div class="button" >Commu</div></button></form>
+    
+  </div>
+</body>
+</html>
