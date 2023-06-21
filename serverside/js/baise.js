@@ -4,15 +4,14 @@ const { Op, QueryTypes } = require('sequelize');
 
 async function pick(uid) {
     console.log("voici l'uid : " + uid);
-    const {profile_id_from_user} = require('../js/profile.js');
+    const { profile_id_from_user } = require('../js/profile.js');
 
-    //const pid = await profile_id_from_user(uid);
-    const pid =81;
+    const pid = await profile_id_from_user(uid);
     console.log("ON a le PID", pid);
     const query = `
-        SELECT Ville.ville_longitude_deg, Ville.ville_latitude_deg
-        FROM Ville
-        INNER JOIN Profile ON Profile.ville = Ville.ville_nom_reel
+        SELECT villes_france_free.ville_longitude_deg, villes_france_free.ville_latitude_deg
+        FROM villes_france_free
+        INNER JOIN Profile ON Profile.ville = villes_france_free.ville_nom_reel
         WHERE Profile.pid = :pid
     `;
     const coord = await dbis.query(query, {
@@ -32,28 +31,42 @@ async function pick(uid) {
     if (profUncomplete.length < 10) {
         const newProfiles = await getProfileInMyRange(range, 10 - profUncomplete.length);
         for (const profile of newProfiles) {
-            const query = `
-              INSERT INTO Interaction (id1, id2, res1, res2, state)
-              VALUES (:id1, :id2, '', '', 'undefined')
-            `;
-            const interaction = await dbis.query(query, {
-                replacements: {
+            const test = await Interaction.findOne({
+                where: {
                     id1: pid,
                     id2: profile.pid
-                },
-                type: QueryTypes.INSERT
-            });
+                }
+            })
+            console.log(test);
+            if (test != undefined) {
+                const query = `
+                INSERT INTO Interaction (id1, id2, res1, res2, state)
+                VALUES (:id1, :id2, NULL, NULL, NULL)
+                `;
+                const interaction = await dbis.query(query, {
+                    replacements: {
+                        id1: pid,
+                        id2: profile.pid
+                    },
+                    type: QueryTypes.INSERT
+                });
+            }
+
         }
         finalresult = newProfiles.concat(profUncomplete.map(profile => profile.pid));
     } else {
         finalresult = profUncomplete.slice(0, 10).map(profile => profile.pid);
     }
-
-    return Profile.findAll({
-        where: {
-            pid: finalresult
-        }
-    });
+    console.log("SALUT JE SUIS LA<---------------------------------------------------------------------");
+    for (r in finalresult) {
+        // let theResult = Profile.findAll({
+        //     where: {
+        //         pid: r
+        //     }
+        // });
+        // let theFinalResult=theFinalResult.concat(theResult);
+        console.log(r);
+    }
 }
 
 async function getProfileWithIncompleteInteraction(pid) {
@@ -62,7 +75,7 @@ async function getProfileWithIncompleteInteraction(pid) {
         FROM Profile
         INNER JOIN Interaction ON Profile.pid = Interaction.id1
         WHERE Interaction.id1 = :pid
-        AND Interaction.res1 = '';
+        AND Interaction.res1 = NULL;
     `;
     const profiles = await dbis.query(query, {
         replacements: {
@@ -75,7 +88,7 @@ async function getProfileWithIncompleteInteraction(pid) {
         FROM Profile
         INNER JOIN Interaction ON Profile.pid = Interaction.id2
         WHERE Interaction.id2 = :pid
-        AND Interaction.res2 = '';
+        AND Interaction.res2 = NULL;
     `;
     const profiles2 = await dbis.query(query2, {
         replacements: {
@@ -92,9 +105,9 @@ async function getProfileInMyRange(range, nbProfile) {
     const query = `
     SELECT Profile.pid
     FROM Profile
-    INNER JOIN Ville ON Profile.ville = Ville.ville_nom_reel
-    WHERE Ville.ville_latitude_deg BETWEEN :minLat AND :maxLat
-    AND Ville.ville_longitude_deg BETWEEN :minLon AND :maxLon
+    INNER JOIN villes_france_free ON Profile.ville = villes_france_free.ville_nom_reel
+    WHERE villes_france_free.ville_latitude_deg BETWEEN :minLat AND :maxLat
+    AND villes_france_free.ville_longitude_deg BETWEEN :minLon AND :maxLon
     LIMIT :nbProfile;
   `;
     const profiles = await dbis.query(query, {
@@ -131,10 +144,5 @@ function getRange(latitude, longitude, distanceInKm) {
 }
 
 
-async function main() {
-    await connectToDatabase();
-    const profiles = await pick(22);
-    console.log(profiles);
-  }
-  
-  main();
+const profiles = pick(22)
+console.log(profiles);
