@@ -380,3 +380,6 @@ http.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 
 });
+
+const {baise} =require('./serverside/js/baise.js');
+baise.main();

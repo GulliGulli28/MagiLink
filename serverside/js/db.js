@@ -300,3 +300,23 @@ Ville.hasMany(User, { foreignKey: 'current_city' });
 
 
 module.exports = { dbis, sync, Channel, House, Message, User, Profile, Interaction, Ville };
+
+
+
+// TODO A SUPPRIMER
+
+async function connectToDatabase() {
+  try {
+    await dbis.authenticate();
+    console.log('Connected to the database successfully');
+    sync();
+    console.log('Sync successful');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
+
+connectToDatabase(); // Appel de la fonction à la fin du fichier
+
+module.exports = { dbis, sync, Channel, House, Message, User, Profile, Interaction, Ville };
+
