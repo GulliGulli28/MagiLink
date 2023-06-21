@@ -71,7 +71,13 @@
     </nav>
 
     <div class="nonav">
-      <aside></aside>
+      <aside>
+        <ul id="tabs">
+          <li class="active" data-room="general"># general</li>
+          <li data-room="help"># help</li>
+          <li data-room="other"># other</li>
+        </ul>
+      </aside>
       <main>
         <div id="content">
           <div id="messages"></div>
@@ -85,7 +91,6 @@
             </form>
           </div>
         </div>
-
         <div id="choice">
           <p class="active" data-room="Chat"># Chat</p>
           <p id="swipe" data-room="swipe"># Swipe</p>

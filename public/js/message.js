@@ -1,22 +1,23 @@
 const socket = io();
 const userid = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("token=")).split("=")[1];
 console.log(document.cookie);
-
+socket.on("connect", () => {
+  socket.emit("enter_room", "general");
+});
 
 window.onload = () => {
-
-
-
   document.querySelector("#form").addEventListener("submit", (e) => {
     e.preventDefault();
+    socket.emit("user_connected", { name: userid });
     const message = document.querySelector("#message");
     const room = document.querySelector("#choice p.active").dataset.room;
+    const rooms = document.querySelector("#tabs li.active").dataset.room;
     const createdAt = new Date();
 
     socket.emit("chat_message", {
       id: userid,
       message: message.value,
-      room: room,
+      room: rooms,
       createdAt: createdAt,
     });
     document.querySelector("#message").value = "";
@@ -27,26 +28,56 @@ window.onload = () => {
     var messagesDiv = document.querySelector("#messages");
     var lastMessage = messagesDiv.lastElementChild;
     lastMessage.scrollIntoView();
-    if (msg.name != username) {
-      audio.play();
+  });
+
+  socket.on("init_messages", (msg) => {
+    let data = JSON.parse(msg.messages);
+    if (data != []) {
+      data.forEach((element) => {
+        publishMessage(element);
+        var messagesDiv = document.querySelector("#messages");
+        var lastMessage = messagesDiv.lastElementChild;
+        lastMessage.scrollIntoView();
+      });
     }
+  });
+
+  socket.on("swipe-data", (msg) => {
+    console.log("coucou");
+    clear_messages();
   });
 };
 
 document.querySelectorAll("#choice p").forEach((tab) => {
   tab.addEventListener("click", function () {
-    console.log(hello);
     if (!this.classList.contains("active")) {
       let actif = document.querySelector("#choice p.active");
       actif.classList.remove("active");
       this.classList.add("active");
-      if (this.id == "swipe") {
-        document.querySelector("#form").style.display = "none";
-        display_swipe();
-      } else {
-        document.querySelector("#form").style.display = "block";
-        display_message("Chat");
+      if (this.dataset.room == "swipe") {
+        document.querySelector("#message").style.display = "none";
+        console.log("swipe");
+        socket.emit("enter-swipe", userid);
       }
+      else{
+        document.querySelector("#message").style.display = "block";
+        let a = document.querySelector("#tabs li.active").dataset.room;
+        console.log(a);
+        socket.emit("enter_room", a);
+      }
+    }
+  });
+});
+
+document.querySelectorAll("#tabs li").forEach((tab) => {
+  tab.addEventListener("click", function () {
+    if (!this.classList.contains("active")) {
+      const actif = document.querySelector("#tabs li.active");
+      actif.classList.remove("active");
+      this.classList.add("active");
+      document.querySelector("#messages").innerHTML = "";
+      socket.emit("leave_room", actif.dataset.room);
+      socket.emit("enter_room", this.dataset.room);
     }
   });
 });
@@ -77,7 +108,7 @@ function publishMessage(msg) {
   picture.classList.add("profile");
   pictureSpan.appendChild(picture);
 
-  nameDateContainer.appendChild(picture);
+  nameDateContainer.appendChild(pictureSpan);
   nameDateContainer.appendChild(nameSpan);
   nameDateContainer.appendChild(dateSpan);
 
@@ -87,3 +118,6 @@ function publishMessage(msg) {
   document.querySelector("#messages").appendChild(divElement);
 }
 
+function clear_messages() {
+  document.querySelector("#messages").innerHTML = "";
+}
