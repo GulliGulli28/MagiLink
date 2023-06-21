@@ -92,4 +92,3 @@ function transformDateFormat(dateString) {
 
 module.exports = {profile_id_from_user, set_profile_property, set_profile, check_if_data_is_null, update_user};
 
-

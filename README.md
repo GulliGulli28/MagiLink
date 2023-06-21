@@ -18,5 +18,3 @@ Sinon, il est possible de lancer un daemon, qui redémarera le serveur à chaque
 Pour celà, dans le terminal, tapez **npm install -g nodemon** (celà vous permettra d'utiliser nodemon sur tout vos projets nodejs).
 
 Pour utiliser nodemon, tapez **nodemon index**
-
-
