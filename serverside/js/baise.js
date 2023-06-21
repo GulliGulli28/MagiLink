@@ -1,106 +1,58 @@
 const { profile_id_from_user } = require("./profile");
-const { User, Profile } = require('./db.js');
+const { User, Profile, Ville, Interaction } = require('./db.js');
 const { Op, QueryTypes } = require('sequelize');
 
 
-async function getProfilesWithPagination(uid, range) {
-    
-    const profilePid = profile_id_from_user(uid);
-    const { ville_x: villeX, ville_y: villeY, distance, affinite } = await Profile.findOne({ profilePid: profilePid });
-
-    const profileSubquery = Profile.findAll({
-        attributes: ['pid'],
-        where: {
-            pid: {
-                [Op.ne]: profilePid
-            },
-            ville_x: {
-                [Op.between]: [villeX - distance, villeX + distance]
-            },
-            ville_y: {
-                [Op.between]: [villeY - distance, villeY + distance]
-            },
-            affinite: affinite
-        }
-    });
-
-    const userSubquery = User.findAll({
-        attributes: ['pid'],
-        include: [
-            {
-                model: Interaction,
-                where: {
-                    pid: {
-                        [Op.ne]: profilePid
-                    }
-                },
-                required: false
-            }
-        ]
-    });
-
-    const { rows, count } = await Profile.findAndCountAll({
-        attributes: ['pid'],
-        where: {
-            pid: {
-                [Op.in]: Sequelize.literal(`(${profileSubquery}) UNION (${userSubquery})`)
-            }
-        },
-        limit: pageSize,
-        offset: (currentPage - 1) * pageSize
-    });
-
-    return { profiles: rows.map(row => row.pid), totalCount: count };
-}
-
-
 async function pick(uid) {
+    // on recup le pid à partir de l'uid
+    const pid = profile_id_from_user(uid);
 
-    // On récupère les profils des personnes sélectionné mais pas jugé
-    const profUncomplete = pickFromJSON(uid);
+    // On récupère les coordonnées de sa ville
+    const query = `
+        SELECT Ville.ville_longitude_deg, Ville.ville_latitude_deg
+        FROM Ville
+        INNER JOIN Profile ON Profile.ville = Ville.ville_nom_reel
+    `;
+    const coord = await dbis.query(query, {
+        replacements: {
+            pid
+        },
+        type: QueryTypes.SELECT
+    });
+    const { longitude, latitude } = coord[0];
 
-    // On récupère les profils des personnes qui nous ont jugé
-    const profFromOther = pickFromOther(uid);
+    // On récupère la range
+    const range = getRange(latitude, longitude, pid);
 
-    // Si la somme des profiles est supérieur à 10 on prend 5 profils pas jugé et 5 profils qui nous ont jugé
-    if (profUncomplete.lenght + profFromOther.lenght > 10) {
-        profUncomplete = profUncomplete.slice(0, 5);
-        profFromOther = profFromOther.slice(0, 5);
+    // On récupère les profils avec des intéraction incomplète côté utilisateur
+    const profUncomplete = await getProfileWithIncompleteInteraction(uid);
+
+    // On compte le nombre de profils avec des inté incomplète
+    if (profUncomplete.lenght < 10) {
+        const newProfiles = await getProfileInMyRange(range, 10 - profUncomplete.lenght);
+        for (const profile of newProfiles) {
+            const query = `
+              INSERT INTO Interaction (id1, id2, res1, res2, state)
+              VALUES (:id1, :id2, '', '', 'undefined')
+            `;
+            const interaction = await dbis.query(query, {
+              replacements: {
+                id1: pid,
+                id2: profile.pid
+              },
+              type: QueryTypes.INSERT
+            });
+          }
+          const finalresult = newProfiles.concat(profUncomplete);
     }
-    else if (profUncomplete.lenght + profFromOther.lenght < 10) {    // Si la somme des profiles est inférieur à 10 on sélectionne des profils supplémentaire
-        const result = await getProfilesWithPagination(10 - profFromOther + profUncomplete, currentPage, uid);
+    else {// On cut pour avoir 10 profils
+        const finalresult = profUncomplete.slice(0, 10);
     }
-    // On ajoute les interactions pour les potentiels nouveaux sélectionné côté other
-    for (user in result) {
-        User.update(
-            {
-                interactions: Sequelize.literal(`interactions || '[{"id1": ${uid}, "id2": ${user.uid}, "res1": "", "res2": "", "state": "undefined"}]'`),
-            },
-            {
-                where: {
-                    [Op.eq]: [{ uid: user.uid }]
-                },
-            }
-        );// On ajoute les interactions pour les potentiels nouveaux sélectionné côté utilisateur
-        User.update(
-            {
-                interactions: Sequelize.literal(`interactions || '[{"id1": ${user.uid}, "id2": ${uid}, "res1": "", "res2": "", "state": "undefined"}]'`),
-            },
-            {
-                where: {
-                    [Op.eq]: [{ uid: uid }],
-                }
-            }
-        )
-    }
-    // Concaténer les id des profils à envoyé
-    const finalresult = profUncomplete.concat(profFromOther);
-    finalresult = finalresult.concat(result);
 
     // On retourne les profils complets sélectionné
-    User.findAll({
+    Profile.findAll({
         where: {
-            uid: uid
+            pid: finalresult.pid
         }
     })
         .then((result) => {
@@ -113,9 +65,41 @@ async function pick(uid) {
         });
 }
 
+async function getProfileWithIncompleteInteraction(pid) {
+    const query = `
+        SELECT Profile.pid
+        FROM Profile
+        INNER JOIN Interaction ON Profile.pid = Interaction.id1
+        WHERE Interaction.id1 = :pid
+        AND Interaction.res1 = "";
+    `;
+    const profiles = await dbis.query(query, {
+        replacements: {
+            pid
+        },
+        type: QueryTypes.SELECT
+    });
+    const query2 = `
+        SELECT Profile.pid
+        FROM Profile
+        INNER JOIN Interaction ON Profile.pid = Interaction.id2
+        WHERE Interaction.id2 = :pid
+        AND Interaction.res2 = "";
+    `;
+    const profiles2 = await dbis.query2(query2, {
+        replacements: {
+            pid
+        },
+        type: QueryTypes.SELECT
+    });
+    // On concatène les deux tableaux
+    const finalresult = profiles.concat(profiles2);
+    return finalresult;
+}
+
 async function getProfileInMyRange(range, nbProfile) {
-  const { minLat, maxLat, minLon, maxLon } = range;
-  const query = `
+    const { minLat, maxLat, minLon, maxLon } = range;
+    const query = `
     SELECT Profile.pid
     FROM Profile
     INNER JOIN Ville ON Profile.ville = Ville.ville_nom_reel
@@ -123,17 +107,17 @@ async function getProfileInMyRange(range, nbProfile) {
     AND Ville.ville_longitude_deg BETWEEN :minLon AND :maxLon
     LIMIT :nbProfile;
   `;
-  const profiles = await dbis.query(query, {
-    replacements: {
-      minLat,
-      maxLat,
-      minLon,
-      maxLon,
-      nbProfile
-    },
-    type: QueryTypes.SELECT
-  });
-  return profiles;
+    const profiles = await dbis.query(query, {
+        replacements: {
+            minLat,
+            maxLat,
+            minLon,
+            maxLon,
+            nbProfile
+        },
+        type: QueryTypes.SELECT
+    });
+    return profiles;
 }
 
 

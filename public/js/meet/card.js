@@ -30,6 +30,8 @@ class Card {
     img.src = this.imageUrl;
     card.append(img);
     this.element = card;
+    
+    console.log("JE SUIS COTE CLIENT ET VOICI 10 PID");
     if (this.#isTouchDevice()) {
       this.#listenToTouchEvents();
     } else {
