@@ -83,13 +83,11 @@ main {
 #content {
   position: relative;
   height: 90%;
-  background-color: blue;
 }
 
 #messages {
   position: relative;
   height: 90%;
-  background-color: red;
   overflow-y: scroll;
 }
 
@@ -116,7 +114,6 @@ form {
   display: flex;
   padding: 20px;
   width: 100%;
-  background-color: #f9004d;
   justify-content: space-between0;
 }
 
@@ -146,14 +143,14 @@ form {
   width: 100%;
   height: 10%;
   margin-bottom: 20px;
+  
 }
 
 #choice .active {
   width: 50%;
-  background-color: red;
+  color: white;
 }
 
 #choice p:not(.active) {
   width: 50%;
-  background-color: green;
 }
