@@ -1,12 +1,12 @@
 //On import le module express
 const express = require("express");
+const fs = require("fs");
 // npm install jsonwebtoken
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const secret = 'les_pingu!nsRègner0nt-sur_leMonde^^';//pas sur que les caractères spéciaux soient acceptés
+const secret = "les_pingu!nsRègner0nt-sur_leMonde^^"; //pas sur que les caractères spéciaux soient acceptés
 
-const session = require('express-session');
-
+const session = require("express-session");
 
 const cookieParser = require("cookie-parser");
 
@@ -24,23 +24,24 @@ app.use(cookieParser());
 
 //On permet à express d'utiliser le dossier public pour les fichiers statiques
 app.use((req, res, next) => {
-  if (req.url.startsWith('/pages/')) {
+  if (req.url.startsWith("/pages/")) {
     // Si l'URL commence par "/uploads", passe à la prochaine fonction de middleware
     next();
   } else {
     // Sinon, passe à express.static() pour servir les fichiers statiques
-    express.static(path.join(__dirname, 'public'))(req, res, next);
+    express.static(path.join(__dirname, "public"))(req, res, next);
   }
 });
-const {identify_by_cookie} = require('./serverside/js/secure.js');
+const { identify_by_cookie } = require("./serverside/js/secure.js");
 
 // Configuration de la session
-app.use(session({
-  secret: 'une chaîne de caractères secrète et unique pour votre application',
-  resave: false,
-  saveUninitialized: true,
-}));
-
+app.use(
+  session({
+    secret: "une chaîne de caractères secrète et unique pour votre application",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 // Middleware de vérification des tentatives de connexion
 app.use((req, res, next) => {
@@ -59,8 +60,12 @@ app.use((req, res, next) => {
         req.session.blockedIPs.splice(index, 1);
         req.session.failedAttempts[req.ip] = 0;
         console.log(`Adresse IP ${req.ip} débloquée.`);
-      }else {
-        console.log(`Adresse IP ${req.ip} toujours bloquée pour `,elapsedTime-60000,` millisecondes.`);
+      } else {
+        console.log(
+          `Adresse IP ${req.ip} toujours bloquée pour `,
+          elapsedTime - 60000,
+          ` millisecondes.`
+        );
       }
     });
 
@@ -74,30 +79,52 @@ app.use((req, res, next) => {
 
   // Vérifier si l'adresse IP est bloquée
   if (req.session.blockedIPs && req.session.blockedIPs.includes(ipAddress)) {
-    return res.status(403).send('Votre adresse IP est bloquée.');
+    return res.status(403).send("Votre adresse IP est bloquée.");
   }
 
   // Vérifier le compteur de tentatives pour l'adresse IP
   req.session.failedAttempts = req.session.failedAttempts || {};
-  req.session.failedAttempts[ipAddress] = req.session.failedAttempts[ipAddress] || 0;
-  
+  req.session.failedAttempts[ipAddress] =
+    req.session.failedAttempts[ipAddress] || 0;
+
   if (req.session.failedAttempts[ipAddress] >= 10) {
     // Bloquer l'adresse IP
     req.session.blockedIPs = req.session.blockedIPs || [];
-    req.session.blockedIPs.push({ ipAddress: ipAddress, timestamp: new Date().getTime() });
-    return res.status(403).send('Votre adresse IP est bloquée.');
+    req.session.blockedIPs.push({
+      ipAddress: ipAddress,
+      timestamp: new Date().getTime(),
+    });
+    return res.status(403).send("Votre adresse IP est bloquée.");
   }
 
   next();
-
 });
 
+const privateKey = fs.readFileSync(
+  "/etc/letsencrypt/live/magilink.duckdns.org/privkey.pem",
+  "utf8"
+);
+const certificate = fs.readFileSync(
+  "/etc/letsencrypt/live/magilink.duckdns.org/cert.pem",
+  "utf8"
+);
+const ca = fs.readFileSync(
+  "/etc/letsencrypt/live/magilink.duckdns.org/chain.pem",
+  "utf8"
+);
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca,
+};
 
 //on défini le port sur lequel le serveur va écouter
 const port = 4000;
 
 //on importe le module http pour pouvoir créer un serveur qui va utiliser notre instance d'express
 const http = require("http").createServer(app);
+const https = require("https").createServer(credentials, app);
 
 //on importe le module socket.io pour pouvoir utiliser les websockets et communiquer en temps réel avec le client
 const io = require("socket.io")(http);
@@ -106,7 +133,7 @@ const io = require("socket.io")(http);
 
 app.get("/signin", (req, res) => {
   console.log("signin");
-  if (req.cookies.token){
+  if (req.cookies.token) {
     res.redirect("/section_choice");
   }
   res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
@@ -119,7 +146,7 @@ app.get("/error", (req, res) => {
 
 app.get("/signup", (req, res) => {
   console.log("signup");
-  if (req.cookies.token){
+  if (req.cookies.token) {
     res.redirect("/section_choice");
   }
   res.sendFile(path.join(__dirname, "public/pages/inscription.html"));
@@ -132,7 +159,7 @@ app.get("/validate_account", (req, res) => {
 
 app.get("/meet/swap", (req, res) => {
   console.log("meet/swap");
-  if (!req.cookies.token){
+  if (!req.cookies.token) {
     res.redirect("/signin");
   }
   res.sendFile(path.join(__dirname, "public/pages/meet/swap.html"));
@@ -140,7 +167,7 @@ app.get("/meet/swap", (req, res) => {
 
 app.get("/meet/message", (req, res) => {
   console.log("meet/message");
-  if (!req.cookies.token){
+  if (!req.cookies.token) {
     res.redirect("/signin");
   }
   res.sendFile(path.join(__dirname, "public/pages/meet/message.html"));
@@ -148,7 +175,7 @@ app.get("/meet/message", (req, res) => {
 
 app.get("/community/swap", (req, res) => {
   console.log("community/swap");
-  if (!req.cookies.token){
+  if (!req.cookies.token) {
     res.redirect("/signin");
   }
   res.sendFile(path.join(__dirname, "public/pages/community/swap.html"));
@@ -156,7 +183,7 @@ app.get("/community/swap", (req, res) => {
 
 app.get("/community/message", (req, res) => {
   console.log("community/message");
-  if (!req.cookies.token){
+  if (!req.cookies.token) {
     res.redirect("/signin");
   }
   res.sendFile(path.join(__dirname, "public/pages/community/message.html"));
@@ -164,34 +191,42 @@ app.get("/community/message", (req, res) => {
 
 app.get("/section_choice", async (req, res) => {
   console.log("section_choice");
-  if (!req.cookies.token){
+  if (!req.cookies.token) {
     res.redirect("/signin");
   }
-  const userid = identify_by_cookie(req.cookies,secret);
-  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
+  const userid = identify_by_cookie(req.cookies, secret);
+  const {
+    profile_id_from_user,
+    check_if_data_is_null,
+  } = require("./serverside/js/profile.js");
   const pid = await profile_id_from_user(userid);
   console.log(pid);
-  if (!pid){
+  if (!pid) {
     res.redirect("/setup_profile");
   }
-  else if (check_if_data_is_null("maison", pid)) {
+  const check = await check_if_data_is_null("maison", pid);
+  if (check) {
+    console.log("maison is null");
     res.redirect("/test_house1");
-  }
-  else {
+  } else {
     res.sendFile(path.join(__dirname, "public/pages/section_choice.html"));
   }
 });
 
 app.get("/test_house1", async (req, res) => {
   console.log("test_house1");
-  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
-  const {check_affinity} = require('./serverside/js/maison.js');
-  if (!req.cookies.token){
+  const {
+    profile_id_from_user,
+    check_if_data_is_null,
+  } = require("./serverside/js/profile.js");
+  const { check_affinity } = require("./serverside/js/maison.js");
+  if (!req.cookies.token) {
     res.redirect("/signin");
-  }
-  else{
-    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
-    if (!pid){
+  } else {
+    const pid = await profile_id_from_user(
+      identify_by_cookie(req.cookies, secret)
+    );
+    if (!pid) {
       res.redirect("/setup_profile");
       return;
     }
@@ -210,8 +245,7 @@ app.get("/test_house1", async (req, res) => {
           return;
         case false:
       }
-    }
-    else {
+    } else {
       res.redirect("/");
     }
   }
@@ -219,14 +253,18 @@ app.get("/test_house1", async (req, res) => {
 
 app.get("/test_house2", async (req, res) => {
   console.log("test_house2");
-  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
-  const {check_affinity} = require('./serverside/js/maison.js');
-  if (!req.cookies.token){
+  const {
+    profile_id_from_user,
+    check_if_data_is_null,
+  } = require("./serverside/js/profile.js");
+  const { check_affinity } = require("./serverside/js/maison.js");
+  if (!req.cookies.token) {
     res.redirect("/signin");
-  }
-  else{
-    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
-    if (!pid){
+  } else {
+    const pid = await profile_id_from_user(
+      identify_by_cookie(req.cookies, secret)
+    );
+    if (!pid) {
       res.redirect("/setup_profile");
     }
     const check = await check_if_data_is_null("maison", pid);
@@ -243,8 +281,7 @@ app.get("/test_house2", async (req, res) => {
           res.redirect("/test_house3");
           return;
       }
-    }
-    else {
+    } else {
       res.redirect("/");
     }
   }
@@ -252,14 +289,18 @@ app.get("/test_house2", async (req, res) => {
 
 app.get("/test_house3", async (req, res) => {
   console.log("test_house3");
-  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
-  const {check_affinity} = require('./serverside/js/maison.js');
-  if (!req.cookies.token){
+  const {
+    profile_id_from_user,
+    check_if_data_is_null,
+  } = require("./serverside/js/profile.js");
+  const { check_affinity } = require("./serverside/js/maison.js");
+  if (!req.cookies.token) {
     res.redirect("/signin");
-  }
-  else{
-    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
-    if (!pid){
+  } else {
+    const pid = await profile_id_from_user(
+      identify_by_cookie(req.cookies, secret)
+    );
+    if (!pid) {
       res.redirect("/setup_profile");
     }
     const check = await check_if_data_is_null("maison", pid);
@@ -276,8 +317,7 @@ app.get("/test_house3", async (req, res) => {
           res.sendFile(path.join(__dirname, "public/pages/test_house3.html"));
           return;
       }
-    }
-    else {
+    } else {
       res.redirect("/");
     }
   }
@@ -285,38 +325,40 @@ app.get("/test_house3", async (req, res) => {
 
 app.get("/house_setup", async (req, res) => {
   console.log("house_setup");
-  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
-  if (!req.cookies.token){
+  const {
+    profile_id_from_user,
+    check_if_data_is_null,
+  } = require("./serverside/js/profile.js");
+  if (!req.cookies.token) {
     res.redirect("/signin");
-  }
-  else{
-    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
-    if (!pid){
+  } else {
+    const pid = await profile_id_from_user(
+      identify_by_cookie(req.cookies, secret)
+    );
+    if (!pid) {
       res.redirect("/setup_profile");
     }
     const check = await check_if_data_is_null("maison", pid);
     if (check) {
       res.sendFile(path.join(__dirname, "public/pages/house_discovery.html"));
-    }
-    else {
+    } else {
       res.redirect("/test_house1");
     }
   }
 });
 
-
-app.get("/setup_profile" , async (req, res) => {
+app.get("/setup_profile", async (req, res) => {
   console.log("setup_profile");
-  const {profile_id_from_user} = require('./serverside/js/profile.js');
-  if (!req.cookies.token){
+  const { profile_id_from_user } = require("./serverside/js/profile.js");
+  if (!req.cookies.token) {
     res.redirect("/signin");
-  }
-  else{
-    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
-    if (!pid){
+  } else {
+    const pid = await profile_id_from_user(
+      identify_by_cookie(req.cookies, secret)
+    );
+    if (!pid) {
       res.sendFile(path.join(__dirname, "public/pages/setup_profile.html"));
-    }
-    else{
+    } else {
       res.redirect("/section_choice");
     }
   }
@@ -336,22 +378,21 @@ app.get("*", (req, res) => {
 //À l'envoie du formulaire de connexion, on renvoie à la page index.html (pour l'instant, plus tard il faudra gérer avec la base de donnée etc...).
 app.post("/signin", async (req, res) => {
   console.log(req.body);
-  const {trylogin} = require('./serverside/js/connexion.js');
-  const {secure} = require('./serverside/js/secure.js');
+  const { trylogin } = require("./serverside/js/connexion.js");
+  const { secure } = require("./serverside/js/secure.js");
   validated_input = secure(req.body);
   login = await trylogin(validated_input);
   if (login) {
     //partie brute force
     req.session.failedAttempts[req.ip] = 0;
     // Si les informations d'identification sont valides, générez un token
-    const token = jwt.sign({ "key" : login.idp }, secret, {
-      expiresIn: 7200 // expires in 2 hours
+    const token = jwt.sign({ key: login.idp }, secret, {
+      expiresIn: 7200, // expires in 2 hours
     });
     // Renvoyez le token au client
-    res.cookie('token', token,{maxAge: 1000*60*60*2,httpOnly: true});
+    res.cookie("token", token, { maxAge: 1000 * 60 * 60 * 2, httpOnly: false });
     res.redirect("/section_choice");
-  }
-  else {
+  } else {
     res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
     //partie brute force
     req.session.failedAttempts[req.ip] += 1;
@@ -359,33 +400,30 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-
 app.post("/signup", async (req, res) => {
   console.log(req.body);
-  const {register} = require('./serverside/js/register.js');
-  const {secure} = require('./serverside/js/secure.js');
+  const { register } = require("./serverside/js/register.js");
+  const { secure } = require("./serverside/js/secure.js");
   validated_input = secure(req.body);
   const check = await register(validated_input);
   if (check) {
-    res.cookie("test", "test", {maxAge: 1000 * 60*10 , httpOnly: true})
+    res.cookie("test", "test", { maxAge: 1000 * 60 * 10, httpOnly: true });
     res.redirect("/validate_account");
-  }
-  else {
+  } else {
     res.redirect("/signup");
   }
 });
 
 app.post("/setup_profile", async (req, res) => {
-  const {identify_by_cookie,secure} = require('./serverside/js/secure.js');
-  const userid = identify_by_cookie(req.cookies,secret);
+  const { identify_by_cookie, secure } = require("./serverside/js/secure.js");
+  const userid = identify_by_cookie(req.cookies, secret);
   const validated_input = secure(req.body);
-  const {set_profile,update_user} = require('./serverside/js/profile.js');
-  const check = await set_profile(validated_input,userid);
-  if (check){
-    await update_user(check.pid,userid);
+  const { set_profile, update_user } = require("./serverside/js/profile.js");
+  const check = await set_profile(validated_input, userid);
+  if (check) {
+    await update_user(check.pid, userid);
     res.redirect("/section_choice");
-  }
-  else {
+  } else {
     res.redirect("/setup_profile");
   }
 });
@@ -404,20 +442,18 @@ app.post("/community/message", (req, res) => {
 
 app.post("/test_house1", async (req, res) => {
   console.log(req.body);
-  const {create_test_steps} = require('./serverside/js/maison.js');
-  const {profile_id_from_user} = require('./serverside/js/profile.js');
-  const {identify_by_cookie} = require('./serverside/js/secure.js');
-  const userid = identify_by_cookie(req.cookies,secret);
+  const { create_test_steps } = require("./serverside/js/maison.js");
+  const { profile_id_from_user } = require("./serverside/js/profile.js");
+  const { identify_by_cookie } = require("./serverside/js/secure.js");
+  const userid = identify_by_cookie(req.cookies, secret);
   const pid = await profile_id_from_user(userid);
-  if (!pid){
+  if (!pid) {
     res.redirect("/setup_profile");
-  }
-  else{
-    const check = await create_test_steps(pid,req.body);
-    if (check){
+  } else {
+    const check = await create_test_steps(pid, req.body);
+    if (check) {
       res.redirect("/test_house2");
-    }
-    else {
+    } else {
       res.sendFile(path.join(__dirname, "public/pages/error.html"));
       console.log("error");
     }
@@ -426,20 +462,18 @@ app.post("/test_house1", async (req, res) => {
 
 app.post("/test_house2", async (req, res) => {
   console.log(req.body);
-  const {create_test_steps} = require('./serverside/js/maison.js');
-  const {profile_id_from_user} = require('./serverside/js/profile.js');
-  const {identify_by_cookie} = require('./serverside/js/secure.js');
-  const userid = identify_by_cookie(req.cookies,secret);
+  const { create_test_steps } = require("./serverside/js/maison.js");
+  const { profile_id_from_user } = require("./serverside/js/profile.js");
+  const { identify_by_cookie } = require("./serverside/js/secure.js");
+  const userid = identify_by_cookie(req.cookies, secret);
   const pid = await profile_id_from_user(userid);
-  if (!pid){
+  if (!pid) {
     res.redirect("/setup_profile");
-  }
-  else{
-    const check = await create_test_steps(pid,req.body);
-    if (check){
+  } else {
+    const check = await create_test_steps(pid, req.body);
+    if (check) {
       res.redirect("/test_house3");
-    }
-    else {
+    } else {
       res.sendFile(path.join(__dirname, "public/pages/error.html"));
       console.log("error");
     }
@@ -448,36 +482,93 @@ app.post("/test_house2", async (req, res) => {
 
 app.post("/test_house3", async (req, res) => {
   console.log(req.body);
-  const {create_test_steps,set_house} = require('./serverside/js/maison.js');
-  const {profile_id_from_user} = require('./serverside/js/profile.js');
-  const {identify_by_cookie} = require('./serverside/js/secure.js');
-  const userid = identify_by_cookie(req.cookies,secret);
+  const { create_test_steps, set_house } = require("./serverside/js/maison.js");
+  const { profile_id_from_user } = require("./serverside/js/profile.js");
+  const { identify_by_cookie } = require("./serverside/js/secure.js");
+  const userid = identify_by_cookie(req.cookies, secret);
   const pid = await profile_id_from_user(userid);
-  if (!pid){
+  if (!pid) {
     res.redirect("/setup_profile");
-  }
-  else{
+  } else {
     console.log("ici");
-    const check = await create_test_steps(pid,req.body);
-    if (check){
-      const check2 = set_house(pid,check);
-      if (check2){
+    const check = await create_test_steps(pid, req.body);
+    if (check) {
+      const check2 = set_house(pid, check);
+      if (check2) {
         res.redirect("/house_setup");
-      }
-      else {
+      } else {
         res.sendFile(path.join(__dirname, "public/pages/error.html"));
         console.log("error");
       }
-    }
-    else {
+    } else {
       res.sendFile(path.join(__dirname, "public/pages/error.html"));
       console.log("error");
     }
   }
 });
 
+io.on("connection", (socket) => {
+  console.log("une connection s'active");
+  socket.on("disconnect", () => {
+    console.log("Un utilisateur s'est déconnecté");
+  });
+
+  socket.on("user_connected", (msg) => {
+    console.log(msg.name);
+  });
+
+  socket.on("enter_room", (room) => {
+    socket.join(room);
+    console.log(socket.rooms);
+    /*
+    Chat.findAll({
+      attributes: ["id", "name", "message", "createdAt"],
+      where: { room: room },
+    }).then((list) => {
+      socket.emit("init_messages", { messages: JSON.stringify(list) });
+    });
+    */
+  });
+
+  socket.on("leave_room", (room) => {
+    socket.leave(room);
+  });
+
+  socket.on("chat_message", (msg) => {
+    console.log(msg);
+    io.in(msg.room).emit("received_message", msg);
+    /*
+    const message = Chat.create({
+      name: msg.name,
+      message: msg.message,
+      room: msg.room,
+      createdAt: msg.createdAt,
+    })
+      .then(() => {
+        io.in(msg.room).emit("received_message", msg);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+      */
+  });
+
+  socket.on("enter-swipe", (userid) => {
+    const dataswipe = "";
+    console.log("here");
+    socket.emit("swipe-data", dataswipe);
+  });
+
+  socket.on("typing", (msg) => {
+    socket.to(msg.room).emit("usertyping", msg);
+  });
+});
+
 //On demande au serveur d'écouter sur le port défini plus haut
 http.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+});
 
+https.listen(443, () => {
+  console.log(`Server is running on port 443`);
 });
