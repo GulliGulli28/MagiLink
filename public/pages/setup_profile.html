@@ -22,6 +22,7 @@
             <input type="text" id="birthdate" name="birthdate" pattern="\d{2}/\d{2}/\d{4}" placeholder="dd/mm/yyyy" required>
             
             <label for="ville">Ville:</label>
+            <input type="text" id="ville_input" name="ville">
             <select id="ville" name="ville" required>
                 <option value="">Choisir une ville</option>
                 <!-- Add more options as needed -->
@@ -52,6 +53,7 @@
         </form>
     </div>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="../js/profile.js"></script>
     <script>
         const inputElement = document.getElementById("photo_meet");
         const outputElement = document.getElementById("output");

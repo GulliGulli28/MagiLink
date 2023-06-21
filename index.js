@@ -213,6 +213,12 @@ app.get("/section_choice", async (req, res) => {
   }
 });
 
+app.get("/CGU", (req, res) => {
+  console.log("CGU");
+  res.sendFile(path.join(__dirname, "public/assets/CGU.txt"));
+});
+
+
 app.get("/test_house1", async (req, res) => {
   console.log("test_house1");
   const {
@@ -327,7 +333,7 @@ app.get("/house_setup", async (req, res) => {
   console.log("house_setup");
   const {
     profile_id_from_user,
-    check_if_data_is_null,
+    check_data
   } = require("./serverside/js/profile.js");
   if (!req.cookies.token) {
     res.redirect("/signin");
@@ -338,7 +344,7 @@ app.get("/house_setup", async (req, res) => {
     if (!pid) {
       res.redirect("/setup_profile");
     }
-    const check = await check_if_data_is_null("maison", pid);
+    const check = await check_data("maison", pid);
     if (check) {
       res.sendFile(path.join(__dirname, "public/pages/house_discovery.html"));
     } else {
@@ -417,6 +423,7 @@ app.post("/signup", async (req, res) => {
 app.post("/setup_profile", async (req, res) => {
   const { identify_by_cookie, secure } = require("./serverside/js/secure.js");
   const userid = identify_by_cookie(req.cookies, secret);
+  req.body["ville"] = req.body["ville"][1];
   const validated_input = secure(req.body);
   const { set_profile, update_user } = require("./serverside/js/profile.js");
   const check = await set_profile(validated_input, userid);
@@ -480,8 +487,12 @@ app.post("/test_house2", async (req, res) => {
   }
 });
 
+app.post('/section_choice', async (req, res) => {
+  res.redirect("/section_choice");
+});
+
 app.post("/test_house3", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { create_test_steps, set_house } = require("./serverside/js/maison.js");
   const { profile_id_from_user } = require("./serverside/js/profile.js");
   const { identify_by_cookie } = require("./serverside/js/secure.js");
@@ -493,7 +504,8 @@ app.post("/test_house3", async (req, res) => {
     console.log("ici");
     const check = await create_test_steps(pid, req.body);
     if (check) {
-      const check2 = set_house(pid, check);
+      const check2 = await set_house(pid, check);
+      //console.log("check2",check2);
       if (check2) {
         res.redirect("/house_setup");
       } else {
@@ -533,7 +545,23 @@ io.on("connection", (socket) => {
   socket.on("get_cities", async (msg) => {
     const {get_cities} = require("./serverside/js/villes.js");
     const list = await get_cities();
-    socket.emit("city_list", { cities: JSON.stringify(list) });
+    //console.log(list);
+    const list2 = [];
+    list.forEach((element) => {
+      list2.push([element.ville_id,element.ville_nom_reel]);
+    });
+    socket.emit("city_list", { cities: list2 });
+  });
+
+  socket.on("maison",async (msg) => {
+    console.log("maison", msg);
+    const {identify_by_cookie} = require("./serverside/js/secure.js");
+    const {profile_id_from_user} = require("./serverside/js/profile.js"); 
+    idp = identify_by_cookie({token : msg.name}, secret);
+    const pid = await profile_id_from_user(idp);
+    const {check_data} = require("./serverside/js/profile.js");
+    const maison = await check_data("maison",pid);
+    socket.emit("maison", { maison: maison });
   });
 
   socket.on("leave_room", (room) => {

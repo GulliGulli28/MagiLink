@@ -11,7 +11,9 @@ function identify_by_cookie(cookies,secret){
 
 function secure(input){    
     for (let key in input)
-        input[key] = sanitizeHtml(input[key]).replace(/[.*+?^${}=`()|[\]\\]/g, '\\$&');
+        if (typeof input[key] === 'string'){
+          input[key] = sanitizeHtml(input[key]).replace(/[.*+?^${}=`()|[\]\\]/g, '\\$&');
+        }
     return input;
 }
 
