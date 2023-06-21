@@ -95,7 +95,7 @@ const House = dbis.define('House', {
   },
   channel: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   rewards: {
     type: DataTypes.JSON,
