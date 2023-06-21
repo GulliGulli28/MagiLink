@@ -56,7 +56,7 @@ const dbis = new Sequelize('magilink', 'magilink_server', 'b/U4+Vru$*K685Aah%ZW^
 //Connexion
 
 async function sync() {
-  dbis.sync({ alter: true })
+  dbis.sync({ force: true })
     .then(() => {
       console.log('Tables synced');
     })
@@ -109,6 +109,9 @@ const Message = dbis.define('Message', {
     primaryKey: true,
     autoIncrement: true,
   },
+  author: {
+    type: DataTypes.INTEGER,
+  },
   content: {
     type: DataTypes.TEXT,
   },
@@ -148,7 +151,7 @@ const User = dbis.define('User', {
     allowNull: true,
   },
   current_city: {
-    type: DataTypes.STRING(64),
+    type: DataTypes.INTEGER.UNSIGNED,
     allowNull: true,
   },
   interactions: {
@@ -173,7 +176,7 @@ const Profile = dbis.define('Profile', {
     type: DataTypes.DATEONLY,
   },
   ville: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.INTEGER.UNSIGNED,
   },
   maison: {
     type: DataTypes.STRING(255),
@@ -238,10 +241,11 @@ const Interaction = dbis.define('Interaction', {
     allowNull: false
   }
 }, {
-  freezeTableName: true
+  freezeTableName: true,
+  timestamps: true
 });
 
-const Ville = dbis.define('Ville', {
+const Ville = dbis.define('ville_france_free', {
   ville_id: {
     type: DataTypes.INTEGER.UNSIGNED,
     primaryKey: true,
@@ -275,48 +279,43 @@ const Ville = dbis.define('Ville', {
     type: DataTypes.FLOAT,
     allowNull: true,
   },
-}, { freezeTableName: true });
+}, { freezeTableName: true,
+    timestamps: true 
+ });
 
 //Relations
 //Profil - Maison
-Profile.hasOne(House, { foreignKey: 'name' });
-House.belongsTo(Profile, { foreignKey: 'name' });
+//Profile.hasOne(House, { foreignKey: 'name' });
+Profile.belongsTo(House, {
+  foreignKey: 'maison',
+  onDelete: 'SET NULL',
+  onUpdate: 'CASCADE',
+  constraints: true
+});
+
+
 //Channel - Message
-Message.hasOne(Channel, { foreignKey: 'channel' });
-Channel.belongsTo(Message, { foreignKey: 'channel' });
+Channel.hasOne(Message, { foreignKey: 'channel' });
+//Message - Profile
+Profile.hasOne(Message, { foreignKey: 'author' });
 //Channel - House
-House.hasOne(Channel, { foreignKey: 'channel' });
-Channel.belongsTo(House, { foreignKey: 'channel' });
+Channel.hasOne(House, { foreignKey: 'channel',  onDelete: 'SET NULL'});
 //Profil - User
-User.hasOne(Profile, { foreignKey: 'pid' });
-Profile.belongsTo(User, { foreignKey: 'pid' });
+Profile.hasOne(User, { foreignKey: 'pid' });
 // User - Interation
 User.belongsToMany(User, { through: Interaction, foreignKey: 'id1', as: 'User1' });
+
 User.belongsToMany(User, { through: Interaction, foreignKey: 'id2', as: 'User2' });
 // User - Ville
-User.belongsTo(Ville, { foreignKey: 'current_city' });
-Ville.hasMany(User, { foreignKey: 'current_city' });
+User.belongsTo(Ville, {
+  foreignKey: 'current_city',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+  constraints: true,
+});
 
 
 
-module.exports = { dbis, sync, Channel, House, Message, User, Profile, Interaction, Ville };
-
-
-
-// TODO A SUPPRIMER
-
-async function connectToDatabase() {
-  try {
-    await dbis.authenticate();
-    console.log('Connected to the database successfully');
-    sync();
-    console.log('Sync successful');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-}
-
-connectToDatabase(); // Appel de la fonction à la fin du fichier
 
 module.exports = { dbis, sync, Channel, House, Message, User, Profile, Interaction, Ville };
 

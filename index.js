@@ -382,4 +382,3 @@ http.listen(port, () => {
 });
 
 const {baise} =require('./serverside/js/baise.js');
-baise.main();
