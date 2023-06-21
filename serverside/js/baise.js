@@ -4,14 +4,13 @@ const { Op, QueryTypes } = require('sequelize');
 
 async function pick(uid) {
     console.log("voici l'uid : " + uid);
-    const { profile_id_from_user } = require('../js/profile.js');
 
     const pid = await profile_id_from_user(uid);
     console.log("ON a le PID", pid);
     const query = `
         SELECT villes_france_free.ville_longitude_deg, villes_france_free.ville_latitude_deg
         FROM villes_france_free
-        INNER JOIN Profile ON Profile.ville = villes_france_free.ville_nom_reel
+        INNER JOIN Profile ON Profile.ville = villes_france_free.ville_id
         WHERE Profile.pid = :pid
     `;
     const coord = await dbis.query(query, {
@@ -21,15 +20,16 @@ async function pick(uid) {
         type: QueryTypes.SELECT
     });
     const { ville_longitude_deg: longitude, ville_latitude_deg: latitude } = coord[0];
-
     const range = getRange(latitude, longitude, pid);
-
+    console.log("voici la range : " + range);
     const profUncomplete = await getProfileWithIncompleteInteraction(pid);
 
     let finalresult;
 
     if (profUncomplete.length < 10) {
+        console.log("il y a ",profUncomplete.length," profils incomplets donc inférieur à 10");
         const newProfiles = await getProfileInMyRange(range, 10 - profUncomplete.length);
+
         for (const profile of newProfiles) {
             const test = await Interaction.findOne({
                 where: {
@@ -55,17 +55,20 @@ async function pick(uid) {
         }
         finalresult = newProfiles.concat(profUncomplete.map(profile => profile.pid));
     } else {
+        console.log("il y a ",profUncomplete.length," profils incomplets donc supérieur à 10");
         finalresult = profUncomplete.slice(0, 10).map(profile => profile.pid);
     }
+    console.log(finalresult);
     console.log("SALUT JE SUIS LA<---------------------------------------------------------------------");
+    let theFinalResult = [];
     for (r in finalresult) {
-        // let theResult = Profile.findAll({
-        //     where: {
-        //         pid: r
-        //     }
-        // });
-        // let theFinalResult=theFinalResult.concat(theResult);
-        console.log(r);
+        let theResult = Profile.findAll({
+            where: {
+                pid: r
+            }
+        });
+        console.log("voici le résult",r);
+        theFinalResult=theFinalResult.concat(theResult);
     }
 }
 
@@ -105,7 +108,7 @@ async function getProfileInMyRange(range, nbProfile) {
     const query = `
     SELECT Profile.pid
     FROM Profile
-    INNER JOIN villes_france_free ON Profile.ville = villes_france_free.ville_nom_reel
+    INNER JOIN villes_france_free ON Profile.ville = villes_france_free.ville_id
     WHERE villes_france_free.ville_latitude_deg BETWEEN :minLat AND :maxLat
     AND villes_france_free.ville_longitude_deg BETWEEN :minLon AND :maxLon
     LIMIT :nbProfile;

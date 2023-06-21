@@ -572,4 +572,3 @@ http.listen(port, () => {
 https.listen(443, () => {
   console.log(`Server is running on port 443`);
 });
-
