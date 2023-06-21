@@ -2,14 +2,6 @@ const {User} = require('./db.js');
 const sanitizeHtml = require('sanitize-html');
 const crypto = require('crypto');
 
-//Securisation de l'entrée de l'utilisateur
-function secure(input){
-    console.log(typeof input);
-    for (let key in input)
-        input[key] = sanitizeHtml(input[key]).replace(/[.*+?^${}=`()|[\]\\]/g, '\\$&');
-    return input;
-}
-
 async function register(valide_input){
     console.log(valide_input);
     psd = crypto.createHash('sha256').update(valide_input.password).digest('hex');
@@ -29,4 +21,5 @@ async function register(valide_input){
     }
 }
 
-module.exports = { secure, register};
+
+module.exports = {register};

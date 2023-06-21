@@ -1,5 +1,9 @@
 //On import le module express
 const express = require("express");
+// npm install jsonwebtoken
+const jwt = require('jsonwebtoken');
+
+const secret = 'les_pingu!nsRègner0nt-sur_leMonde^^';//pas sur que les caractères spéciaux soient acceptés
 
 const session = require('express-session');
 
@@ -28,6 +32,7 @@ app.use((req, res, next) => {
     express.static(path.join(__dirname, 'public'))(req, res, next);
   }
 });
+const {identify_by_cookie} = require('./serverside/js/secure.js');
 
 // Configuration de la session
 app.use(session({
@@ -65,9 +70,6 @@ app.use((req, res, next) => {
     }
   }
 
-
-
-
   const ipAddress = req.ip; // Obtenir l'adresse IP du client
 
   // Vérifier si l'adresse IP est bloquée
@@ -78,7 +80,7 @@ app.use((req, res, next) => {
   // Vérifier le compteur de tentatives pour l'adresse IP
   req.session.failedAttempts = req.session.failedAttempts || {};
   req.session.failedAttempts[ipAddress] = req.session.failedAttempts[ipAddress] || 0;
-
+  
   if (req.session.failedAttempts[ipAddress] >= 10) {
     // Bloquer l'adresse IP
     req.session.blockedIPs = req.session.blockedIPs || [];
@@ -86,11 +88,7 @@ app.use((req, res, next) => {
     return res.status(403).send('Votre adresse IP est bloquée.');
   }
 
-  
-
   next();
-
-  
 
 });
 
@@ -107,59 +105,181 @@ const io = require("socket.io")(http);
 //renvoie à la page connexion.html lorsque l'on accède à la racine du serveur (pour l'instant localhost:port)
 
 app.get("/signin", (req, res) => {
+  console.log("signin");
+  if (req.cookies.token){
+    res.redirect("/section_choice");
+  }
   res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
 });
 
-app.get("/signup", (req, res) => { 
+app.get("/signup", (req, res) => {
+  console.log("signup");
+  if (req.cookies.token){
+    res.redirect("/section_choice");
+  }
   res.sendFile(path.join(__dirname, "public/pages/inscription.html"));
 });
 
 app.get("/validate_account", (req, res) => {
+  console.log("validate_account");
   res.sendFile(path.join(__dirname, "public/pages/validate_account.html"));
 });
 
 app.get("/meet/swap", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/pages/meet/swap.html"));
+  console.log("meet/swap");
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  res.sendFile(path.join(__dirname, "public/pages/meet/swipe.html"));
 });
 
 app.get("/meet/message", (req, res) => {
+  console.log("meet/message");
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
   res.sendFile(path.join(__dirname, "public/pages/meet/message.html"));
 });
 
 app.get("/community/swap", (req, res) => {
+  console.log("community/swap");
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
   res.sendFile(path.join(__dirname, "public/pages/community/swap.html"));
 });
 
 app.get("/community/message", (req, res) => {
+  console.log("community/message");
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
   res.sendFile(path.join(__dirname, "public/pages/community/message.html"));
 });
 
-app.get("/section_choice", (req, res) => {
-  const {identify_by_cookie} = require('./serverside/js/secure.js');
-  const userid = identify_by_cookie(req.cookies);
+app.get("/section_choice", async (req, res) => {
+  console.log("section_choice");
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  const userid = identify_by_cookie(req.cookies,secret);
   const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
-  const pid = profile_id_from_user(userid);
-  if (pid == null){
+  const pid = await profile_id_from_user(userid);
+  console.log(pid);
+  if (!pid){
     res.redirect("/setup_profile");
   }
   else if (check_if_data_is_null("maison", pid)) {
-    res.redirect("/test_maison");
+    res.redirect("/test_house1");
   }
   else {
     res.sendFile(path.join(__dirname, "public/pages/section_choice.html"));
   }
 });
 
-app.get("/test_maison", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/pages/test_maison.html"));
+app.get("/test_house1", async (req, res) => {
+  console.log("test_house1");
+  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
+
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  else{
+    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
+    if (!pid){
+      res.redirect("/setup_profile");
+    }
+    const check = await check_if_data_is_null("maison", pid);
+    if (check) {
+      res.sendFile(path.join(__dirname, "public/pages/test_house1.html"));
+    }
+    else {
+      res.redirect("/");
+    }
+  }
 });
 
-app.get("/setup_profile" , (req, res) => {
-  res.sendFile(path.join(__dirname, "public/pages/setup_profile.html"));
+app.get("/test_house2", async (req, res) => {
+  console.log("test_house2");
+  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
+
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  else{
+    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
+    if (!pid){
+      res.redirect("/setup_profile");
+    }
+    const check = await check_if_data_is_null("maison", pid);
+    if (check) {
+      res.sendFile(path.join(__dirname, "public/pages/test_house2.html"));
+    }
+    else {
+      res.redirect("/");
+    }
+  }
 });
 
-app.get("/meet", (req, res) => { 
-  res.sendFile(path.join(__dirname, "public/pages/inscription.html"));
+app.get("/test_house3", async (req, res) => {
+  console.log("test_house3");
+  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
+
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  else{
+    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
+    if (!pid){
+      res.redirect("/setup_profile");
+    }
+    const check = await check_if_data_is_null("maison", pid);
+    if (check) {
+      res.sendFile(path.join(__dirname, "public/pages/test_house3.html"));
+    }
+    else {
+      res.redirect("/");
+    }
+  }
+});
+
+app.get("/house_setup", async (req, res) => {
+  console.log("house_setup");
+  const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  else{
+    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
+    if (!pid){
+      res.redirect("/setup_profile");
+    }
+    const check = await check_if_data_is_null("maison", pid);
+    if (check) {
+      res.sendFile(path.join(__dirname, "public/pages/house_discovery.html"));
+    }
+    else {
+      res.redirect("/test_house1");
+    }
+  }
+});
+
+
+app.get("/setup_profile" , async (req, res) => {
+  console.log("setup_profile");
+  const {profile_id_from_user} = require('./serverside/js/profile.js');
+  if (!req.cookies.token){
+    res.redirect("/signin");
+  }
+  else{
+    const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
+    if (!pid){
+      res.sendFile(path.join(__dirname, "public/pages/setup_profile.html"));
+    }
+    else{
+      res.redirect("/section_choice");
+    }
+  }
 });
 
 app.get("/", (req, res) => {
@@ -172,19 +292,24 @@ app.get("/", (req, res) => {
 app.get("*", (req, res) => {
   res.redirect("/");
 });
+
 //À l'envoie du formulaire de connexion, on renvoie à la page index.html (pour l'instant, plus tard il faudra gérer avec la base de donnée etc...).
 app.post("/signin", async (req, res) => {
-  //req.body contient les données envoyées par le formulaire, on peut y accéder avec req.body.nomDuChamp
   console.log(req.body);
-  const { secure, trylogin } = require('./serverside/js/connexion.js');
+  const {trylogin} = require('./serverside/js/connexion.js');
+  const {secure} = require('./serverside/js/secure.js');
   validated_input = secure(req.body);
   login = await trylogin(validated_input);
-  console.log("login", login);
   if (login) {
-    res.sendFile(path.join(__dirname, "public/pages/index.html"));
     //partie brute force
     req.session.failedAttempts[req.ip] = 0;
-    res.send('Connexion réussie !');
+    // Si les informations d'identification sont valides, générez un token
+    const token = jwt.sign({ "key" : login.idp }, secret, {
+      expiresIn: 7200 // expires in 2 hours
+    });
+    // Renvoyez le token au client
+    res.cookie('token', token,{maxAge: 1000*60*60*2,httpOnly: true});
+    res.redirect("/section_choice");
   }
   else {
     res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
@@ -194,36 +319,39 @@ app.post("/signin", async (req, res) => {
   }
 });
 
+
 app.post("/signup", async (req, res) => {
   console.log(req.body);
-  const { secure, register } = require('./serverside/js/register.js');
+  const {register} = require('./serverside/js/register.js');
+  const {secure} = require('./serverside/js/secure.js');
   validated_input = secure(req.body);
   const check = await register(validated_input);
   if (check) {
     res.cookie("test", "test", {maxAge: 1000 * 60*10 , httpOnly: true})
-    res.redirect("/pages/validate_account.html");
+    res.redirect("/validate_account");
   }
   else {
-    res.redirect("/pages/inscription.html");
+    res.redirect("/signup");
   }
 });
 
 app.post("/setup_profile", async (req, res) => {
   const {identify_by_cookie,secure} = require('./serverside/js/secure.js');
-  const userid = identify_by_cookie(req.cookies);
+  const userid = identify_by_cookie(req.cookies,secret);
   const validated_input = secure(req.body);
-  const {set_profile} = require('./serverside/js/profile.js');
+  const {set_profile,update_user} = require('./serverside/js/profile.js');
   const check = await set_profile(validated_input,userid);
   if (check){
-    res.redirect("/pages/section_choice.html");
+    await update_user(check.pid,userid);
+    res.redirect("/section_choice");
   }
   else {
-    res.redirect("/pages/setup_profile.html");
+    res.redirect("/setup_profile");
   }
 });
 
 app.post("/validate_email", (req, res) => {
-  res.redirect("/pages/section_choice.html");
+  res.redirect("/signin");
 });
 
 app.post("/meet/message", (req, res) => {
@@ -234,8 +362,17 @@ app.post("/community/message", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/community/message.html"));
 });
 
-app.post("/meet", (req, res) => {
-  pick(uid);
+app.post("/test_house1", async (req, res) => {
+  console.log(req.body);
+  res.redirect("/test_house2");
+});
+
+app.post("/test_house2", async (req, res) => {
+  res.redirect("/test_house3");
+});
+
+app.post("/test_house3", async (req, res) => {
+  res.redirect("/house_setup");
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
@@ -243,4 +380,3 @@ http.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 
 });
-

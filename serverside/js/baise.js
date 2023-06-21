@@ -1,13 +1,10 @@
 const { profile_id_from_user } = require("./profile");
 const { User, Profile } = require('./db.js');
-const { Op } = require('sequelize');
+const { Op, QueryTypes } = require('sequelize');
 
 
-// Utilisation de la fonction avec une pagination de taille 10 et à la page 1
-const pageSize = 10;
-const currentPage = 0;
-
-async function getProfilesWithPagination(pageSize, currentPage, uid) {
+async function getProfilesWithPagination(uid, range) {
+    
     const profilePid = profile_id_from_user(uid);
     const { ville_x: villeX, ville_y: villeY, distance, affinite } = await Profile.findOne({ profilePid: profilePid });
 
@@ -58,6 +55,7 @@ async function getProfilesWithPagination(pageSize, currentPage, uid) {
 
 
 async function pick(uid) {
+
     // On récupère les profils des personnes sélectionné mais pas jugé
     const profUncomplete = pickFromJSON(uid);
 
@@ -69,7 +67,7 @@ async function pick(uid) {
         profUncomplete = profUncomplete.slice(0, 5);
         profFromOther = profFromOther.slice(0, 5);
     }
-    else if (profUncomplete.lenght + profFromOther.lenght < 10){    // Si la somme des profiles est inférieur à 10 on sélectionne des profils supplémentaire
+    else if (profUncomplete.lenght + profFromOther.lenght < 10) {    // Si la somme des profiles est inférieur à 10 on sélectionne des profils supplémentaire
         const result = await getProfilesWithPagination(10 - profFromOther + profUncomplete, currentPage, uid);
     }
     // On ajoute les interactions pour les potentiels nouveaux sélectionné côté other
@@ -115,55 +113,49 @@ async function pick(uid) {
         });
 }
 
-async function pickFromJSON(uid) {
-    User.findAll({
-        attributes: ['interactions.id1'], // Sélectionnez uniquement la colonne 'id1' de 'interactions'
-        where: {
-          interactions: {
-            [Op.contains]: [
-              {
-                state: 'undefined',
-                res1: '',
-                id1: uid
-              }
-            ]
-          }
-        }
-      })
-        .then((result) => {
-          // Récupérez les valeurs des 'id1' dans le résultat
-          const id1Values = result.map((item) => item.interactions.id1);
-          console.log(id1Values);
-        })
-        .catch((error) => {
-          // Gestion des erreurs
-          console.error(error);
-        });
-      
+async function getProfileInMyRange(range, nbProfile) {
+  const { minLat, maxLat, minLon, maxLon } = range;
+  const query = `
+    SELECT Profile.pid
+    FROM Profile
+    INNER JOIN Ville ON Profile.ville = Ville.ville_nom_reel
+    WHERE Ville.ville_latitude_deg BETWEEN :minLat AND :maxLat
+    AND Ville.ville_longitude_deg BETWEEN :minLon AND :maxLon
+    LIMIT :nbProfile;
+  `;
+  const profiles = await dbis.query(query, {
+    replacements: {
+      minLat,
+      maxLat,
+      minLon,
+      maxLon,
+      nbProfile
+    },
+    type: QueryTypes.SELECT
+  });
+  return profiles;
 }
 
-async function pickFromOther(uid) {
-    try {
-      const result = await User.findAll({
-        attributes: ['interactions.id2'], // Sélectionnez uniquement la colonne 'id2' de 'interactions'
-        where: {
-          interactions: {
-            [Op.contains]: [
-              {
-                state: 'undefined',
-                res2: '',
-                id2: uid
-              }
-            ]
-          }
-        }
-      });
-  
-      // Récupérez les valeurs des 'id2' dans le résultat
-      const id2Values = result.map((item) => item.interactions.id2);
-      console.log(id2Values);
-    } catch (error) {
-      // Gestion des erreurs
-      console.error(error);
-    }
-  }
+
+// Fonction pour convertir des degrés en radians
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
+
+// Fonction pour convertir des kilomètres en radians
+function km2rad(km) {
+    const earthRadiusKm = 6371;  // Rayon moyen de la Terre en kilomètres
+    return km / earthRadiusKm;
+}
+
+// Fonction pour obtenir la plage autour d'un point
+function getRange(latitude, longitude, distanceInKm) {
+    const range = {
+        minLat: latitude - km2rad(distanceInKm),
+        maxLat: latitude + km2rad(distanceInKm),
+        minLon: longitude - km2rad(distanceInKm) / Math.cos(deg2rad(latitude)),
+        maxLon: longitude + km2rad(distanceInKm) / Math.cos(deg2rad(latitude))
+    };
+
+    return range;
+}  
