@@ -3,13 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MagiLink</title>
-    <link rel="stylesheet" href="../css/accueil.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;300;400&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../css/test.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -20,10 +25,10 @@
   </head>
   <body>
     <div class="hero">
-      <nav>
-        <div id="logo">
-          <img src="../assets/dh-removebg-preview.png" alt="">
-            <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+      <nav class="navbar navbar-expand-lg navbar-transparent">
+        <div class="container-fluid">
+          <div class="logo">
+            <img src="../assets/dh-removebg-preview.png" alt="" />
             <style>
               svg {
                 fill: #ffffff;
@@ -32,20 +37,42 @@
             <path
               d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"
             />
-          </svg>
-
-          <h2 class="logo">Magi<span>Link</span></h2>
-        </div>
-        <ul>
-          <li><a class="smooth-scroll" href="#about">À propos</a></li>
-          <li>
-            <a class="smooth-scroll" href="#contact-us">Nous contacter</a>
-          </li>
-          <li><a class="smooth-scroll" href="#Safety">Safety</a></li>
-        </ul>
-        <div>
-          <a class="btn" href="../signin">Signin</a>
-          <a class="btn" href="../signup">Register</a>
+            <a class="navbar-brand text-white" href="#"
+              >Magi<span>Link</span></a
+            >
+          </div>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mx-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="#">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Safety</a>
+              </li>
+            </ul>
+            <div class="d-flex">
+              <a class="btn btn-outline-success me-2" href="/signin"
+                >Signin</a
+              >
+              <a class="btn btn-outline-success me-2" href="/signup"
+                >Signup</a
+              >
+            </div>
+          </div>
         </div>
       </nav>
       <div class="content">
@@ -53,7 +80,6 @@
         <h3>The place to make <span>wonderfull</span> meetings!</h3>
       </div>
     </div>
-
     <section id="about" class="about">
       <div class="main">
         <img src="../assets/Maison.jpg" alt="" />
@@ -75,6 +101,7 @@
 
     <section id="contact-us" class="contact-us">
       <div class="main">
+        <img src="../assets/H3.jpg" alt="" />
         <div class="about-text">
           <h2><span>Contact</span> us</h2>
           <h5>No need to send an <span>owl</span></h5>
@@ -85,7 +112,6 @@
           </p>
           <button>Let's Talk</button>
         </div>
-        <img src="../assets/H3.jpg" alt="" />
       </div>
     </section>
 
@@ -106,7 +132,10 @@
         </div>
       </div>
     </section>
-
-    <script src="../js/accueil.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

@@ -112,6 +112,11 @@ app.get("/signin", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
 });
 
+app.get("/error", (req, res) => {
+  console.log("error");
+  res.sendFile(path.join(__dirname, "public/pages/error.html"));
+});
+
 app.get("/signup", (req, res) => {
   console.log("signup");
   if (req.cookies.token){
@@ -130,7 +135,7 @@ app.get("/meet/swap", (req, res) => {
   if (!req.cookies.token){
     res.redirect("/signin");
   }
-  res.sendFile(path.join(__dirname, "public/pages/meet/swipe.html"));
+  res.sendFile(path.join(__dirname, "public/pages/meet/swap.html"));
 });
 
 app.get("/meet/message", (req, res) => {
@@ -180,7 +185,7 @@ app.get("/section_choice", async (req, res) => {
 app.get("/test_house1", async (req, res) => {
   console.log("test_house1");
   const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
-
+  const {check_affinity} = require('./serverside/js/maison.js');
   if (!req.cookies.token){
     res.redirect("/signin");
   }
@@ -188,10 +193,23 @@ app.get("/test_house1", async (req, res) => {
     const pid = await profile_id_from_user(identify_by_cookie(req.cookies,secret));
     if (!pid){
       res.redirect("/setup_profile");
+      return;
     }
     const check = await check_if_data_is_null("maison", pid);
     if (check) {
-      res.sendFile(path.join(__dirname, "public/pages/test_house1.html"));
+      const affinity = await check_affinity(pid);
+      switch (affinity) {
+        case 1:
+          res.sendFile(path.join(__dirname, "public/pages/test_house1.html"));
+          return;
+        case 2:
+          res.redirect("/test_house2");
+          return;
+        case 3:
+          res.redirect("/test_house3");
+          return;
+        case false:
+      }
     }
     else {
       res.redirect("/");
@@ -202,7 +220,7 @@ app.get("/test_house1", async (req, res) => {
 app.get("/test_house2", async (req, res) => {
   console.log("test_house2");
   const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
-
+  const {check_affinity} = require('./serverside/js/maison.js');
   if (!req.cookies.token){
     res.redirect("/signin");
   }
@@ -213,7 +231,18 @@ app.get("/test_house2", async (req, res) => {
     }
     const check = await check_if_data_is_null("maison", pid);
     if (check) {
-      res.sendFile(path.join(__dirname, "public/pages/test_house2.html"));
+      const affinity = await check_affinity(pid);
+      switch (affinity) {
+        case 1:
+          res.redirect("/test_house1");
+          return;
+        case 2:
+          res.sendFile(path.join(__dirname, "public/pages/test_house2.html"));
+          return;
+        case 3:
+          res.redirect("/test_house3");
+          return;
+      }
     }
     else {
       res.redirect("/");
@@ -224,7 +253,7 @@ app.get("/test_house2", async (req, res) => {
 app.get("/test_house3", async (req, res) => {
   console.log("test_house3");
   const {profile_id_from_user,check_if_data_is_null} = require('./serverside/js/profile.js');
-
+  const {check_affinity} = require('./serverside/js/maison.js');
   if (!req.cookies.token){
     res.redirect("/signin");
   }
@@ -235,7 +264,18 @@ app.get("/test_house3", async (req, res) => {
     }
     const check = await check_if_data_is_null("maison", pid);
     if (check) {
-      res.sendFile(path.join(__dirname, "public/pages/test_house3.html"));
+      const affinity = await check_affinity(pid);
+      switch (affinity) {
+        case 1:
+          res.redirect("/test_house1");
+          return;
+        case 2:
+          res.redirect("/test_house2");
+          return;
+        case 3:
+          res.sendFile(path.join(__dirname, "public/pages/test_house3.html"));
+          return;
+      }
     }
     else {
       res.redirect("/");
@@ -364,15 +404,76 @@ app.post("/community/message", (req, res) => {
 
 app.post("/test_house1", async (req, res) => {
   console.log(req.body);
-  res.redirect("/test_house2");
+  const {create_test_steps} = require('./serverside/js/maison.js');
+  const {profile_id_from_user} = require('./serverside/js/profile.js');
+  const {identify_by_cookie} = require('./serverside/js/secure.js');
+  const userid = identify_by_cookie(req.cookies,secret);
+  const pid = await profile_id_from_user(userid);
+  if (!pid){
+    res.redirect("/setup_profile");
+  }
+  else{
+    const check = await create_test_steps(pid,req.body);
+    if (check){
+      res.redirect("/test_house2");
+    }
+    else {
+      res.sendFile(path.join(__dirname, "public/pages/error.html"));
+      console.log("error");
+    }
+  }
 });
 
 app.post("/test_house2", async (req, res) => {
-  res.redirect("/test_house3");
+  console.log(req.body);
+  const {create_test_steps} = require('./serverside/js/maison.js');
+  const {profile_id_from_user} = require('./serverside/js/profile.js');
+  const {identify_by_cookie} = require('./serverside/js/secure.js');
+  const userid = identify_by_cookie(req.cookies,secret);
+  const pid = await profile_id_from_user(userid);
+  if (!pid){
+    res.redirect("/setup_profile");
+  }
+  else{
+    const check = await create_test_steps(pid,req.body);
+    if (check){
+      res.redirect("/test_house3");
+    }
+    else {
+      res.sendFile(path.join(__dirname, "public/pages/error.html"));
+      console.log("error");
+    }
+  }
 });
 
 app.post("/test_house3", async (req, res) => {
-  res.redirect("/house_setup");
+  console.log(req.body);
+  const {create_test_steps,set_house} = require('./serverside/js/maison.js');
+  const {profile_id_from_user} = require('./serverside/js/profile.js');
+  const {identify_by_cookie} = require('./serverside/js/secure.js');
+  const userid = identify_by_cookie(req.cookies,secret);
+  const pid = await profile_id_from_user(userid);
+  if (!pid){
+    res.redirect("/setup_profile");
+  }
+  else{
+    console.log("ici");
+    const check = await create_test_steps(pid,req.body);
+    if (check){
+      const check2 = set_house(pid,check);
+      if (check2){
+        res.redirect("/house_setup");
+      }
+      else {
+        res.sendFile(path.join(__dirname, "public/pages/error.html"));
+        console.log("error");
+      }
+    }
+    else {
+      res.sendFile(path.join(__dirname, "public/pages/error.html"));
+      console.log("error");
+    }
+  }
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
@@ -380,5 +481,3 @@ http.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 
 });
-
-const {baise} =require('./serverside/js/baise.js');
