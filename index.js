@@ -525,21 +525,19 @@ io.on("connection", (socket) => {
     console.log("Un utilisateur s'est déconnecté");
   });
 
-  socket.on("user_connected", (msg) => {
-    console.log(msg.name);
-  });
-
-  socket.on("enter_room", (room) => {
+  socket.on("enter_room", async (room) => {
+    const { getMessages_byChannel,getUsers_by_channel } = require("./serverside/js/message_meet.js");
+    const {profile_id_from_user} = require("./serverside/js/profile.js");
     socket.join(room);
-    console.log(socket.rooms);
-    /*
-    Chat.findAll({
-      attributes: ["id", "name", "message", "createdAt"],
-      where: { room: room },
-    }).then((list) => {
-      socket.emit("init_messages", { messages: JSON.stringify(list) });
+    //console.log(socket.rooms,room);
+    let messages = await getMessages_byChannel(room);
+    let realmessage = []
+    messages.forEach(async(element) => {
+      realmessage.push({ "userid": element.author,"date" : element.date, "content": element.content, "autre" : {autre: element.author, moi:element.author} });
     });
-    */
+    console.log("real",realmessage);
+    socket.emit("init_messages", { messages: JSON.stringify(realmessage) });
+    
   });
 
   socket.on("get_cities", async (msg) => {
@@ -554,7 +552,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("maison",async (msg) => {
-    console.log("maison", msg);
+    //console.log("maison", msg);
     const {identify_by_cookie} = require("./serverside/js/secure.js");
     const {profile_id_from_user} = require("./serverside/js/profile.js"); 
     idp = identify_by_cookie({token : msg.name}, secret);
@@ -568,23 +566,32 @@ io.on("connection", (socket) => {
     socket.leave(room);
   });
 
-  socket.on("chat_message", (msg) => {
+  socket.on("chat_message", async (msg) => {
     console.log(msg);
     io.in(msg.room).emit("received_message", msg);
-    /*
-    const message = Chat.create({
-      name: msg.name,
-      message: msg.message,
-      room: msg.room,
-      createdAt: msg.createdAt,
-    })
-      .then(() => {
-        io.in(msg.room).emit("received_message", msg);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-      */
+    const { setMessage, getUsers_by_channel } = require("./serverside/js/message_meet.js");
+    const {identify_by_cookie} = require("./serverside/js/secure.js");
+    const {profile_id_from_user} = require("./serverside/js/profile.js"); 
+    idp = identify_by_cookie({token : msg.user_id}, secret);
+    const pid = await profile_id_from_user(idp);
+    const msg_added = setMessage(pid, msg.room.rooms, msg.content, msg.date);
+    if (msg_added) {
+      console.log("message envoyé");
+      const users = await getUsers_by_channel(msg.room.rooms, pid);
+      console.log(users);
+      msg["autre"] = users;
+      io.in(msg.room.rooms).emit("received_message", msg);
+    }
+
+  });
+
+  socket.on("user_connected", async (msg) => {
+    const { getChannels_byUser,create_Channel } = require("./serverside/js/message_meet.js");
+    const { identify_by_cookie } = require("./serverside/js/secure.js");
+    const userid = identify_by_cookie({ token: msg.name }, secret);
+    const channels = await getChannels_byUser(userid);
+    //console.log(channels);
+    socket.emit("init_channels", { channels: channels });
   });
 
   socket.on("enter-swipe", (userid) => {
