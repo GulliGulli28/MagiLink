@@ -279,9 +279,10 @@ const Ville = dbis.define('ville_france_free', {
     type: DataTypes.FLOAT,
     allowNull: true,
   },
-}, { freezeTableName: true,
-    timestamps: true 
- });
+}, {
+  freezeTableName: true,
+  timestamps: true
+});
 
 //Relations
 //Profil - Maison
@@ -299,7 +300,7 @@ Channel.hasOne(Message, { foreignKey: 'channel' });
 //Message - Profile
 Profile.hasOne(Message, { foreignKey: 'author' });
 //Channel - House
-Channel.hasOne(House, { foreignKey: 'channel',  onDelete: 'SET NULL'});
+Channel.hasOne(House, { foreignKey: 'channel', onDelete: 'SET NULL' });
 //Profil - User
 Profile.hasOne(User, { foreignKey: 'pid' });
 // User - Interation
@@ -315,7 +316,36 @@ User.belongsTo(Ville, {
 });
 
 
+// TRIGGER
+// Fonction asynchrone pour créer le déclencheur
+async function createTrigger() {
+  try {
+    // Attente de la synchronisation du modèle Interaction
+    await Interaction.sync();
 
+    // Création du déclencheur
+    const createTriggerQuery = `
+      CREATE TRIGGER after_update_interaction
+      AFTER UPDATE ON Interaction
+      FOR EACH ROW
+      BEGIN
+        IF NEW.res1 = 1 AND NEW.res2 = 1 THEN
+          UPDATE Interaction SET state = 1 WHERE id1 = NEW.id1 AND id2 = NEW.id2;
+        ELSEIF NEW.res1 = 0 AND NEW.res2 = 0 THEN
+          UPDATE Interaction SET state = 0 WHERE id1 = NEW.id1 AND id2 = NEW.id2;
+        END IF;
+      END
+    `;
+
+    await dbis.query(createTriggerQuery);
+    console.log('Le déclencheur a été créé avec succès.');
+  } catch (error) {
+    console.error('Erreur lors de la création du déclencheur :', error);
+  }
+}
+
+// Appel de la fonction pour créer le déclencheur
+createTrigger();
 
 module.exports = { dbis, sync, Channel, House, Message, User, Profile, Interaction, Ville };
 

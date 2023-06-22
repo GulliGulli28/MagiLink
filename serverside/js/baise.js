@@ -2,6 +2,7 @@ const { profile_id_from_user } = require("./profile");
 const { User, Profile, Ville, Interaction, connectToDatabase, dbis, sync } = require('./db.js');
 const { Op, QueryTypes, Sequelize } = require('sequelize');
 
+// Fonction qui retourne 10 profiles complet  à l'utilsateru il faut coompé niveau client
 async function pick(uid) {
     console.log("voici l'uid : " + uid);
 
@@ -259,6 +260,7 @@ async function getThefirst10(res, pid, uid, nb) {
 const profiles = pick(128)
 console.log(profiles);
 
+//fonction pour like
 //res=1 pour like
 //res=0 pour dislike
 //res=null pour absence de réponses
@@ -298,7 +300,7 @@ async function like(pid, uidPerso) {
     }
 }
 
-
+//fonction pou dislike
 async function dislike(pid, uidPerso) {
     try {
         const user = await User.findOne({ where: { pid: pid }, attributes: ['uid'] });
