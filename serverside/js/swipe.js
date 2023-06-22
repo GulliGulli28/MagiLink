@@ -9,9 +9,9 @@ async function pick(uid) {
     const pid = await profile_id_from_user(uid);
     console.log("ON a le PID", pid);
     const query = `
-        SELECT villes_france_free.ville_longitude_deg, villes_france_free.ville_latitude_deg
-        FROM villes_france_free
-        INNER JOIN Profile ON Profile.ville = villes_france_free.ville_id
+        SELECT ville_france_free.ville_longitude_deg, ville_france_free.ville_latitude_deg
+        FROM ville_france_free
+        INNER JOIN Profile ON Profile.ville = ville_france_free.ville_id
         WHERE Profile.pid = :pid
     `;
     const coord = await dbis.query(query, {
@@ -44,13 +44,14 @@ async function pick(uid) {
         theFinalResult = theFinalResult.concat(theResult);
     }
     //console.log("Final Result",theFinalResult);
+    return theFinalResult;
 }
 
 async function getProfileWithIncompleteInteraction(uid) {
     const query = `
         SELECT Interaction.id2
         FROM Interaction
-        INNER JOIN User ON interaction.id1 = user.idp
+        INNER JOIN User ON Interaction.id1 = User.idp
         WHERE Interaction.id1 = :uid
         AND Interaction.res1 is null;
     `;
@@ -63,7 +64,7 @@ async function getProfileWithIncompleteInteraction(uid) {
     const query2 = `
         SELECT Interaction.id1
         FROM Interaction
-        INNER JOIN User ON interaction.id2 = user.idp
+        INNER JOIN User ON Interaction.id2 = User.idp
         WHERE Interaction.id2 = :uid
         AND Interaction.res2 is null;
     `;
@@ -111,7 +112,8 @@ function km2rad(km) {
     return km / earthRadiusKm;
 }
 
-function getRange(latitude, longitude, distanceInKm) {
+function getRange(latitude, longitude, ) {
+    const distanceInKm = 1000000000000;
     const range = {
         minLat: latitude - km2rad(distanceInKm),
         maxLat: latitude + km2rad(distanceInKm),
@@ -139,7 +141,7 @@ async function getThefirst10(res, pid, uid, nb) {
         { nom: "Gryffondor", valeur: aff.affinity.final.Gryffondor },
         { nom: "Serdaigle", valeur: aff.affinity.final.Serdaigle },
         { nom: "Serpentard", valeur: aff.affinity.final.Serpentard },
-        { nom: "Poufsouffle", valeur: aff.affinity.final.Poufsouffle }
+        { nom: "Poursouffle", valeur: aff.affinity.final.Poufsouffle }
     ];
     console.log(variables);
 
@@ -183,118 +185,125 @@ async function getThefirst10(res, pid, uid, nb) {
     console.log("liste par maison", listeParMaison);
     var associatedIds1 = null;
     var associatedIds2 = null;
-    const getAssociatedIds1 = async (uid) => {
-        try {
-            const interactions = await Interaction.findAll({
-                where: {
-                    id1: uid,
-                },
-                attributes: ['id2'],
-                raw: true,
-            });
-
-            const associatedIds1 = interactions.map((interaction) => interaction.id2);
-            return associatedIds1;
-        } catch (error) {
-            // Gérer les erreurs de requête
-            console.error('Une erreur s\'est produite lors de la récupération des ID associés :', error);
-            throw error;
-        }
-    };
-    associatedIds1 = await getAssociatedIds1(uid);
-    const getAssociatedIds2 = async (uid) => {
-        try {
-            const interactions = await Interaction.findAll({
-                where: {
-                    id2: uid,
-                },
-                attributes: ['id1'],
-                raw: true,
-            });
-
-            const associatedIds2 = interactions.map((interaction) => interaction.id1);
-            return associatedIds2;
-        } catch (error) {
-            // Gérer les erreurs de requête
-            console.error('Une erreur s\'est produite lors de la récupération des ID associés :', error);
-            throw error;
-        }
-    };
-    associatedIds2 = await getAssociatedIds2(uid);
+    associatedIds1 = await getAssociatedIds1(pid);
+    associatedIds2 = await getAssociatedIds2(pid);
     console.log("get 1", associatedIds1);
     console.log("get 2", associatedIds2);
-    if (associatedIds2 != null && associatedIds1 != null) {
+    if (associatedIds2.length == 0 && associatedIds1.length == 0) {
         var idAban = associatedIds1.concat(associatedIds2);
-    } else if (associatedIds1 != null) {
+    } else if (associatedIds1.length == 0) {
         var idAban = associatedIds2;
-    } else if (associatedIds2 != null) {
+    } else if (associatedIds2.length == 0) {
         var idAban = associatedIds1;
     } else {
         var idAban = [];
     }
-    var aBan = [];
+    var idban=[]
     for (let i = 0; i < idAban.length; i++) {
-        aBan.push(await profile_id_from_user(idAban[i]));
+        idban.push(findOne({ where: { pid: idAban[i] }, attributes: ['idp'] }).idp);
     }
-    console.log("idAban", aBan);
-    var resultat = listeParMaison.filter(element => !aBan.includes(element));
+    idAban.push(pid);
+    var resultat = listeParMaison.filter(element => !idAban.includes(element));
+    
     console.log("resultat", resultat);
     resultat = resultat.slice(0, nb);
     console.log("resultat", resultat);
-    for (let i = 0; i < nb; i++) {
+    var truc =[]
+    for (let i = 0; i < resultat.length; i++) {
+        truc.push(await User.findOne({ where : { pid: resultat[i]}, attributes: ['idp'] }));
+    }
+    for (let i = 0; i < resultat.length; i++) {
         console.log("-----------------------------------------------", resultat[i]);
         const userData = {
             id1: uid,
-            id2: resultat[i],
+            id2: truc[i].idp,
             res1: null,
             res2: null,
             state: null
         };
+        try{
         await Interaction.create(userData);
-
+        }catch(err){
+            console.log(err);
+        }
     }
     console.log("resultat finaux de la sélection", resultat);
     return resultat;
 }
 
-const profiles = pick(128)
-console.log(profiles);
+async function getAssociatedIds2(uid){
+    try {
+        const interactions = await Interaction.findAll({
+            where: {
+                id2: uid,
+            },
+            attributes: ['id1'],
+            raw: true,
+        });
+
+        const associatedIds2 = interactions.map((interaction) => interaction.id1);
+        return associatedIds2;
+    } catch (error) {
+        // Gérer les erreurs de requête
+        console.error('Une erreur s\'est produite lors de la récupération des ID associés :', error);
+        throw error;
+    }
+};
+
+async function getAssociatedIds1(pid){
+    try {
+        const interactions = await Interaction.findAll({
+            where: {
+                id1: pid,
+            },
+            attributes: ['id2'],
+            raw: true,
+        });
+
+        const associatedIds1 = interactions.map((interaction) => interaction.id2);
+        return associatedIds1;
+    } catch (error) {
+        // Gérer les erreurs de requête
+        console.error('Une erreur s\'est produite lors de la récupération des ID associés :', error);
+        throw error;
+    }
+};
+
+
+//const profiles = pick(1);
+//console.log(profiles);
 
 //fonction pour like
 //res=1 pour like
 //res=0 pour dislike
 //res=null pour absence de réponses
 async function like(pid, uidPerso) {
+    //console.log("UID PERSO",uidPerso);
     try {
-        const user = await User.findOne({ where: { pid: pid }, attributes: ['uid'] });
-        const uid = user.uid;
-
+        const other = await User.findOne({ where: { pid: pid }, attributes: ['idp'] });
+        const uidOther = other.idp;
+        console.log("uidperso", uidPerso);
+        console.log("uidother", uidOther);
         const up1 = Interaction.update(
             { res1: 1 }, // Les valeurs à mettre à jour
             {
                 where: {
                     id1: uidPerso,
-                    id2: uid,
+                    id2: uidOther,
                 },
             }
         );
-
-        const result = await up1;
-        const rowCount = result[0];
-
-        if (rowCount < 0) {
-            const up2 = Interaction.update(
-                { res2: 1 }, // Les valeurs à mettre à jour
-                {
-                    where: {
-                        id2: uidPerso,
-                        id1: uid,
-                    },
-                }
-            );
-            const result2 = await up1;
-            const rowCount2 = result2[0];        
-        }
+        await up1;
+        const up2 = Interaction.update(
+            { res2: 1 }, // Les valeurs à mettre à jour
+            {
+                where: {
+                    id1: uidOther,
+                    id2: uidPerso,
+                },
+            }
+        );
+        await up2;
     } catch (error) {
         console.error('Erreur lors de la mise à jour :', error);
     }
@@ -302,40 +311,36 @@ async function like(pid, uidPerso) {
 
 //fonction pou dislike
 async function dislike(pid, uidPerso) {
-    try {
-        const user = await User.findOne({ where: { pid: pid }, attributes: ['uid'] });
-        const uid = user.uid;
-
-        const up1 = Interaction.update(
-            { res1: 0 }, // Les valeurs à mettre à jour
-            {
-                where: {
-                    id1: uidPerso,
-                    id2: uid,
-                },
-            }
-        );
-
-        const result = await up1;
-        const rowCount = result[0];
-
-        if (rowCount < 0) {
+        try {
+            const other = await User.findOne({ where: { pid: pid }, attributes: ['idp'] });
+            const uidOther = other.idp;
+            const up1 = Interaction.update(
+                { res1: 0 }, // Les valeurs à mettre à jour
+                {
+                    where: {
+                        id1: uidPerso,
+                        id2: uidOther,
+                    },
+                }
+            );
+            await up1;
             const up2 = Interaction.update(
                 { res2: 0 }, // Les valeurs à mettre à jour
                 {
                     where: {
+                        id1: uidOther,
                         id2: uidPerso,
-                        id1: uid,
                     },
                 }
             );
-            const result2 = await up1;
-            const rowCount2 = result2[0];        
+            await up2;
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour :', error);
         }
-    } catch (error) {
-        console.error('Erreur lors de la mise à jour :', error);
     }
-}
-module.exports = {like, dislike};
+
+
+module.exports = {like, dislike,pick};
+
 
 //TODO COTE BDD RAJOUTE TRIGGER POUR UPDATE STATE A CHAQUE UPDATE DE RES

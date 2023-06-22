@@ -15,3 +15,6 @@ INSERT INTO Channel (name, purpose, profiles,createdAt,updatedAt) VALUES ('Serpe
 Setup villes par SQL importé:
 
 INSERT INTO ville_france_free  (ville_id, ville_departement, ville_nom_simple, ville_nom_reel, ville_code_postal, ville_surface, ville_longitude_deg, ville_latitude_deg, createdAt, updatedAt) SELECT ville_id, ville_departement, ville_nom_simple, ville_nom_reel, ville_code_postal, ville_surface, ville_longitude_deg, ville_latitude_deg, NOW(), NOW() FROM villes_france_free;
+
+
+
