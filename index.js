@@ -594,6 +594,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("user_connected", async (msg) => {
+    console.log("user_connected");
     const { getChannels_byUser,create_Channel } = require("./serverside/js/message_meet.js");
     const { identify_by_cookie } = require("./serverside/js/secure.js");
     const userid = identify_by_cookie({ token: msg.name }, secret);
@@ -602,15 +603,40 @@ io.on("connection", (socket) => {
     socket.emit("init_channels", { channels: channels });
   });
 
-  socket.on("enter-swipe", (userid) => {
-    const dataswipe = "";
-    console.log("here");
+  socket.on("enter-swipe", async (msg) => {
+    console.log("get_card");
+    const { identify_by_cookie } = require("./serverside/js/secure.js");
+    const userid = identify_by_cookie({ token: msg.idp }, secret);
+    console.log(userid);
+    const {pick} = require("./serverside/js/swipe.js");
+    const profiles = await pick(userid);
+    var dataswipe = []
+    profiles.forEach((profile) => {
+      dataswipe.push({ "userid": profile.idp, "name": profile.prenom, "age": profile.dob, "city": profile.ville, "bio": profile.bio, "img": profile.meet_picture, "pid":profile.pid });
+    });
     socket.emit("swipe-data", dataswipe);
   });
 
   socket.on("typing", (msg) => {
     socket.to(msg.room).emit("usertyping", msg);
   });
+
+  socket.on("swipe", async (msg) => {
+    console.log(msg);
+    const { identify_by_cookie } = require("./serverside/js/secure.js");
+    const userid = identify_by_cookie({ token: msg.user_id }, secret);
+    const {like,dislike} = require("./serverside/js/swipe.js");
+    if (msg.res == 0){
+      await dislike(msg.pid,userid);
+    }
+    else if (msg.res == 1){
+      await like(msg.pid,userid);
+    }
+    else{
+      console.log("error");
+    }
+  });
+
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
@@ -623,4 +649,4 @@ https.listen(443, () => {
    console.log(`Server is running on port 443`);
 });
 
-const {baise} = require("./serverside/js/baise.js");
+//const {baise} = require("./serverside/js/baise.js");

@@ -1,5 +1,7 @@
 const socket = io();
 const userid = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("token=")).split("=")[1];
+let cardCount = 0;
+var data = [];
 console.log(document.cookie);
 
 window.onload = () => {
@@ -41,10 +43,12 @@ window.onload = () => {
   });
 
   socket.on("swipe-data", (msg) => {
-    console.log("coucou");
-    clear_messages();
+    console.log("reponse server swipe-data", msg);
+    data = msg;
+    msg.forEach(element => {
+      import_card(element);
+    });
   });
-
   socket.on("init_channels", (msg) => {
     console.log("init_channels",msg);
     let channels = msg.channels;
@@ -72,6 +76,8 @@ window.onload = () => {
       document.querySelector("#tabs").appendChild(li);
     });
   });
+
+  
   
 };
 
@@ -83,14 +89,18 @@ document.querySelectorAll("#choice p").forEach((tab) => {
       this.classList.add("active");
       if (this.dataset.room == "swipe") {
         document.querySelector("#message").style.display = "none";
+        document.querySelector("#writting").style.display = "none";
+        document.querySelector("#tabs").innerHTML = "";
         console.log("swipe");
-        socket.emit("enter-swipe", userid);
+        socket.emit("enter-swipe", {idp : userid});
+        showcard();
       }
       else{
         document.querySelector("#message").style.display = "block";
-        let a = document.querySelector("#tabs li.active").dataset.room;
-        console.log(a);
-        socket.emit("enter_room", a);
+        document.querySelector("#writting").style.display = "block";
+        document.querySelector("#tabs").style.display = "block";
+        document.querySelector("#tabs").innerHTML = "";
+        socket.emit("user_connected", { name: userid });
       }
     }
   });
@@ -144,3 +154,106 @@ function publishMessage(msg) {
 function clear_messages() {
   document.querySelector("#messages").innerHTML = "";
 }
+
+function showcard() {
+  let msg = document.querySelector("#messages");
+  let box = document.createElement("div");
+  box.classList.add("box");
+  msg.appendChild(box);
+  let dislike = document.createElement("ion-icon");
+  dislike.id = "dislike";
+  dislike.setAttribute("name","heart-dislike");
+  box.appendChild(dislike);
+  let swiper = document.createElement("div");
+  swiper.id = "swiper";
+  box.appendChild(swiper);
+  let like = document.createElement("ion-icon");
+  like.id = "like";
+  like.setAttribute("name","heart");
+  box.appendChild(like);
+  let writting = document.querySelector("#writting");
+  writting.style.display = "block";
+  let infos = document.createElement("p");
+  writting.appendChild(infos);
+  infos.textContent = "";  
+}
+
+function import_card(profile){
+  let infos = document.querySelector("#writting p");
+  console.log(infos);
+  infos.textContent = profile.name + "," + getAgeFromDOB(profile.age) + " ans";
+  appendNewCard(profile.photo,profile.pid);
+  cardCount++;
+
+}
+
+function getAgeFromDOB(dob) {
+  const dobDate = new Date(dob);
+  const currentDate = new Date();
+  
+  let age = currentDate.getFullYear() - dobDate.getFullYear();
+
+  // Check if the birthday has occurred this year
+  const hasBirthdayOccurred = (currentDate.getMonth() > dobDate.getMonth()) ||
+    (currentDate.getMonth() === dobDate.getMonth() && currentDate.getDate() >= dobDate.getDate());
+
+  if (!hasBirthdayOccurred) {
+    age--; // Subtract 1 if the birthday hasn't occurred yet
+  }
+
+  return age;
+}
+
+// constants
+const urls = [
+  'https://source.unsplash.com/random/1000x1000/?sky',
+  'https://source.unsplash.com/random/1000x1000/?landscape',
+  'https://source.unsplash.com/random/1000x1000/?ocean',
+  'https://source.unsplash.com/random/1000x1000/?moutain',
+  'https://source.unsplash.com/random/1000x1000/?forest'
+];
+
+// variables
+
+// functions
+function appendNewCard(image,pid) {
+  const card = new Card({
+    imageUrl: "../assets/hagrid.jpg",
+    onDismiss: appendNewCard,
+    onLike: () => {
+      like.style.animationPlayState = 'running';
+      like.classList.toggle('trigger');
+      socket.emit("swipe", {user_id:userid, pid:pid, res:1});
+      swiper.removeChild(swiper.lastChild);
+      update_name();
+    },
+    onDislike: () => {
+      dislike.style.animationPlayState = 'running';
+      dislike.classList.toggle('trigger');
+      socket.emit("swipe", {user_id:userid, pid:pid, res:0});
+      swiper.removeChild(swiper.lastChild);
+      update_name();
+    }
+  });
+  console.log(swiper);
+  swiper.append(card.element);
+  const cards = swiper.querySelectorAll('.card:not(.dismissing)');
+  cards.forEach((card, index) => {
+    card.style.setProperty('--i', index);
+  });
+}
+
+function update_name(){
+  console.log(data,cardCount);
+  cardCount--;
+  let infos = document.querySelector("#writting p");
+  if (cardCount >= 1){
+    infos.textContent = data[cardCount-1].name + "," + getAgeFromDOB(data[cardCount-1].age) + "ans"; 
+  }
+  else{
+    socket.emit("enter-swipe", {idp : userid});
+  }
+}
+
+
+// first 5 cards
