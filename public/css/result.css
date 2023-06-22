@@ -75,12 +75,12 @@ body {
 
 #house {
   position: absolute;
-  background-image: url(../assets/huf-removebg-preview.png);
+  background-image: url(../assets/gri-removebg-preview.png);
   background-size: cover;
   z-index: 0;
   display: flex;
   width: 25%;
-  height: 31vw;
+  height: 32vw;
   top: 55%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.8);

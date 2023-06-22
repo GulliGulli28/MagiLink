@@ -32,10 +32,15 @@ span {
 
 .navbar-toggler {
   margin-top: 10px;
+  background-color: #f9004d;
 }
 
 .custom-toggler-icon {
   color: white;
+}
+
+svg {
+  fill: #ffffff;
 }
 
 .btn {
@@ -51,19 +56,23 @@ span {
   border-radius: 30px;
   margin-top: 10px;
   margin-bottom: 10px;
+  margin-right: 10px;
 }
 
 .btn:hover {
   transform: scale(1.2);
   border: 2px solid transparent;
   background-color: #f9004d;
-  color: black;
 }
 
 .nav-link {
   font-weight: bold;
   text-transform: capitalize;
   color: white;
+}
+
+.d-flex {
+  padding-right: 10px;
 }
 
 .nav-link:hover {

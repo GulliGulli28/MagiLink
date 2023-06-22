@@ -1,6 +1,7 @@
 document.querySelectorAll(".nav-link").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
+    link.style.color = "#f8f9fa";
     const targetId = link.getAttribute("href");
     const targetElement = document.querySelector(targetId);
     const startPosition = window.pageYOffset;
@@ -28,3 +29,15 @@ document.querySelectorAll(".nav-link").forEach((link) => {
     requestAnimationFrame(scrollStep);
   });
 });
+
+// Fonction appelée lors du survol du lien
+function handleLinkHover() {
+  var link = document.querySelector("a.btn.btn-outline-success");
+  link.style.color = "yellow";
+}
+
+// Fonction appelée lorsque le curseur quitte le lien
+function handleLinkExit() {
+  var link = document.querySelector("a.btn.btn-outline-success");
+  link.style.color = "black";
+}
