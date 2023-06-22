@@ -1,4 +1,30 @@
 const socket = io();
+window.onload = async () => {
+  const cities = document.querySelector("#ville");
+  const ville_input = document.querySelector("#ville_input");
+  var cities_tab = [];
+  socket.emit("get_cities", "");
+
+  function findKeysStartingWith(obj, prefix) {
+    let keys = [];
+
+    obj.forEach((element) => {
+      if (element[1].startsWith(prefix)) {
+        keys.push(element);
+      }
+    });
+    return keys;
+  }
+  socket.on("city_list", (msg) => {
+    cities_tab = msg.cities;
+    msg.cities.forEach((element) => {
+      //console.log(element);
+      var el = document.createElement("option");
+      el.textContent = element[1];
+      el.value = element[0];
+    });
+  });
+};
 
 const cities = document.querySelectorAll("#ville");
 

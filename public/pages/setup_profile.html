@@ -105,6 +105,7 @@
 
           <div class="input-group">
             <label for="ville">Ville:</label>
+            <input type="text" id="ville_input" name="ville">
             <select id="ville" name="ville" required>
               <option value="">Choisir une ville</option>
               <option value="homme">Homme</option>
@@ -159,4 +160,14 @@
       crossorigin="anonymous"
     ></script>
   </body>
+    <script>
+        const inputElement = document.getElementById("photo_meet");
+        const outputElement = document.getElementById("output");
+      
+        inputElement.addEventListener("input", () => {
+          outputElement.textContent = inputElement.value;
+        });
+      </script>
+</body>
+>>>>>>> origin/main
 </html>

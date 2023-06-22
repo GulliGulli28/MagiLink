@@ -230,15 +230,15 @@ const Interaction = dbis.define('Interaction', {
   },
   res1: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: true
   },
   res2: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: true
   },
   state: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   }
 }, {
   freezeTableName: true,
@@ -279,9 +279,10 @@ const Ville = dbis.define('ville_france_free', {
     type: DataTypes.FLOAT,
     allowNull: true,
   },
-}, { freezeTableName: true,
-    timestamps: true 
- });
+}, {
+  freezeTableName: true,
+  timestamps: true
+});
 
 //Relations
 //Profil - Maison
@@ -299,7 +300,7 @@ Channel.hasOne(Message, { foreignKey: 'channel' });
 //Message - Profile
 Profile.hasOne(Message, { foreignKey: 'author' });
 //Channel - House
-Channel.hasOne(House, { foreignKey: 'channel',  onDelete: 'SET NULL'});
+Channel.hasOne(House, { foreignKey: 'channel', onDelete: 'SET NULL' });
 //Profil - User
 Profile.hasOne(User, { foreignKey: 'pid' });
 // User - Interation
@@ -313,9 +314,6 @@ User.belongsTo(Ville, {
   onUpdate: 'CASCADE',
   constraints: true,
 });
-
-
-
 
 module.exports = { dbis, sync, Channel, House, Message, User, Profile, Interaction, Ville };
 
