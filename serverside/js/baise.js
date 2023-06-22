@@ -200,7 +200,7 @@ async function getThefirst10(res, pid, uid, nb) {
             throw error;
         }
     };
-    associatedIds1 =await getAssociatedIds1(uid);
+    associatedIds1 = await getAssociatedIds1(uid);
     const getAssociatedIds2 = async (uid) => {
         try {
             const interactions = await Interaction.findAll({
@@ -258,3 +258,82 @@ async function getThefirst10(res, pid, uid, nb) {
 
 const profiles = pick(128)
 console.log(profiles);
+
+//res=1 pour like
+//res=0 pour dislike
+//res=null pour absence de réponses
+async function like(pid, uidPerso) {
+    try {
+        const user = await User.findOne({ where: { pid: pid }, attributes: ['uid'] });
+        const uid = user.uid;
+
+        const up1 = Interaction.update(
+            { res1: 1 }, // Les valeurs à mettre à jour
+            {
+                where: {
+                    id1: uidPerso,
+                    id2: uid,
+                },
+            }
+        );
+
+        const result = await up1;
+        const rowCount = result[0];
+
+        if (rowCount < 0) {
+            const up2 = Interaction.update(
+                { res2: 1 }, // Les valeurs à mettre à jour
+                {
+                    where: {
+                        id2: uidPerso,
+                        id1: uid,
+                    },
+                }
+            );
+            const result2 = await up1;
+            const rowCount2 = result2[0];        
+        }
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour :', error);
+    }
+}
+
+
+async function dislike(pid, uidPerso) {
+    try {
+        const user = await User.findOne({ where: { pid: pid }, attributes: ['uid'] });
+        const uid = user.uid;
+
+        const up1 = Interaction.update(
+            { res1: 0 }, // Les valeurs à mettre à jour
+            {
+                where: {
+                    id1: uidPerso,
+                    id2: uid,
+                },
+            }
+        );
+
+        const result = await up1;
+        const rowCount = result[0];
+
+        if (rowCount < 0) {
+            const up2 = Interaction.update(
+                { res2: 0 }, // Les valeurs à mettre à jour
+                {
+                    where: {
+                        id2: uidPerso,
+                        id1: uid,
+                    },
+                }
+            );
+            const result2 = await up1;
+            const rowCount2 = result2[0];        
+        }
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour :', error);
+    }
+}
+module.exports = {like, dislike};
+
+//TODO COTE BDD RAJOUTE TRIGGER POUR UPDATE STATE A CHAQUE UPDATE DE RES
