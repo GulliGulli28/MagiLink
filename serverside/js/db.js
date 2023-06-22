@@ -230,15 +230,15 @@ const Interaction = dbis.define('Interaction', {
   },
   res1: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: true
   },
   res2: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: true
   },
   state: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   }
 }, {
   freezeTableName: true,

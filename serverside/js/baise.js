@@ -21,35 +21,14 @@ async function pick(uid) {
     });
     const { ville_longitude_deg: longitude, ville_latitude_deg: latitude } = coord[0];
     const range = getRange(latitude, longitude, pid);
-    const profUncomplete = await getProfileWithIncompleteInteraction(pid);
+    const profUncomplete = await getProfileWithIncompleteInteraction(uid);
 
     let finalresult;
 
     if (profUncomplete.length < 10) {
         const newProfiles = await getProfileInMyRange(range, 100);
 
-        for (const profile of newProfiles) {
-            const test = await Interaction.findOne({
-                where: {
-                    id1: pid,
-                    id2: profile.pid
-                }
-            })
-            if (test != undefined) {
-                const query = `
-                INSERT INTO Interaction (id1, id2, res1, res2, state)
-                VALUES (:id1, :id2, NULL, NULL, NULL)
-                `;
-                const interaction = await dbis.query(query, {
-                    replacements: {
-                        id1: pid,
-                        id2: profile.pid
-                    },
-                    type: QueryTypes.INSERT
-                });
-            }
-        }
-        getThefirst10(newProfiles, pid);
+        getThefirst10(newProfiles, pid, uid, 10 - profUncomplete.length);
         finalresult = newProfiles.concat(profUncomplete.map(profile => profile.pid));
     } else {
         finalresult = profUncomplete.slice(0, 10).map(profile => profile.pid);
@@ -66,33 +45,35 @@ async function pick(uid) {
     //console.log("Final Result",theFinalResult);
 }
 
-async function getProfileWithIncompleteInteraction(pid) {
+async function getProfileWithIncompleteInteraction(uid) {
     const query = `
-        SELECT Profile.pid
-        FROM Profile
-        INNER JOIN Interaction ON Profile.pid = Interaction.id1
-        WHERE Interaction.id1 = :pid
-        AND Interaction.res1 = NULL;
+        SELECT Interaction.id2
+        FROM Interaction
+        INNER JOIN User ON interaction.id1 = user.idp
+        WHERE Interaction.id1 = :uid
+        AND Interaction.res1 is null;
     `;
     const profiles = await dbis.query(query, {
         replacements: {
-            pid
+            uid
         },
         type: QueryTypes.SELECT
     });
     const query2 = `
-        SELECT Profile.pid
-        FROM Profile
-        INNER JOIN Interaction ON Profile.pid = Interaction.id2
-        WHERE Interaction.id2 = :pid
-        AND Interaction.res2 = NULL;
+        SELECT Interaction.id1
+        FROM Interaction
+        INNER JOIN User ON interaction.id2 = user.idp
+        WHERE Interaction.id2 = :uid
+        AND Interaction.res2 is null;
     `;
     const profiles2 = await dbis.query(query2, {
         replacements: {
-            pid
+            uid
         },
         type: QueryTypes.SELECT
     });
+    console.log("profiles", profiles);
+    console.log("profiles2", profiles2);
     const finalresult = profiles.concat(profiles2);
     return finalresult;
 }
@@ -140,7 +121,7 @@ function getRange(latitude, longitude, distanceInKm) {
     return range;
 }
 
-async function getThefirst10(res, pid) {
+async function getThefirst10(res, pid, uid, nb) {
     console.log("voici res", res);
     var resu = [];
     for (let i = 0; i < res.length; i++) {
@@ -199,8 +180,81 @@ async function getThefirst10(res, pid) {
             console.error('Erreur lors de la recherche des instances :', err);
         });
     console.log("liste par maison", listeParMaison);
-    
+    var associatedIds1 = null;
+    var associatedIds2 = null;
+    const getAssociatedIds1 = async (uid) => {
+        try {
+            const interactions = await Interaction.findAll({
+                where: {
+                    id1: uid,
+                },
+                attributes: ['id2'],
+                raw: true,
+            });
+
+            const associatedIds1 = interactions.map((interaction) => interaction.id2);
+            return associatedIds1;
+        } catch (error) {
+            // Gérer les erreurs de requête
+            console.error('Une erreur s\'est produite lors de la récupération des ID associés :', error);
+            throw error;
+        }
+    };
+    associatedIds1 =await getAssociatedIds1(uid);
+    const getAssociatedIds2 = async (uid) => {
+        try {
+            const interactions = await Interaction.findAll({
+                where: {
+                    id2: uid,
+                },
+                attributes: ['id1'],
+                raw: true,
+            });
+
+            const associatedIds2 = interactions.map((interaction) => interaction.id1);
+            return associatedIds2;
+        } catch (error) {
+            // Gérer les erreurs de requête
+            console.error('Une erreur s\'est produite lors de la récupération des ID associés :', error);
+            throw error;
+        }
+    };
+    associatedIds2 = await getAssociatedIds2(uid);
+    console.log("get 1", associatedIds1);
+    console.log("get 2", associatedIds2);
+    if (associatedIds2 != null && associatedIds1 != null) {
+        var idAban = associatedIds1.concat(associatedIds2);
+    } else if (associatedIds1 != null) {
+        var idAban = associatedIds2;
+    } else if (associatedIds2 != null) {
+        var idAban = associatedIds1;
+    } else {
+        var idAban = [];
+    }
+    var aBan = [];
+    for (let i = 0; i < idAban.length; i++) {
+        aBan.push(await profile_id_from_user(idAban[i]));
+    }
+    console.log("idAban", aBan);
+    var resultat = listeParMaison.filter(element => !aBan.includes(element));
+    console.log("resultat", resultat);
+    resultat = resultat.slice(0, nb);
+    console.log("resultat", resultat);
+    for (let i = 0; i < nb; i++) {
+        console.log("-----------------------------------------------", resultat[i]);
+        const userData = {
+            id1: uid,
+            id2: resultat[i],
+            res1: null,
+            res2: null,
+            state: null
+        };
+        await Interaction.create(userData);
+
+    }
+    console.log("resultat finaux de la sélection", resultat);
+    return resultat;
 }
 
-const profiles = pick(22)
+const profiles = pick(128)
 console.log(profiles);
