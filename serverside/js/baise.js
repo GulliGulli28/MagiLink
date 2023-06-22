@@ -1,6 +1,6 @@
 const { profile_id_from_user } = require("./profile");
 const { User, Profile, Ville, Interaction, connectToDatabase, dbis, sync } = require('./db.js');
-const { Op, QueryTypes } = require('sequelize');
+const { Op, QueryTypes, Sequelize } = require('sequelize');
 
 async function pick(uid) {
     console.log("voici l'uid : " + uid);
@@ -21,14 +21,12 @@ async function pick(uid) {
     });
     const { ville_longitude_deg: longitude, ville_latitude_deg: latitude } = coord[0];
     const range = getRange(latitude, longitude, pid);
-    console.log("voici la range : " + range);
     const profUncomplete = await getProfileWithIncompleteInteraction(pid);
 
     let finalresult;
 
     if (profUncomplete.length < 10) {
-        console.log("il y a ",profUncomplete.length," profils incomplets donc inférieur à 10");
-        const newProfiles = await getProfileInMyRange(range, 10 - profUncomplete.length);
+        const newProfiles = await getProfileInMyRange(range, 100);
 
         for (const profile of newProfiles) {
             const test = await Interaction.findOne({
@@ -37,7 +35,6 @@ async function pick(uid) {
                     id2: profile.pid
                 }
             })
-            console.log(test);
             if (test != undefined) {
                 const query = `
                 INSERT INTO Interaction (id1, id2, res1, res2, state)
@@ -51,25 +48,22 @@ async function pick(uid) {
                     type: QueryTypes.INSERT
                 });
             }
-
         }
+        getThefirst10(newProfiles, pid);
         finalresult = newProfiles.concat(profUncomplete.map(profile => profile.pid));
     } else {
-        console.log("il y a ",profUncomplete.length," profils incomplets donc supérieur à 10");
         finalresult = profUncomplete.slice(0, 10).map(profile => profile.pid);
     }
-    console.log(finalresult);
-    console.log("SALUT JE SUIS LA<---------------------------------------------------------------------");
     let theFinalResult = [];
     for (r in finalresult) {
-        let theResult = Profile.findAll({
+        let theResult = await Profile.findAll({
             where: {
                 pid: r
             }
         });
-        console.log("voici le résult",r);
-        theFinalResult=theFinalResult.concat(theResult);
+        theFinalResult = theFinalResult.concat(theResult);
     }
+    //console.log("Final Result",theFinalResult);
 }
 
 async function getProfileWithIncompleteInteraction(pid) {
@@ -146,6 +140,67 @@ function getRange(latitude, longitude, distanceInKm) {
     return range;
 }
 
+async function getThefirst10(res, pid) {
+    console.log("voici res", res);
+    var resu = [];
+    for (let i = 0; i < res.length; i++) {
+        resu.push(res[i].pid);
+    }
+    console.log("voici resu", resu);
+    console.log("on est dans la fonction getThefirst10");
+    // Déclaration des variables
+    var aff = await Profile.findOne({ where: { pid: pid }, attributes: ['affinity'] });
+    console.log("aff", aff);
+    console.log("aff final", aff.affinity.final.Gryffondor);
+    // Stockage des variables et de leurs valeurs initiales dans un tableau d'objets
+    var variables = [
+        { nom: "Gryffondor", valeur: aff.affinity.final.Gryffondor },
+        { nom: "Serdaigle", valeur: aff.affinity.final.Serdaigle },
+        { nom: "Serpentard", valeur: aff.affinity.final.Serpentard },
+        { nom: "Poufsouffle", valeur: aff.affinity.final.Poufsouffle }
+    ];
+    console.log(variables);
+
+    // Tri du tableau d'objets dans l'ordre décroissant en utilisant la valeur
+    variables.sort(function (a, b) {
+        return b.valeur - a.valeur;
+    });
+
+    // Affichage de l'ordre décroissant des variables par rapport à leur position initiale
+    console.log("Ordre décroissant :");
+    for (var i = 0; i < variables.length; i++) {
+        console.log(variables[i].nom + ": " + variables[i].valeur);
+    }
+    var listeParMaison = [];
+    await Profile.findAll({
+        where: {
+            maison: {
+                [Sequelize.Op.in]: [variables[0].nom, variables[1].nom, variables[2].nom, variables[3].nom]
+            },
+            pid: {
+                [Sequelize.Op.in]: resu
+            }
+        },
+        attributes: ['pid'],
+        order: [
+            [Sequelize.literal(`FIELD(maison, '${variables[0].nom}', '${variables[1].nom}', '${variables[2].nom}', '${variables[3].nom}')`)]
+        ]
+    })
+        .then(instances => {
+            if (instances.length > 0) {
+                instances.forEach(instance => {
+                    listeParMaison.push(instance.pid);
+                });
+            } else {
+                console.log("Aucune instance trouvée");
+            }
+        })
+        .catch(err => {
+            console.error('Erreur lors de la recherche des instances :', err);
+        });
+    console.log("liste par maison", listeParMaison);
+    
+}
 
 const profiles = pick(22)
 console.log(profiles);
