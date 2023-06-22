@@ -4,7 +4,7 @@ const rightelem = document.querySelector("#right");
 function addTab(tableau1, tableau2) {
     // Vérifier si les tableaux ont la même longueur
     if (tableau1.length !== tableau2.length) {
-      throw new Error("Les tableaux n'ont pas la même longueur.");
+      throw new Error("Tables are not the same length.");
     }
   
     var resultat = [];
@@ -19,9 +19,9 @@ function addTab(tableau1, tableau2) {
 
 window.onload =  () => {
     var tab=[0,0,0,0,0,0];
-    var titres=["Vous préférez","Vous préférez","Vous choisissez","Avec qui partiriez-vous à l'aventure?","En voyage vous êtes plus"];
-    var reps_left=["La montagne","Les Choco-grenouilles","La Baguette de Sureau","Hermione","Visite"];
-    var reps_right=["La mer","Les Dragées surprises de Bertie Crochue","La Cape d'invisibilité","Ron et Harry","Aventure"];
+    var titres=["You prefer", "You prefer", "You choose", "With whom would you go on an adventure?", "On a trip you are more"];
+    var reps_left=["The mountain","Chocolate Frogs","The Elder Wand","Hermione","Visit"];
+    var reps_right=["The sea","Bertie Bott's Every Flavour Beans","Cloak of Invisibility","Ron & Harry","Adventure"];
     var images_rep_left = ["../assets/montagne.jpg","../assets/choco.jpg","../assets/baguette.jpg","../assets/hermione.jpg","../assets/visite.jpg"];
     var images_rep_right = ["../assets/mer.jpg","../assets/dragees.jpg","../assets/cape.gif","../assets/ron.jpg","../assets/aventure.jpg"];
     var nb_question = 1;

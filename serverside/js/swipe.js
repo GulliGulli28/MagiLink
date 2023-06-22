@@ -342,5 +342,3 @@ async function dislike(pid, uidPerso) {
 
 module.exports = {like, dislike,pick};
 
-
-//TODO COTE BDD RAJOUTE TRIGGER POUR UPDATE STATE A CHAQUE UPDATE DE RES

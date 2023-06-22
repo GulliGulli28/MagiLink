@@ -87,13 +87,16 @@ document.querySelectorAll("#choice p").forEach((tab) => {
       actif.classList.remove("active");
       this.classList.add("active");
       if (this.dataset.room == "swipe") {
+        document.querySelector("#messages").innerHTML = "";
         document.querySelector("#message").style.display = "none";
         document.querySelector("#writting").style.display = "none";
         document.querySelector("#tabs").innerHTML = "";
         console.log("swipe");
         socket.emit("enter-swipe", { idp: userid });
         showcard();
-      } else {
+      }
+      else{
+        document.querySelector("#messages").innerHTML = "";
         document.querySelector("#message").style.display = "block";
         document.querySelector("#writting").style.display = "block";
         document.querySelector("#tabs").style.display = "block";
