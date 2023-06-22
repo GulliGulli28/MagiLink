@@ -1,6 +1,5 @@
 * {
   font-family: "Josefin Sans", sans-serif;
-  overflow-y: hidden;
 }
 
 body {
@@ -80,17 +79,23 @@ main {
   flex: 4;
 }
 
+main div{
+  display:flex;
+  flex-direction:column;
+}
+
 #content {
   position: relative;
   height: 90%;
-  background-color: blue;
 }
 
 #messages {
+  padding-top:10px;
+  padding-bottom: 10px;
   position: relative;
   height: 90%;
-  background-color: red;
   overflow-y: scroll;
+  background-color: #2f3136;
 }
 
 input:focus {
@@ -113,19 +118,18 @@ input:focus {
 }
 
 form {
+  padding:15px;
   display: flex;
-  padding: 20px;
   width: 100%;
-  background-color: #f9004d;
   justify-content: space-between0;
 }
 
 #message {
-  padding: 10px;
   background-color: #40444b;
   color: white;
   border: none;
   width: 90%;
+  padding: 10px;
   margin-left: 15px;
   border-radius: 10px;
 }
@@ -145,15 +149,43 @@ form {
   background-color: black;
   width: 100%;
   height: 10%;
-  margin-bottom: 20px;
+  
 }
 
 #choice .active {
   width: 50%;
-  background-color: red;
+  color: white;
 }
 
 #choice p:not(.active) {
   width: 50%;
-  background-color: green;
+}
+
+
+#tabs {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#tabs li {
+  padding: 10px;
+  color: white;
+  text-transform: lowercase;
+}
+
+#tabs li.active {
+  background-color: #393c43;
+  font-weight: bold;
+}
+
+#tabs li:not(.active) {
+  cursor: pointer;
+}
+
+.profile {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+  margin-top: 50px;
 }
