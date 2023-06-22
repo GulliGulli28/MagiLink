@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Profile</title>
-    <link rel="stylesheet" href="../css/setup_profile.css">
+    <link rel="stylesheet" href="../css/setup_profile.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;300;400&display=swap"
       rel="stylesheet"
     />
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
         <h1>Profile</h1>
         <form action="/setup_profile" method="POST">
@@ -41,16 +41,60 @@
             <label for="bio">Bio:</label>
             <textarea id="bio" name="bio" rows="4" cols="50"></textarea>
 
-            <label for="photo">Photo rencontre:</label>
-            <input type="file" id="photo_meet" name="photo_meet">
-            <label for="photo">Photo communautaire:</label>
-            <input type="file" id="photo_commu" name="photo_commu">
-            <br>
-            Essayez de ne pas utiliser la même pour les deux photos.
-            <br>
-            <input type="submit" value="Submit">
-        </form>
+        <label for="prenom">Prenom:</label>
+        <input type="text" id="prenom" name="prenom" maxlength="255" required />
+
+        <label for="birthdate">Date de naissance:</label>
+        <input
+          type="text"
+          id="birthdate"
+          name="birthdate"
+          pattern="\d{2}/\d{2}/\d{4}"
+          placeholder="dd/mm/yyyy"
+          required
+        />
+
+        <label for="ville">Ville:</label>
+        <select id="ville" name="ville" required>
+          <option value="">Choisir une ville</option>
+          <option value="city1">City 1</option>
+          <option value="city2">City 2</option>
+          <option value="city3">City 3</option>
+          <!-- Add more options as needed -->
+        </select>
+
+        <label for="genre">Genre:</label>
+        <select id="genre" name="genre" required>
+          <option value="">Choix du genre</option>
+          <option value="homme">Homme</option>
+          <option value="femme">Femme</option>
+          <option value="non-binaire">Non-binaire</option>
+          <option value="autre">Autre</option>
+          <option value="helicoptere">Hélicoptère</option>
+          <!-- Add more options as needed -->
+        </select>
+
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio" rows="4" cols="50"></textarea>
+        <div id="files">
+          <label for="photo_commu" class="custom-file-upload">
+            <span>Photo profile</span>
+            <input type="file" id="photo_commu" name="photo_commu" />
+          </label>
+          <label for="photo_commu" class="custom-file-upload">
+            <span>Photo communautaire</span>
+            <input type="file" id="photo_commu" name="photo_commu" />
+          </label>
+        </div>
+        <br />
+        Essayez de ne pas utiliser la même pour les deux photos.
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
     </div>
+<<<<<<< HEAD
+  </body>
+=======
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const inputElement = document.getElementById("photo_meet");
@@ -61,4 +105,5 @@
         });
       </script>
 </body>
+>>>>>>> origin/main
 </html>

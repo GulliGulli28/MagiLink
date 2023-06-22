@@ -10,6 +10,7 @@ body {
 h1 {
   text-align: center;
   color: #333;
+  padding-top: 10px;
 }
 
 .container {
@@ -38,20 +39,67 @@ textarea {
 }
 input[type="file"] {
   margin-top: 10px;
-  display: flex;
+  transition: transform 0.4s;
+  display: none;
   flex-direction: column;
+  color: white;
 }
 
 input[type="submit"] {
-  background-color: #4caf50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
+  transition: transform 0.4s;
+  border-radius: 30px;
+  background-color: #f9004d;
+  color: white;
+  border: 2px solid transparent;
+  font-weight: bold;
+  padding: 10px 25px;
+  border-radius: 30px;
+  margin-left: 10px;
+  border-radius: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 input[type="submit"]:hover {
-  background-color: #45a049;
+  transform: scale(1.2);
+  border: 2px solid transparent;
+  background-color: #f9004d;
+}
+
+.custom-file-upload {
+  transition: transform 0.4s;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #f9004d; /* Couleur de fond du bouton */
+  height: 30px;
+  border-radius: 30px;
+  border: 2px solid transparent;
+  font-weight: bold;
+  padding: 10px 25px;
+  border-radius: 30px;
+  margin-left: 10px;
+  border-radius: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: fit-content;
+}
+
+.custom-file-upload:hover {
+  transform: scale(1.2);
+  border: 2px solid transparent;
+  background-color: #f9004d;
+}
+.custom-file-upload span {
+  color: white; /* Couleur du texte du bouton */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#files {
+  display: flex;
+  flex-direction: column;
+  background-color: #333;
+  text-align: center;
 }

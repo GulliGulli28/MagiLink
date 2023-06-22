@@ -3,7 +3,6 @@
   overflow-x: hidden;
 }
 
-
 .container-fluid img {
   width: 35px;
 }
@@ -33,6 +32,10 @@ span {
 
 .navbar-toggler {
   margin-top: 10px;
+}
+
+.custom-toggler-icon {
+  color: white;
 }
 
 .btn {

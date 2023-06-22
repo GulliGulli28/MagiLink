@@ -371,6 +371,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
 });
 
+app.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/");
+});
+
 app.get("*", (req, res) => {
   res.redirect("/");
 });
@@ -531,7 +536,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("get_cities", async (msg) => {
-    const {get_cities} = require("./serverside/js/villes.js");
+    const { get_cities } = require("./serverside/js/villes.js");
     const list = await get_cities();
     socket.emit("city_list", { cities: JSON.stringify(list) });
   });
@@ -571,6 +576,9 @@ io.on("connection", (socket) => {
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
+http.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 // http.listen(port, () => {
 //   console.log(`Server is running on port ${port}`);
 // });
