@@ -25,6 +25,11 @@ span {
   color: #f9004d;
 }
 
+.navbar-toggler {
+  margin-top: 10px;
+  background-color: #f9004d;
+}
+
 .btn {
   transition: transform 0.4s;
   border-radius: 30px;

@@ -145,7 +145,7 @@ span {
   display: flex;
   top: 80vh;
   width: 100vw;
-  height: 15vh;
+  height: 20vh;
 }
 
 #prop1 {
@@ -159,6 +159,7 @@ span {
   color: white;
   font-size: 35px;
   font-weight: bold;
+  text-align: center;
 }
 
 #prop2 {
@@ -172,4 +173,27 @@ span {
   color: white;
   font-size: 35px;
   font-weight: bold;
+  text-align: center;
+}
+
+@media screen and (max-width: 550px) {
+  #left {
+    margin-top: 40%;
+    height: 50%;
+  }
+
+  #right {
+    height: 50%;
+    margin-top: 40%;
+  }
+
+  #prop1 {
+    font-size: 25px;
+    text-align: center;
+  }
+
+  #prop2 {
+    font-size: 25px;
+    text-align: center;
+  }
 }

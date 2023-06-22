@@ -1,4 +1,4 @@
-const socket = io();
+/*const socket = io();
 const userid = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("token=")).split("=")[1];
 console.log(document.cookie);
 socket.on("connect", () => {
@@ -121,3 +121,32 @@ function publishMessage(msg) {
 function clear_messages() {
   document.querySelector("#messages").innerHTML = "";
 }
+
+*/
+
+function display() {
+  msg = document.querySelector("#messages");
+  box = document.createElement("div");
+  box.classList.add("box");
+  msg.appendChild(box);
+  dislike = document.createElement("ion-icon");
+  dislike.id = "dislike";
+  dislike.name = "heart-dislike";
+  box.appendChild(dislike);
+  swiper = document.createElement("div");
+  swiper.id = "swiper";
+  box.appendChild(swiper);
+  like = document.createElement("ion-icon");
+  like.id = "like";
+  like.name = "heart";
+  box.appendChild(like);
+}
+
+display();
+
+// <ion-icon id="dislike" name="heart-dislike"></ion-icon>
+// <div id="swiper"></div>
+// <ion-icon id="like" name="heart"></ion-icon>
+
+// <script src="./card.js"></script>
+// <script src="./script.js"></script>
