@@ -100,6 +100,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 const privateKey = fs.readFileSync(
   "/etc/letsencrypt/live/magilink.zalax.xyz/privkey.pem",
   "utf8"
@@ -119,10 +120,12 @@ const credentials = {
   ca: ca,
 };
 
+
 //on défini le port sur lequel le serveur va écouter
 const port = 4000;
 
 //on importe le module http pour pouvoir créer un serveur qui va utiliser notre instance d'express
+
 //const http = require("http").createServer(app);
 const https = require("https").createServer(credentials, app);
 
@@ -611,13 +614,13 @@ io.on("connection", (socket) => {
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
-http.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+
 // http.listen(port, () => {
 //   console.log(`Server is running on port ${port}`);
 // });
 
 https.listen(443, () => {
-  console.log(`Server is running on port 443`);
+   console.log(`Server is running on port 443`);
 });
+
+const {baise} = require("./serverside/js/baise.js");
