@@ -1,5 +1,6 @@
 const leftelem = document.querySelector("#left");
 const rightelem = document.querySelector("#right");
+const btn = document.querySelector("#logout");
 
 leftelem.addEventListener("click", () => {
   // Recherchez le formulaire à l'intérieur de l'élément cliqué
@@ -20,3 +21,16 @@ rightelem.addEventListener("click", () => {
     form.submit();
   }
 });
+
+logout.addEventListener("click", () => {
+  supprimerCookie("token");
+  window.location.href = "/";
+});
+
+function supprimerCookie(nom) {
+  document.cookie = nom + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+function supprimercookie2() {
+  window.location.href = "/logout";
+}

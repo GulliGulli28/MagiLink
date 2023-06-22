@@ -1,0 +1,17 @@
+setup des maisons:
+
+Insert into House (name,channel,rewards,createdAt,updatedAt) Values ('Gryffondor',4,Null,now(),now());
+Insert into House (name,channel,rewards,createdAt,updatedAt) Values ('Poursouffle',3,Null,now(),now());
+Insert into House (name,channel,rewards,createdAt,updatedAt) Values ('Serpentard',1,Null,now(),now());
+Insert into House (name,channel,rewards,createdAt,updatedAt) Values ('Serdaigle',2,Null,now(),now());
+
+Setup des Channels maisons:
+
+INSERT INTO Channel (name, purpose, profiles,createdAt,updatedAt) VALUES ('Gryffondor', '3', '',now(),now());
+INSERT INTO Channel (name, purpose, profiles,createdAt,updatedAt) VALUES ('Poursouffle', '3', '',now(),now());
+INSERT INTO Channel (name, purpose, profiles,createdAt,updatedAt) VALUES ('Serdaigle', '3', '',now(),now());
+INSERT INTO Channel (name, purpose, profiles,createdAt,updatedAt) VALUES ('Serpentard', '3', '',now(),now());
+
+Setup villes par SQL importé:
+
+INSERT INTO ville_france_free  (ville_id, ville_departement, ville_nom_simple, ville_nom_reel, ville_code_postal, ville_surface, ville_longitude_deg, ville_latitude_deg, createdAt, updatedAt) SELECT ville_id, ville_departement, ville_nom_simple, ville_nom_reel, ville_code_postal, ville_surface, ville_longitude_deg, ville_latitude_deg, NOW(), NOW() FROM villes_france_free;

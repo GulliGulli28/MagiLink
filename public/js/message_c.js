@@ -55,18 +55,11 @@ window.onload = () => {
       li.addEventListener("click", function () {
         if (!this.classList.contains("active")) {
           const actif = document.querySelector("#tabs li.active");
-          if (!actif) {
-          this.classList.add("active");
-          document.querySelector("#messages").innerHTML = "";
-          socket.emit("enter_room", this.dataset.room);
-          }
-          else{
-            actif.classList.remove("active");
+          actif.classList.remove("active");
           this.classList.add("active");
           document.querySelector("#messages").innerHTML = "";
           socket.emit("leave_room", actif.dataset.room);
           socket.emit("enter_room", this.dataset.room);
-          }
         }
       });
       document.querySelector("#tabs").appendChild(li);
@@ -97,7 +90,18 @@ document.querySelectorAll("#choice p").forEach((tab) => {
 });
 
 
-
+document.querySelectorAll("#tabs li").forEach((tab) => {
+  tab.addEventListener("click", function () {
+    if (!this.classList.contains("active")) {
+      const actif = document.querySelector("#tabs li.active");
+      actif.classList.remove("active");
+      this.classList.add("active");
+      document.querySelector("#messages").innerHTML = "";
+      socket.emit("leave_room", actif.dataset.room);
+      socket.emit("enter_room", this.dataset.room);
+    }
+  });
+});
 
 function publishMessage(msg) {
   let divElement = document.createElement("div");
