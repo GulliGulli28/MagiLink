@@ -213,6 +213,12 @@ app.get("/section_choice", async (req, res) => {
   }
 });
 
+app.get("/CGU", (req, res) => {
+  console.log("CGU");
+  res.sendFile(path.join(__dirname, "public/assets/CGU.txt"));
+});
+
+
 app.get("/test_house1", async (req, res) => {
   console.log("test_house1");
   const {
@@ -327,7 +333,7 @@ app.get("/house_setup", async (req, res) => {
   console.log("house_setup");
   const {
     profile_id_from_user,
-    check_if_data_is_null,
+    check_data
   } = require("./serverside/js/profile.js");
   if (!req.cookies.token) {
     res.redirect("/signin");
@@ -338,7 +344,7 @@ app.get("/house_setup", async (req, res) => {
     if (!pid) {
       res.redirect("/setup_profile");
     }
-    const check = await check_if_data_is_null("maison", pid);
+    const check = await check_data("maison", pid);
     if (check) {
       res.sendFile(path.join(__dirname, "public/pages/house_discovery.html"));
     } else {
@@ -422,6 +428,7 @@ app.post("/signup", async (req, res) => {
 app.post("/setup_profile", async (req, res) => {
   const { identify_by_cookie, secure } = require("./serverside/js/secure.js");
   const userid = identify_by_cookie(req.cookies, secret);
+  req.body["ville"] = req.body["ville"][1];
   const validated_input = secure(req.body);
   const { set_profile, update_user } = require("./serverside/js/profile.js");
   const check = await set_profile(validated_input, userid);
@@ -485,8 +492,12 @@ app.post("/test_house2", async (req, res) => {
   }
 });
 
+app.post('/section_choice', async (req, res) => {
+  res.redirect("/section_choice");
+});
+
 app.post("/test_house3", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { create_test_steps, set_house } = require("./serverside/js/maison.js");
   const { profile_id_from_user } = require("./serverside/js/profile.js");
   const { identify_by_cookie } = require("./serverside/js/secure.js");
@@ -498,7 +509,8 @@ app.post("/test_house3", async (req, res) => {
     console.log("ici");
     const check = await create_test_steps(pid, req.body);
     if (check) {
-      const check2 = set_house(pid, check);
+      const check2 = await set_house(pid, check);
+      //console.log("check2",check2);
       if (check2) {
         res.redirect("/house_setup");
       } else {
@@ -518,50 +530,73 @@ io.on("connection", (socket) => {
     console.log("Un utilisateur s'est déconnecté");
   });
 
-  socket.on("user_connected", (msg) => {
-    console.log(msg.name);
-  });
-
-  socket.on("enter_room", (room) => {
+  socket.on("enter_room", async (room) => {
+    const { getMessages_byChannel,getUsers_by_channel } = require("./serverside/js/message_meet.js");
+    const {profile_id_from_user} = require("./serverside/js/profile.js");
     socket.join(room);
-    console.log(socket.rooms);
-    /*
-    Chat.findAll({
-      attributes: ["id", "name", "message", "createdAt"],
-      where: { room: room },
-    }).then((list) => {
-      socket.emit("init_messages", { messages: JSON.stringify(list) });
+    //console.log(socket.rooms,room);
+    let messages = await getMessages_byChannel(room);
+    let realmessage = []
+    messages.forEach(async(element) => {
+      realmessage.push({ "userid": element.author,"date" : element.date, "content": element.content, "autre" : {autre: element.author, moi:element.author} });
     });
-    */
+    console.log("real",realmessage);
+    socket.emit("init_messages", { messages: JSON.stringify(realmessage) });
+    
   });
 
   socket.on("get_cities", async (msg) => {
     const { get_cities } = require("./serverside/js/villes.js");
     const list = await get_cities();
-    socket.emit("city_list", { cities: JSON.stringify(list) });
+    //console.log(list);
+    const list2 = [];
+    list.forEach((element) => {
+      list2.push([element.ville_id,element.ville_nom_reel]);
+    });
+    socket.emit("city_list", { cities: list2 });
+  });
+
+  socket.on("maison",async (msg) => {
+    //console.log("maison", msg);
+    const {identify_by_cookie} = require("./serverside/js/secure.js");
+    const {profile_id_from_user} = require("./serverside/js/profile.js"); 
+    idp = identify_by_cookie({token : msg.name}, secret);
+    const pid = await profile_id_from_user(idp);
+    const {check_data} = require("./serverside/js/profile.js");
+    const maison = await check_data("maison",pid);
+    socket.emit("maison", { maison: maison });
   });
 
   socket.on("leave_room", (room) => {
     socket.leave(room);
   });
 
-  socket.on("chat_message", (msg) => {
+  socket.on("chat_message", async (msg) => {
     console.log(msg);
     io.in(msg.room).emit("received_message", msg);
-    /*
-    const message = Chat.create({
-      name: msg.name,
-      message: msg.message,
-      room: msg.room,
-      createdAt: msg.createdAt,
-    })
-      .then(() => {
-        io.in(msg.room).emit("received_message", msg);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-      */
+    const { setMessage, getUsers_by_channel } = require("./serverside/js/message_meet.js");
+    const {identify_by_cookie} = require("./serverside/js/secure.js");
+    const {profile_id_from_user} = require("./serverside/js/profile.js"); 
+    idp = identify_by_cookie({token : msg.user_id}, secret);
+    const pid = await profile_id_from_user(idp);
+    const msg_added = setMessage(pid, msg.room.rooms, msg.content, msg.date);
+    if (msg_added) {
+      console.log("message envoyé");
+      const users = await getUsers_by_channel(msg.room.rooms, pid);
+      console.log(users);
+      msg["autre"] = users;
+      io.in(msg.room.rooms).emit("received_message", msg);
+    }
+
+  });
+
+  socket.on("user_connected", async (msg) => {
+    const { getChannels_byUser,create_Channel } = require("./serverside/js/message_meet.js");
+    const { identify_by_cookie } = require("./serverside/js/secure.js");
+    const userid = identify_by_cookie({ token: msg.name }, secret);
+    const channels = await getChannels_byUser(userid);
+    //console.log(channels);
+    socket.emit("init_channels", { channels: channels });
   });
 
   socket.on("enter-swipe", (userid) => {
