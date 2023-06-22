@@ -1,262 +1,211 @@
 * {
-    font-family: "Josefin Sans", sans-serif;
-    overflow-y: hidden;
-  }
-  
-  body{
-    background-image : url(../assets/etoiles.jpg);
-    background-position: center;
-    background-size: cover;
-  }
-
-  .container-fluid img {
-    width: 35px;
-  }
-  
-  .navbar {
-    padding-top: 45px;
-    padding-left: 6%;
-    padding-right: 8%;
-  }
-  
-  .logo {
-    font-size: 35px;
-    letter-spacing: 1px;
-  }
-  
-  span {
-    color: #f9004d;
-  }
-  
-  .navbar-toggler {
-    margin-top: 10px;
-  }
-  
-  .btn {
-    transition: transform 0.4s;
-    border-radius: 30px;
-    background-color: #f9004d;
-    color: white;
-    border: 2px solid transparent;
-    font-weight: bold;
-    padding: 10px 25px;
-    border-radius: 30px;
-    margin-left: 10px;
-    border-radius: 30px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .btn:hover {
-    transform: scale(1.2);
-    border: 2px solid transparent;
-    background-color: #f9004d;
-    color: black;
-  }
-  
-  .nav-link {
-    font-weight: bold;
-    text-transform: capitalize;
-    color: white;
-  }
-  
-  .nav-link:hover {
-    color: #f9004d;
-    transition: 0.4s;
-  }
-.gros{
-    margin-top:50px;
-    display:flex;
-    flex-direction: column;
-    height:100vh;
-}
-#questions{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width:96%;
-    height:25vh;
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-bottom: 15px;
-    margin-top: 0.5%;
-    font-size: 35px;
-    text-align: center;
-    font-weight: bold;
-    color:white;
+  font-family: "Josefin Sans", sans-serif;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
-.answers {
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 50%;
-    margin-bottom: 15px;
-  }
-  
-  #answer1 {
-    background-size: cover;
-    background-color: rgba(0,25,54,0.5);
-    background-position: center;
-    width: 100%;
-    margin-right: 0%;
-    margin-left: 0%;
-    height: 10%;
-    overflow-x: hidden;
-    border-radius: 20px;
-    transition: transform 0.4s;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: row ;
-    justify-content: center;
-  }
-  
-  #answer1_l{
-    background-size: cover;
-    color: white;
-    display: flex;
-    align-items: center;
-    font-size: 30px;
-  }
-  
-  #answer1_b{
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    width: 10%;
-    margin-left: -10%;
-  }
+body {
+  background-image: url(../assets/etoiles.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+}
 
-  #answer1:hover{
-    transform: scale(1.1);
-  }
-  
-  #answer2 {
-    background-size: cover;
-    background-color: rgba(0,25,54,0.5);
-    background-position: center;
-    width: 100%;
-    margin-right: 0%;
-    margin-left: 0%;
-    height: 10%;
-    overflow-x: hidden;
-    border-radius: 20px;
-    transition: transform 0.4s;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: row ;
-    justify-content: center;
-  }
-  
-  #answer2_l{
-    background-size: cover;
-    color: white;
-    display: flex;
-    align-items: center;
-    font-size: 30px;
-  }
-  
-  #answer2_b{
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    width: 10%;
-    margin-left: -10%;
-  }
+.gros {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+#questions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96%;
+  height: 25vh;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 15px;
+  margin-top: 0.5%;
+  font-size: 35px;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+}
 
-  #answer2:hover {
-    transform: scale(1.1);
-  }
+#answers {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 75%;
+  margin-bottom: 15px;
+}
 
-  #answer3 {
-    background-color: rgba(0,25,54,0.5);
-    background-size: cover;
-    background-position: center;
-    width: 100%;
-    margin-right: 0%;
-    margin-left: 0%;
-    height: 10%;
-    overflow-x: hidden;
-    border-radius: 20px;
-    transition: transform 0.4s;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: row ;
-    justify-content: center;
-  }
-  
-  #answer3_l{
-    background-size: cover;
-    color: white;
-    display: flex;
-    align-items: center;
-    font-size: 30px;
-  }
-  
-  #answer3_b{
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    width: 10%;
-    margin-left: -10%;
-  }
+#answer1 {
+  background-size: cover;
+  background-color: rgba(0, 25, 54, 0.5);
+  background-position: center;
+  width: 100%;
+  margin-right: 0%;
+  margin-left: 0%;
+  min-height: fit-content;
+  max-height: 30%;
+  border-radius: 20px;
+  transition: transform 0.4s;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  overflow: hidden;
+}
 
+#answer1_l {
+  position: relative;
+  height: 100%;
+  background-size: cover;
+  color: white;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  height: fit-content;
+  align-items: center;
+  font-size: 30px;
+  overflow-y: hidden;
+}
 
-  #answer3:hover {
-    transform: scale(1.1);
-  }
+#answer1:hover {
+  transform: scale(1.1);
+  overflow-x: hidden;
+}
 
-  #answer4 {
-    background-color: rgba(0,25,54,0.5);
-    background-size: cover;
-    background-position: center;
-    width: 100%;
-    margin-right: 0%;
-    margin-left: 0%;
-    height: 10%;
-    overflow-x: hidden;
-    border-radius: 20px;
-    transition: transform 0.4s;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: row ;
-    justify-content: center;
-  }
-  
-  #answer4_l{
+#answer2 {
+  background-size: cover;
+  background-color: rgba(0, 25, 54, 0.5);
+  background-position: center;
+  width: 100%;
+  margin-right: 0%;
+  margin-left: 0%;
+  min-height: fit-content;
+  max-height: 30%;
+  border-radius: 20px;
+  transition: transform 0.4s;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  overflow: hidden;
+}
 
-    background-size: cover;
-    color: white;
-    display: flex;
-    align-items: center;
-    font-size: 30px;
-  }
-  
-  #answer4_b{
+#answer2_l {
+  position: relative;
+  height: 100%;
+  background-size: cover;
+  color: white;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  height: fit-content;
+  align-items: center;
+  font-size: 30px;
+  overflow-y: hidden;
+}
 
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    width: 10%;
-    margin-left: -10%;
-  }
+#answer2:hover {
+  transform: scale(1.1);
+  overflow-x: hidden;
+}
 
-  #answer4:hover {
-    transform: scale(1.1);
-  }
-  
-  .form button {
-    position: relative;
-    background-color: transparent;
-    color: white;
-    border: none;
-    top: 75%;
-    font-size: 25px;
-  }
+#answer3 {
+  background-size: cover;
+  background-color: rgba(0, 25, 54, 0.5);
+  background-position: center;
+  width: 100%;
+  margin-right: 0%;
+  margin-left: 0%;
+  min-height: fit-content;
+  max-height: 30%;
+  border-radius: 20px;
+  transition: transform 0.4s;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  overflow: hidden;
+}
 
+#answer3_l {
+  position: relative;
+  height: 100%;
+  background-size: cover;
+  color: white;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  height: fit-content;
+  align-items: center;
+  font-size: 30px;
+  overflow-y: hidden;
+}
+
+#answer3_b {
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 10%;
+  margin-left: -10%;
+}
+
+#answer3:hover {
+  transform: scale(1.1);
+}
+
+#answer4 {
+  background-color: rgba(0, 25, 54, 0.5);
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  margin-right: 0%;
+  margin-left: 0%;
+  height: 10%;
+  overflow-x: hidden;
+  border-radius: 20px;
+  transition: transform 0.4s;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#answer4_l {
+  background-size: cover;
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+}
+
+#answer4_b {
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 10%;
+  margin-left: -10%;
+}
+
+#answer4:hover {
+  transform: scale(1.1);
+}
+
+.form button {
+  position: relative;
+  background-color: transparent;
+  color: white;
+  border: none;
+  top: 75%;
+  font-size: 25px;
+}

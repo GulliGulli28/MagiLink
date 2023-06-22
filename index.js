@@ -371,6 +371,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
 });
 
+app.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/");
+});
+
 app.get("*", (req, res) => {
   res.redirect("/");
 });
