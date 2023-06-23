@@ -13,7 +13,6 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
   clear_error();
   const mail = document.getElementById("mail").value;
   const checkmail = verifierEmail(mail);
-  console.log(checkmail);
 
   if (!checkmail) {
     console.log("invalide");
@@ -22,7 +21,6 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
   } else {
     const password = document.getElementById("password").value;
     const confirm_password = document.getElementById("confirm-password").value;
-    console.log(password.length);
     if (password == "") {
       console.log("password must be set");
       display_error(1);

@@ -10,6 +10,10 @@ const session = require("express-session");
 
 const cookieParser = require("cookie-parser");
 
+const csrf = require("csurf");
+
+const csrfProtect = csrf({ cookie: true });
+
 //on instancie express dans une constante app
 const app = express();
 
@@ -40,7 +44,12 @@ app.use(
     secret: "une chaîne de caractères secrète et unique pour votre application",
     resave: false,
     saveUninitialized: true,
-  })
+    cookie: {
+      secure: true,
+      httpOnly: true,
+      sameSite: "strict",
+    }
+  })  
 );
 
 // Middleware de vérification des tentatives de connexion
@@ -59,14 +68,7 @@ app.use((req, res, next) => {
         // Supprimer l'adresse IP de la liste des adresses IP bloquées
         req.session.blockedIPs.splice(index, 1);
         req.session.failedAttempts[req.ip] = 0;
-        console.log(`Adresse IP ${req.ip} débloquée.`);
-      } else {
-        console.log(
-          `Adresse IP ${req.ip} toujours bloquée pour `,
-          elapsedTime - 60000,
-          ` millisecondes.`
-        );
-      }
+      } 
     });
 
     // Supprimer la liste des adresses IP bloquées si elle est vide
@@ -203,7 +205,6 @@ app.get("/section_choice", async (req, res) => {
     check_if_data_is_null,
   } = require("./serverside/js/profile.js");
   const pid = await profile_id_from_user(userid);
-  console.log(pid);
   if (!pid) {
     res.redirect("/setup_profile");
   }
@@ -356,7 +357,7 @@ app.get("/house_setup", async (req, res) => {
   }
 });
 
-app.get("/setup_profile", async (req, res) => {
+app.get("/setup_profile" , async (req, res) => {
   console.log("setup_profile");
   const { profile_id_from_user } = require("./serverside/js/profile.js");
   if (!req.cookies.token) {
@@ -391,7 +392,6 @@ app.get("*", (req, res) => {
 
 //À l'envoie du formulaire de connexion, on renvoie à la page index.html (pour l'instant, plus tard il faudra gérer avec la base de donnée etc...).
 app.post("/signin", async (req, res) => {
-  console.log(req.body);
   const { trylogin } = require("./serverside/js/connexion.js");
   const { secure } = require("./serverside/js/secure.js");
   validated_input = secure(req.body);
@@ -404,7 +404,7 @@ app.post("/signin", async (req, res) => {
       expiresIn: 7200, // expires in 2 hours
     });
     // Renvoyez le token au client
-    res.cookie("token", token, { maxAge: 1000 * 60 * 60 * 2, httpOnly: false });
+    res.cookie("token", token, { maxAge: 1000 * 60 * 60 * 2, httpOnly: false, sameSite: true, secure: true });
     res.redirect("/section_choice");
   } else {
     res.sendFile(path.join(__dirname, "public/pages/connexion.html"));
@@ -415,20 +415,18 @@ app.post("/signin", async (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
   const { register } = require("./serverside/js/register.js");
   const { secure } = require("./serverside/js/secure.js");
   validated_input = secure(req.body);
   const check = await register(validated_input);
   if (check) {
-    res.cookie("test", "test", { maxAge: 1000 * 60 * 10, httpOnly: true });
     res.redirect("/validate_account");
   } else {
     res.redirect("/signup");
   }
 });
 
-app.post("/setup_profile", async (req, res) => {
+app.post("/setup_profile" , async (req, res) => {
   const { identify_by_cookie, secure } = require("./serverside/js/secure.js");
   const userid = identify_by_cookie(req.cookies, secret);
   req.body["ville"] = req.body["ville"][1];
@@ -456,7 +454,6 @@ app.post("/community/message", (req, res) => {
 });
 
 app.post("/test_house1", async (req, res) => {
-  console.log(req.body);
   const { create_test_steps } = require("./serverside/js/maison.js");
   const { profile_id_from_user } = require("./serverside/js/profile.js");
   const { identify_by_cookie } = require("./serverside/js/secure.js");
@@ -476,7 +473,6 @@ app.post("/test_house1", async (req, res) => {
 });
 
 app.post("/test_house2", async (req, res) => {
-  console.log(req.body);
   const { create_test_steps } = require("./serverside/js/maison.js");
   const { profile_id_from_user } = require("./serverside/js/profile.js");
   const { identify_by_cookie } = require("./serverside/js/secure.js");
@@ -500,7 +496,6 @@ app.post('/section_choice', async (req, res) => {
 });
 
 app.post("/test_house3", async (req, res) => {
-  // console.log(req.body);
   const { create_test_steps, set_house } = require("./serverside/js/maison.js");
   const { profile_id_from_user } = require("./serverside/js/profile.js");
   const { identify_by_cookie } = require("./serverside/js/secure.js");
@@ -509,11 +504,9 @@ app.post("/test_house3", async (req, res) => {
   if (!pid) {
     res.redirect("/setup_profile");
   } else {
-    console.log("ici");
     const check = await create_test_steps(pid, req.body);
     if (check) {
       const check2 = await set_house(pid, check);
-      //console.log("check2",check2);
       if (check2) {
         res.redirect("/house_setup");
       } else {
@@ -537,21 +530,17 @@ io.on("connection", (socket) => {
     const { getMessages_byChannel,getUsers_by_channel } = require("./serverside/js/message_meet.js");
     const {profile_id_from_user} = require("./serverside/js/profile.js");
     socket.join(room);
-    //console.log(socket.rooms,room);
     let messages = await getMessages_byChannel(room);
     let realmessage = []
     messages.forEach(async(element) => {
       realmessage.push({ "userid": element.author,"date" : element.date, "content": element.content, "autre" : {autre: element.author, moi:element.author} });
     });
-    console.log("real",realmessage);
     socket.emit("init_messages", { messages: JSON.stringify(realmessage) });
-    
   });
 
   socket.on("get_cities", async (msg) => {
     const { get_cities } = require("./serverside/js/villes.js");
     const list = await get_cities();
-    //console.log(list);
     const list2 = [];
     list.forEach((element) => {
       list2.push([element.ville_id,element.ville_nom_reel]);
@@ -560,7 +549,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("maison",async (msg) => {
-    //console.log("maison", msg);
     const {identify_by_cookie} = require("./serverside/js/secure.js");
     const {profile_id_from_user} = require("./serverside/js/profile.js"); 
     idp = identify_by_cookie({token : msg.name}, secret);
@@ -575,7 +563,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("chat_message", async (msg) => {
-    console.log(msg);
     io.in(msg.room).emit("received_message", msg);
     const { setMessage, getUsers_by_channel } = require("./serverside/js/message_meet.js");
     const {identify_by_cookie} = require("./serverside/js/secure.js");
@@ -586,7 +573,6 @@ io.on("connection", (socket) => {
     if (msg_added) {
       console.log("message envoyé");
       const users = await getUsers_by_channel(msg.room.rooms, pid);
-      console.log(users);
       msg["autre"] = users;
       io.in(msg.room.rooms).emit("received_message", msg);
     }
@@ -599,7 +585,6 @@ io.on("connection", (socket) => {
     const { identify_by_cookie } = require("./serverside/js/secure.js");
     const userid = identify_by_cookie({ token: msg.name }, secret);
     const channels = await getChannels_byUser(userid);
-    //console.log(channels);
     socket.emit("init_channels", { channels: channels });
   });
 
@@ -607,7 +592,6 @@ io.on("connection", (socket) => {
     console.log("get_card");
     const { identify_by_cookie } = require("./serverside/js/secure.js");
     const userid = identify_by_cookie({ token: msg.idp }, secret);
-    console.log(userid);
     const {pick} = require("./serverside/js/swipe.js");
     const profiles = await pick(userid);
     var dataswipe = []
@@ -622,7 +606,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("swipe", async (msg) => {
-    console.log(msg);
     const { identify_by_cookie } = require("./serverside/js/secure.js");
     const userid = identify_by_cookie({ token: msg.user_id }, secret);
     const {like,dislike} = require("./serverside/js/swipe.js");
@@ -649,4 +632,22 @@ https.listen(443, () => {
    console.log(`Server is running on port 443`);
 });
 
-//const {baise} = require("./serverside/js/baise.js");
+
+const util = require('util');
+
+// Définir le chemin du fichier de log
+const logFilePath = path.join(__dirname, './serverside/logs/23_06.log');
+
+// Ouvrir le flux de sortie vers le fichier de log en mode append
+const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+
+// Rediriger console.log vers le flux de sortie du fichier de log
+console.log = function (message) {
+  logStream.write(util.format(message) + '\n');
+  process.stdout.write(util.format(message) + '\n');
+};
+
+// Fermer le flux de sortie du fichier de log lors de la fermeture de l'application
+process.on('exit', () => {
+  logStream.end();
+});

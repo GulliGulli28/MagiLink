@@ -4,10 +4,7 @@ const { Op, QueryTypes, Sequelize } = require('sequelize');
 
 // Fonction qui retourne 10 profiles complet  à l'utilsateru il faut coompé niveau client
 async function pick(uid) {
-    console.log("voici l'uid : " + uid);
-
     const pid = await profile_id_from_user(uid);
-    console.log("ON a le PID", pid);
     const query = `
         SELECT ville_france_free.ville_longitude_deg, ville_france_free.ville_latitude_deg
         FROM ville_france_free
@@ -43,7 +40,6 @@ async function pick(uid) {
         });
         theFinalResult = theFinalResult.concat(theResult);
     }
-    //console.log("Final Result",theFinalResult);
     return theFinalResult;
 }
 
@@ -74,8 +70,6 @@ async function getProfileWithIncompleteInteraction(uid) {
         },
         type: QueryTypes.SELECT
     });
-    console.log("profiles", profiles);
-    console.log("profiles2", profiles2);
     const finalresult = profiles.concat(profiles2);
     return finalresult;
 }
@@ -125,17 +119,12 @@ function getRange(latitude, longitude, ) {
 }
 
 async function getThefirst10(res, pid, uid, nb) {
-    console.log("voici res", res);
     var resu = [];
     for (let i = 0; i < res.length; i++) {
         resu.push(res[i].pid);
     }
-    console.log("voici resu", resu);
-    console.log("on est dans la fonction getThefirst10");
     // Déclaration des variables
     var aff = await Profile.findOne({ where: { pid: pid }, attributes: ['affinity'] });
-    console.log("aff", aff);
-    console.log("aff final", aff.affinity.final.Gryffondor);
     // Stockage des variables et de leurs valeurs initiales dans un tableau d'objets
     var variables = [
         { nom: "Gryffondor", valeur: aff.affinity.final.Gryffondor },
@@ -143,7 +132,6 @@ async function getThefirst10(res, pid, uid, nb) {
         { nom: "Serpentard", valeur: aff.affinity.final.Serpentard },
         { nom: "Poursouffle", valeur: aff.affinity.final.Poufsouffle }
     ];
-    console.log(variables);
 
     // Tri du tableau d'objets dans l'ordre décroissant en utilisant la valeur
     variables.sort(function (a, b) {
@@ -151,10 +139,6 @@ async function getThefirst10(res, pid, uid, nb) {
     });
 
     // Affichage de l'ordre décroissant des variables par rapport à leur position initiale
-    console.log("Ordre décroissant :");
-    for (var i = 0; i < variables.length; i++) {
-        console.log(variables[i].nom + ": " + variables[i].valeur);
-    }
     var listeParMaison = [];
     await Profile.findAll({
         where: {
@@ -182,13 +166,10 @@ async function getThefirst10(res, pid, uid, nb) {
         .catch(err => {
             console.error('Erreur lors de la recherche des instances :', err);
         });
-    console.log("liste par maison", listeParMaison);
     var associatedIds1 = null;
     var associatedIds2 = null;
     associatedIds1 = await getAssociatedIds1(pid);
     associatedIds2 = await getAssociatedIds2(pid);
-    console.log("get 1", associatedIds1);
-    console.log("get 2", associatedIds2);
     if (associatedIds2.length == 0 && associatedIds1.length == 0) {
         var idAban = associatedIds1.concat(associatedIds2);
     } else if (associatedIds1.length == 0) {
@@ -200,20 +181,17 @@ async function getThefirst10(res, pid, uid, nb) {
     }
     var idban=[]
     for (let i = 0; i < idAban.length; i++) {
-        idban.push(findOne({ where: { pid: idAban[i] }, attributes: ['idp'] }).idp);
+        idban.push(User.findOne({ where: { pid: idAban[i] }, attributes: ['idp'] }).idp);
     }
     idAban.push(pid);
     var resultat = listeParMaison.filter(element => !idAban.includes(element));
     
-    console.log("resultat", resultat);
     resultat = resultat.slice(0, nb);
-    console.log("resultat", resultat);
     var truc =[]
     for (let i = 0; i < resultat.length; i++) {
         truc.push(await User.findOne({ where : { pid: resultat[i]}, attributes: ['idp'] }));
     }
     for (let i = 0; i < resultat.length; i++) {
-        console.log("-----------------------------------------------", resultat[i]);
         const userData = {
             id1: uid,
             id2: truc[i].idp,
@@ -227,7 +205,6 @@ async function getThefirst10(res, pid, uid, nb) {
             console.log(err);
         }
     }
-    console.log("resultat finaux de la sélection", resultat);
     return resultat;
 }
 
@@ -271,19 +248,15 @@ async function getAssociatedIds1(pid){
 
 
 //const profiles = pick(1);
-//console.log(profiles);
 
 //fonction pour like
 //res=1 pour like
 //res=0 pour dislike
 //res=null pour absence de réponses
 async function like(pid, uidPerso) {
-    //console.log("UID PERSO",uidPerso);
     try {
         const other = await User.findOne({ where: { pid: pid }, attributes: ['idp'] });
         const uidOther = other.idp;
-        console.log("uidperso", uidPerso);
-        console.log("uidother", uidOther);
         const up1 = Interaction.update(
             { res1: 1 }, // Les valeurs à mettre à jour
             {

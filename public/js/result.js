@@ -20,7 +20,6 @@ window.onload = () => {
     "../assets/Ravenclaw.png",
   ];
   socket.on("maison", (msg) => {
-    console.log(msg);
     value = msg.maison;
     switch (value) {
       case "Poursouffle":

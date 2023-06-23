@@ -37,7 +37,6 @@ async function set_house(profile_id,value){
         if (profile.maison == null){
             console.log("house not setuped yet");
             const {scores, max} = sort_house(values);
-            console.log(scores);
             profile.affinity= {test_1: value.test_1, test_2: value.test_2, test_3: value.test_3, final: scores}
             if (max == scores.Gryffondor){
                 profile.maison = "Gryffondor";
@@ -75,7 +74,6 @@ async function create_test_steps(profile_id,test_result){
             console.log("test_step_2 not setuped yet");
             const affinity = profile.affinity;
             profile.affinity = {test_1: affinity.test_1, test_2: test_result.tab}
-            console.log(profile.affinity);
             await profile.save();
             return true;
         }

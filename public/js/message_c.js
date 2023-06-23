@@ -1,6 +1,5 @@
 const socket = io();
 const userid = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("token=")).split("=")[1];
-console.log(document.cookie);
 
 window.onload = () => {
   socket.emit("user_connected", { name: userid });
@@ -21,7 +20,6 @@ window.onload = () => {
   });
 
   socket.on("received_message", (msg) => {
-    console.log(msg);
     publishMessage(msg);
     var messagesDiv = document.querySelector("#messages");
     var lastMessage = messagesDiv.lastElementChild;
@@ -41,12 +39,10 @@ window.onload = () => {
   });
 
   socket.on("swipe-data", (msg) => {
-    console.log("coucou");
     clear_messages();
   });
 
   socket.on("init_channels", (msg) => {
-    console.log("init_channels",msg);
     let channels = msg.channels;
     channels.forEach((channel) => {
       let li = document.createElement("li");
@@ -76,13 +72,11 @@ document.querySelectorAll("#choice p").forEach((tab) => {
       this.classList.add("active");
       if (this.dataset.room == "swipe") {
         document.querySelector("#message").style.display = "none";
-        console.log("swipe");
         socket.emit("enter-swipe", userid);
       }
       else{
         document.querySelector("#message").style.display = "block";
         let a = document.querySelector("#tabs li.active").dataset.room;
-        console.log(a);
         socket.emit("enter_room", a);
       }
     }

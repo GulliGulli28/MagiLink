@@ -1,10 +1,11 @@
 const { User, Profile } = require("./db.js");
 const Op = require("sequelize").Op;
+const crypto = require('crypto');
 
 //Securisation de l'entrée de l'utilisateur
 
 async function trylogin(valide_input) {
-  psd = valide_input.password;
+  psd = crypto.createHash('sha256').update(valide_input.password).digest('hex');
   try {
     const user = await User.findOne({
       where: {

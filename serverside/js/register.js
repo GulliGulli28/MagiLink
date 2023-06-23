@@ -1,9 +1,9 @@
 const { User } = require("./db.js");
 const sanitizeHtml = require("sanitize-html");
+const crypto = require('crypto');
 
 async function register(valide_input) {
-  console.log(valide_input);
-  psd = valide_input.password;
+  psd = crypto.createHash('sha256').update(valide_input.password).digest('hex');
   try {
     let user = await User.findOne({
       where: { username: valide_input.username },

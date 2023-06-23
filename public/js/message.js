@@ -5,7 +5,6 @@ const userid = document.cookie
   .split("=")[1];
 let cardCount = 0;
 var data = [];
-console.log(document.cookie);
 
 window.onload = () => {
   socket.emit("user_connected", { name: userid });
@@ -26,7 +25,6 @@ window.onload = () => {
   });
 
   socket.on("received_message", (msg) => {
-    console.log(msg);
     publishMessage(msg);
     var messagesDiv = document.querySelector("#messages");
     var lastMessage = messagesDiv.lastElementChild;
@@ -46,14 +44,12 @@ window.onload = () => {
   });
 
   socket.on("swipe-data", (msg) => {
-    console.log("reponse server swipe-data", msg);
     data = msg;
     msg.forEach((element) => {
       import_card(element);
     });
   });
   socket.on("init_channels", (msg) => {
-    console.log("init_channels", msg);
     let channels = msg.channels;
     channels.forEach((channel) => {
       let li = document.createElement("li");
@@ -91,7 +87,6 @@ document.querySelectorAll("#choice p").forEach((tab) => {
         document.querySelector("#message").style.display = "none";
         document.querySelector("#writting").style.display = "none";
         document.querySelector("#tabs").innerHTML = "";
-        console.log("swipe");
         socket.emit("enter-swipe", { idp: userid });
         showcard();
       }
@@ -177,7 +172,6 @@ function showcard() {
 
 function import_card(profile) {
   let infos = document.querySelector("#writting p");
-  console.log(infos);
   infos.textContent = profile.name + "," + getAgeFromDOB(profile.age) + " ans";
   appendNewCard(profile.photo, profile.pid);
   cardCount++;
@@ -233,7 +227,6 @@ function appendNewCard(image, pid) {
       update_name();
     },
   });
-  console.log(swiper);
   swiper.append(card.element);
   const cards = swiper.querySelectorAll(".card:not(.dismissing)");
   cards.forEach((card, index) => {
@@ -242,7 +235,6 @@ function appendNewCard(image, pid) {
 }
 
 function update_name() {
-  console.log(data, cardCount);
   cardCount--;
   let infos = document.querySelector("#writting p");
   if (cardCount >= 1) {

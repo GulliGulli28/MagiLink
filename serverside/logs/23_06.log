@@ -1,0 +1,747 @@
+Ce message sera écrit dans le fichier de log.
+Server is running on port 443
+Ce message sera écrit dans le fichier de log.
+Server is running on port 443
+Ce message sera écrit dans le fichier de log.
+Server is running on port 443
+signin
+[Object: null prototype] { username: 'test', password: 'testtesttest' }
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE (`User`.`username` = 'test' OR `User`.`login` = 'test') AND `User`.`pswd` = 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982' LIMIT 1;
+user found
+section_choice
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 3;
+profile found
+2
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2;
+data is not null
+Ce message sera écrit dans le fichier de log.
+Server is running on port 443
+Ce message sera écrit dans le fichier de log.
+Server is running on port 443
+Ce message sera écrit dans le fichier de log.
+Server is running on port 443
+Ce message sera écrit dans le fichier de log.
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+Server is running on port 443
+signin
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE (`User`.`username` = 'test' OR `User`.`login` = 'test') AND `User`.`pswd` = 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982' LIMIT 1;
+user found
+section_choice
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 3;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2;
+data is not null
+Server is running on port 443
+Server is running on port 443
+signin
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE (`User`.`username` = 'test' OR `User`.`login` = 'test') AND `User`.`pswd` = 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982' LIMIT 1;
+user found
+section_choice
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 3;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2;
+data is not null
+une connection s'active
+user_connected
+Executing (default): SELECT `pid` FROM `User` AS `User` WHERE `User`.`idp` = 3;
+Executing (default): SELECT `id`, `name`, `purpose`, `profiles`, `createdAt`, `updatedAt` FROM `Channel` AS `Channel` WHERE (`Channel`.`profiles` LIKE '2%' OR `Channel`.`profiles` LIKE '%2') AND `Channel`.`purpose` = 1;
+Executing (default): SELECT `id`, `author`, `content`, `channel`, `date`, `createdAt`, `updatedAt` FROM `Message` AS `Message` WHERE `Message`.`channel` = '12' ORDER BY `Message`.`createdAt` ASC;
+Executing (default): SELECT `id`, `author`, `content`, `channel`, `date`, `createdAt`, `updatedAt` FROM `Message` AS `Message` WHERE `Message`.`channel` = '10' ORDER BY `Message`.`createdAt` ASC;
+Executing (default): SELECT `id`, `author`, `content`, `channel`, `date`, `createdAt`, `updatedAt` FROM `Message` AS `Message` WHERE `Message`.`channel` = '7' ORDER BY `Message`.`createdAt` ASC;
+Executing (default): SELECT `id`, `author`, `content`, `channel`, `date`, `createdAt`, `updatedAt` FROM `Message` AS `Message` WHERE `Message`.`channel` = '10' ORDER BY `Message`.`createdAt` ASC;
+get_card
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 3;
+profile found
+Executing (default): SELECT ville_france_free.ville_longitude_deg, ville_france_free.ville_latitude_deg
+        FROM ville_france_free
+        INNER JOIN Profile ON Profile.ville = ville_france_free.ville_id
+        WHERE Profile.pid = 2
+Executing (default): SELECT Interaction.id2
+        FROM Interaction
+        INNER JOIN User ON Interaction.id1 = User.idp
+        WHERE Interaction.id1 = 3
+        AND Interaction.res1 is null;
+Executing (default): SELECT Interaction.id1
+        FROM Interaction
+        INNER JOIN User ON Interaction.id2 = User.idp
+        WHERE Interaction.id2 = 3
+        AND Interaction.res2 is null;
+Executing (default): SELECT Profile.pid
+    FROM Profile
+    INNER JOIN villes_france_free ON Profile.ville = villes_france_free.ville_id
+    WHERE villes_france_free.ville_latitude_deg BETWEEN -156961185.74274772 AND 156961275.4093477
+    AND villes_france_free.ville_longitude_deg BETWEEN -221333676.98130336 AND 221333675.84796938
+    LIMIT 100;
+Executing (default): SELECT `affinity` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '0';
+Executing (default): SELECT `pid` FROM `Profile` AS `Profile` WHERE `Profile`.`maison` IN ('Serdaigle', 'Serpentard', 'Gryffondor', 'Poursouffle') AND `Profile`.`pid` IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11) ORDER BY FIELD(maison, 'Serdaigle', 'Serpentard', 'Gryffondor', 'Poursouffle');
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '1';
+Executing (default): SELECT `id2` FROM `Interaction` AS `Interaction` WHERE `Interaction`.`id1` = 2;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '2';
+Executing (default): SELECT `id1` FROM `Interaction` AS `Interaction` WHERE `Interaction`.`id2` = 2;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '3';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 4 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '4';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 11 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '5';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 9 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '6';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 1 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '7';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 7 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '8';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 8 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '9';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 3 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '10';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 5 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '11';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '12';
+Error
+    at Query.run (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/sequelize.js:315:28
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async MySQLQueryInterface.insert (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:2490:35)
+    at async Function.create (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:1362:12)
+    at async getThefirst10 (/home/codecubes/Bureau/MagiLink/serverside/js/swipe.js:203:9) {
+  name: 'SequelizeUniqueConstraintError',
+  errors: [
+    ValidationErrorItem {
+      message: 'PRIMARY must be unique',
+      type: 'unique violation',
+      path: 'PRIMARY',
+      value: '3-5',
+      origin: 'DB',
+      instance: [Interaction],
+      validatorKey: 'not_unique',
+      validatorName: null,
+      validatorArgs: []
+    }
+  ],
+  parent: Error: Duplicate entry '3-5' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-5' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      5,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  original: Error: Duplicate entry '3-5' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-5' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      5,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  fields: { PRIMARY: '3-5' },
+  sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);'
+}
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Error
+    at Query.run (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/sequelize.js:315:28
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async MySQLQueryInterface.insert (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:2490:35)
+    at async Function.create (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:1362:12)
+    at async getThefirst10 (/home/codecubes/Bureau/MagiLink/serverside/js/swipe.js:203:9) {
+  name: 'SequelizeUniqueConstraintError',
+  errors: [
+    ValidationErrorItem {
+      message: 'PRIMARY must be unique',
+      type: 'unique violation',
+      path: 'PRIMARY',
+      value: '3-15',
+      origin: 'DB',
+      instance: [Interaction],
+      validatorKey: 'not_unique',
+      validatorName: null,
+      validatorArgs: []
+    }
+  ],
+  parent: Error: Duplicate entry '3-15' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-15' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      15,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  original: Error: Duplicate entry '3-15' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-15' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      15,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  fields: { PRIMARY: '3-15' },
+  sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);'
+}
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Error
+    at Query.run (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/sequelize.js:315:28
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async MySQLQueryInterface.insert (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:2490:35)
+    at async Function.create (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:1362:12)
+    at async getThefirst10 (/home/codecubes/Bureau/MagiLink/serverside/js/swipe.js:203:9) {
+  name: 'SequelizeUniqueConstraintError',
+  errors: [
+    ValidationErrorItem {
+      message: 'PRIMARY must be unique',
+      type: 'unique violation',
+      path: 'PRIMARY',
+      value: '3-13',
+      origin: 'DB',
+      instance: [Interaction],
+      validatorKey: 'not_unique',
+      validatorName: null,
+      validatorArgs: []
+    }
+  ],
+  parent: Error: Duplicate entry '3-13' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-13' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      13,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  original: Error: Duplicate entry '3-13' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-13' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      13,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  fields: { PRIMARY: '3-13' },
+  sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);'
+}
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Error
+    at Query.run (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/sequelize.js:315:28
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async MySQLQueryInterface.insert (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:2490:35)
+    at async Function.create (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:1362:12)
+    at async getThefirst10 (/home/codecubes/Bureau/MagiLink/serverside/js/swipe.js:203:9) {
+  name: 'SequelizeUniqueConstraintError',
+  errors: [
+    ValidationErrorItem {
+      message: 'PRIMARY must be unique',
+      type: 'unique violation',
+      path: 'PRIMARY',
+      value: '3-1',
+      origin: 'DB',
+      instance: [Interaction],
+      validatorKey: 'not_unique',
+      validatorName: null,
+      validatorArgs: []
+    }
+  ],
+  parent: Error: Duplicate entry '3-1' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-1' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      1,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  original: Error: Duplicate entry '3-1' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-1' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      1,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  fields: { PRIMARY: '3-1' },
+  sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);'
+}
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Error
+    at Query.run (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/sequelize.js:315:28
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async MySQLQueryInterface.insert (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:2490:35)
+    at async Function.create (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:1362:12)
+    at async getThefirst10 (/home/codecubes/Bureau/MagiLink/serverside/js/swipe.js:203:9) {
+  name: 'SequelizeUniqueConstraintError',
+  errors: [
+    ValidationErrorItem {
+      message: 'PRIMARY must be unique',
+      type: 'unique violation',
+      path: 'PRIMARY',
+      value: '3-9',
+      origin: 'DB',
+      instance: [Interaction],
+      validatorKey: 'not_unique',
+      validatorName: null,
+      validatorArgs: []
+    }
+  ],
+  parent: Error: Duplicate entry '3-9' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-9' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      9,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  original: Error: Duplicate entry '3-9' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-9' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      9,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  fields: { PRIMARY: '3-9' },
+  sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);'
+}
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Error
+    at Query.run (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/sequelize.js:315:28
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async MySQLQueryInterface.insert (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:2490:35)
+    at async Function.create (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:1362:12)
+    at async getThefirst10 (/home/codecubes/Bureau/MagiLink/serverside/js/swipe.js:203:9) {
+  name: 'SequelizeUniqueConstraintError',
+  errors: [
+    ValidationErrorItem {
+      message: 'PRIMARY must be unique',
+      type: 'unique violation',
+      path: 'PRIMARY',
+      value: '3-10',
+      origin: 'DB',
+      instance: [Interaction],
+      validatorKey: 'not_unique',
+      validatorName: null,
+      validatorArgs: []
+    }
+  ],
+  parent: Error: Duplicate entry '3-10' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-10' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      10,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  original: Error: Duplicate entry '3-10' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-10' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      10,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  fields: { PRIMARY: '3-10' },
+  sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);'
+}
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Error
+    at Query.run (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/sequelize.js:315:28
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async MySQLQueryInterface.insert (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:2490:35)
+    at async Function.create (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:1362:12)
+    at async getThefirst10 (/home/codecubes/Bureau/MagiLink/serverside/js/swipe.js:203:9) {
+  name: 'SequelizeUniqueConstraintError',
+  errors: [
+    ValidationErrorItem {
+      message: 'PRIMARY must be unique',
+      type: 'unique violation',
+      path: 'PRIMARY',
+      value: '3-4',
+      origin: 'DB',
+      instance: [Interaction],
+      validatorKey: 'not_unique',
+      validatorName: null,
+      validatorArgs: []
+    }
+  ],
+  parent: Error: Duplicate entry '3-4' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-4' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      4,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  original: Error: Duplicate entry '3-4' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-4' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      4,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  fields: { PRIMARY: '3-4' },
+  sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);'
+}
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Error
+    at Query.run (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/sequelize.js:315:28
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async MySQLQueryInterface.insert (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:2490:35)
+    at async Function.create (/home/codecubes/Bureau/MagiLink/node_modules/sequelize/lib/model.js:1362:12)
+    at async getThefirst10 (/home/codecubes/Bureau/MagiLink/serverside/js/swipe.js:203:9) {
+  name: 'SequelizeUniqueConstraintError',
+  errors: [
+    ValidationErrorItem {
+      message: 'PRIMARY must be unique',
+      type: 'unique violation',
+      path: 'PRIMARY',
+      value: '3-6',
+      origin: 'DB',
+      instance: [Interaction],
+      validatorKey: 'not_unique',
+      validatorName: null,
+      validatorArgs: []
+    }
+  ],
+  parent: Error: Duplicate entry '3-6' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-6' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      6,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  original: Error: Duplicate entry '3-6' for key 'Interaction.PRIMARY'
+      at Packet.asError (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/codecubes/Bureau/MagiLink/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:314:20)
+      at addChunk (_stream_readable.js:297:12)
+      at readableAddChunk (_stream_readable.js:272:9)
+      at Socket.Readable.push (_stream_readable.js:213:10) {
+    code: 'ER_DUP_ENTRY',
+    errno: 1062,
+    sqlState: '23000',
+    sqlMessage: "Duplicate entry '3-6' for key 'Interaction.PRIMARY'",
+    sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);',
+    parameters: [
+      3,
+      6,
+      null,
+      null,
+      null,
+      '2023-06-23 06:47:12',
+      '2023-06-23 06:47:12'
+    ]
+  },
+  fields: { PRIMARY: '3-6' },
+  sql: 'INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);'
+}
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 1 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?

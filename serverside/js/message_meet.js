@@ -19,7 +19,6 @@ async function getMessages_byChannel(channelId){
 
 async function getChannels_byUser(user_id){
     try{
-    // console.log(user_id);
     let profile = await User.findOne({
         where: {
             idp: user_id
@@ -65,7 +64,6 @@ async function create_Channel(user1,user2){
         },
         attributes: ['pid']
     });
-    //console.log(profiles_id);
     let names = await Profile.findAll({
         where: {
             pid: { [Op.or]: [profiles_id[0].pid,profiles_id[1].pid] }
@@ -93,7 +91,6 @@ async function getUsers_by_channel(channelId,pid){
             },
             attributes: ['profiles']
         });
-        //console.log("profiles",channel.profiles);
         let autre = channel.profiles.replace(pid,'');
         let profiles = await Profile.findOne({
             where: {
@@ -118,12 +115,9 @@ async function format_messages(messages){
         let realmessage = []
         messages.forEach(async(element) => {
           const users = await getUsers_by_channel(element.channel, element.author);
-          //console.log({ "userid": element.author,"date" : element.date, "content": element.content, "autre" : users });
           realmessage.push({ "userid": element.author,"date" : element.date, "content": element.content, "autre" : users });
         });
-        while(realmessage.length != messages.length){
-            console.log(realmessage);
-        }
+        
         return realmessage;
     }
     catch(err){
