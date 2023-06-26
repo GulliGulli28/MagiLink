@@ -33,7 +33,6 @@ async function set_profile_property(property, value, profile_id){
 
 async function set_profile(valide_input, user_id){
     try {
-        console.log(valide_input);
         const g = crypto.createHash('sha256').update(valide_input.genre).digest('hex')
         const user = await User.findOne({where: {idp : user_id}});
         if (user.pid == null) {

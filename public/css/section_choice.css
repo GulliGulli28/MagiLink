@@ -81,9 +81,11 @@ span {
   height: 75vh;
   margin-bottom: 15px;
 }
-
+svg {
+  fill: #ffffff;
+}
 #left {
-  background-image: url(../assets/love.jpg);
+  background-image: url(../assets/hagrid.jpg);
   background-size: cover;
   background-position: center;
   width: 45%;

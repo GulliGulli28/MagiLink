@@ -22,8 +22,8 @@ rightelem.addEventListener("click", () => {
   }
 });
 
-logout.addEventListener("click", () => {
-  supprimerCookie("token");
+btn.addEventListener("click", () => {
+  supprimerCookie2("token");
   window.location.href = "/";
 });
 

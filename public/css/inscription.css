@@ -31,6 +31,14 @@ span {
   color: #f9004d;
 }
 
+.navbar-toggler {
+  background-color: #f9004d;
+}
+
+svg {
+  fill: #ffffff;
+}
+
 .btn {
   transition: transform 0.4s;
   border-radius: 30px;
@@ -74,7 +82,9 @@ main {
 
 .form-container {
   margin-top: 60px;
-  width: 420px;
+  max-width: 420px;
+  margin-left: 10px;
+  margin-right: 10px;
   border-radius: 0.75rem;
   background-color: rgba(17, 24, 39, 1);
   padding: 2rem;
