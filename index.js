@@ -573,4 +573,8 @@ http.listen(port, () => {
 //   console.log(`Server is running on port 443`);
 // });
 
-const {baise} = require("./serverside/js/baise.js");
+const {pick, like} = require("./serverside/js/baise.js");
+pick(1);
+like(43, 1);
+like(1, 100)
+console.log("finished");

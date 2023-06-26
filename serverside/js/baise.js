@@ -111,7 +111,8 @@ function km2rad(km) {
     return km / earthRadiusKm;
 }
 
-function getRange(latitude, longitude, distanceInKm) {
+function getRange(latitude, longitude) {
+    const distanceInKm = 100;
     const range = {
         minLat: latitude - km2rad(distanceInKm),
         maxLat: latitude + km2rad(distanceInKm),
@@ -257,8 +258,8 @@ async function getThefirst10(res, pid, uid, nb) {
     return resultat;
 }
 
-const profiles = pick(128)
-console.log(profiles);
+// const profiles = pick(128)
+// console.log(profiles);
 
 //fonction pour like
 //res=1 pour like
@@ -266,35 +267,29 @@ console.log(profiles);
 //res=null pour absence de réponses
 async function like(pid, uidPerso) {
     try {
-        const user = await User.findOne({ where: { pid: pid }, attributes: ['uid'] });
-        const uid = user.uid;
+        const me = await User.findOne({ where: { idp: uidPerso }, attributes: ['pid'] });
+        const pidPerso = me.pid;
 
         const up1 = Interaction.update(
             { res1: 1 }, // Les valeurs à mettre à jour
             {
                 where: {
-                    id1: uidPerso,
-                    id2: uid,
+                    id1: pidPerso,
+                    id2: pid,
                 },
             }
         );
-
-        const result = await up1;
-        const rowCount = result[0];
-
-        if (rowCount < 0) {
-            const up2 = Interaction.update(
-                { res2: 1 }, // Les valeurs à mettre à jour
-                {
-                    where: {
-                        id2: uidPerso,
-                        id1: uid,
-                    },
-                }
-            );
-            const result2 = await up1;
-            const rowCount2 = result2[0];        
-        }
+        await up1;
+        const up2 = Interaction.update(
+            { res2: 1 }, // Les valeurs à mettre à jour
+            {
+                where: {
+                    id1: pid,
+                    id2: pidPerso,
+                },
+            }
+        );
+        await up2;
     } catch (error) {
         console.error('Erreur lors de la mise à jour :', error);
     }
@@ -303,39 +298,33 @@ async function like(pid, uidPerso) {
 //fonction pou dislike
 async function dislike(pid, uidPerso) {
     try {
-        const user = await User.findOne({ where: { pid: pid }, attributes: ['uid'] });
-        const uid = user.uid;
+        const me = await User.findOne({ where: { idp: uidPerso }, attributes: ['pid'] });
+        const pidPerso = me.pid;
 
         const up1 = Interaction.update(
             { res1: 0 }, // Les valeurs à mettre à jour
             {
                 where: {
-                    id1: uidPerso,
-                    id2: uid,
+                    id1: pidPerso,
+                    id2: pid,
                 },
             }
         );
-
-        const result = await up1;
-        const rowCount = result[0];
-
-        if (rowCount < 0) {
-            const up2 = Interaction.update(
-                { res2: 0 }, // Les valeurs à mettre à jour
-                {
-                    where: {
-                        id2: uidPerso,
-                        id1: uid,
-                    },
-                }
-            );
-            const result2 = await up1;
-            const rowCount2 = result2[0];        
-        }
+        await up1;
+        const up2 = Interaction.update(
+            { res2: 0 }, // Les valeurs à mettre à jour
+            {
+                where: {
+                    id1: pid,
+                    id2: pidPerso,
+                },
+            }
+        );
+        await up2;
     } catch (error) {
         console.error('Erreur lors de la mise à jour :', error);
     }
 }
-module.exports = {like, dislike};
+module.exports = { like, dislike, pick };
 
 //TODO COTE BDD RAJOUTE TRIGGER POUR UPDATE STATE A CHAQUE UPDATE DE RES
