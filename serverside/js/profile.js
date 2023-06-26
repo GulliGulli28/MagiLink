@@ -70,6 +70,23 @@ async function check_if_data_is_null(property, profile_id){
     }
 }
 
+async function check_data(property, profile_id){
+    try {
+        const profile = await Profile.findOne({where: {pid : profile_id}});
+        if (profile[property] == null){
+            return false;
+        } 
+        else {
+            console.log("data is not null");
+            return profile[property];
+        }
+    }
+    catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+
 async function update_user(profile_id, user_id){
     try {
         const user = await User.findOne({where: {idp : user_id}});
@@ -90,5 +107,5 @@ function transformDateFormat(dateString) {
     return transformedDate;
   }
 
-module.exports = {profile_id_from_user, set_profile_property, set_profile, check_if_data_is_null, update_user};
+module.exports = {profile_id_from_user, set_profile_property, set_profile, check_if_data_is_null, update_user,check_data};
 

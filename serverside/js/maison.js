@@ -46,7 +46,7 @@ async function set_house(profile_id,value){
                 profile.maison = "Serdaigle";
             }
             else if (max == scores.Poufsouffle){
-                profile.maison = "Poufsouffle";
+                profile.maison = "Poursouffle";
             }
             else if (max == scores.Serpentard){
                 profile.maison = "Serpentard";

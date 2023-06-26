@@ -4,6 +4,10 @@
   font-family: "Josefin Sans", sans-serif;
 }
 
+* {
+  font-family: "Josefin Sans", sans-serif;
+}
+
 body {
   background-image: url("../assets/wphl.png");
   background-size: cover;
@@ -16,7 +20,7 @@ body {
 }
 
 .navbar {
-  padding-top: 45px;
+  padding-top: 10px;
   padding-left: 6%;
   padding-right: 8%;
 }
@@ -42,7 +46,6 @@ span {
   margin-left: 10px;
   border-radius: 30px;
   margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 .btn:hover {
@@ -67,13 +70,12 @@ main {
   flex-direction: column;
   align-items: center;
   vertical-align: middle;
-  height: 100vh;
+  height: 110vh;
   width: 100vw;
 }
 
 .form-container {
   margin-top: 60px;
-  width: 420px;
   border-radius: 0.75rem;
   background-color: rgba(17, 24, 39, 1);
   padding: 2rem;
@@ -92,7 +94,7 @@ main {
 }
 
 .input-group {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
@@ -100,7 +102,7 @@ main {
 .input-group label {
   display: block;
   color: rgba(156, 163, 175, 1);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .input-group input {
@@ -113,8 +115,36 @@ main {
   color: rgba(243, 244, 246, 1);
 }
 
+.input-group select {
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(55, 65, 81, 1);
+  outline: 0;
+  background-color: rgba(17, 24, 39, 1);
+  padding: 0.75rem 1rem;
+  color: rgba(243, 244, 246, 1);
+}
+
+.input-group textarea {
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(55, 65, 81, 1);
+  outline: 0;
+  background-color: rgba(17, 24, 39, 1);
+  padding: 0.75rem 1rem;
+  color: rgba(243, 244, 246, 1);
+}
+
+input-group textarea:focus {
+  border-color: rgba(167, 139, 250);
+}
+
 .input-group input:focus {
   border-color: rgba(167, 139, 250);
+}
+
+.input-group span {
+  color: white;
 }
 
 .forgot {
@@ -151,48 +181,41 @@ main {
   margin-top: 20px;
 }
 
-.social-message {
+.custom-file-upload {
+  cursor: pointer;
+  height: 30px;
+  border-radius: 30px;
+  border: 2px solid transparent;
+  font-weight: bold;
+  border-radius: 30px;
+  border-radius: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: fit-content;
+}
+
+.custom-file-upload span {
+  color: white; /* Couleur du texte du bouton */
   display: flex;
-  align-items: center;
-  padding-top: 1rem;
+  transition: transform 0.4s;
 }
 
-.line {
-  height: 1px;
-  flex: 1 1 0%;
-  background-color: rgba(55, 65, 81, 1);
+.custom-file-upload span:hover {
+  transform: scale(1.2);
+  color: #f9004d;
 }
 
-.social-message .message {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: rgba(156, 163, 175, 1);
-}
-
-.social-icons {
+#files {
   display: flex;
-  justify-content: center;
-}
-
-.social-icons .icon {
-  border-radius: 0.125rem;
-  padding: 0.75rem;
-  border: none;
-  background-color: transparent;
-  margin-left: 8px;
-}
-
-.social-icons .icon svg {
-  height: 1.25rem;
-  width: 1.25rem;
-  fill: #fff;
-}
-
-.signup {
+  flex-direction: column;
+  background-color: #333;
   text-align: center;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  color: rgba(156, 163, 175, 1);
+}
+
+input[type="file"] {
+  margin-top: 10px;
+  transition: transform 0.4s;
+  display: none;
+  flex-direction: column;
+  color: white;
 }

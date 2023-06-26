@@ -1,0 +1,98 @@
+* {
+  font-family: "Josefin Sans", sans-serif;
+  overflow-y: hidden;
+}
+
+body {
+  background-color: #2f3136;
+}
+.container-fluid img {
+  width: 35px;
+}
+
+.navbar {
+  padding-top: 10px;
+  padding-left: 6%;
+  padding-right: 8%;
+}
+
+.logo {
+  font-size: 35px;
+  letter-spacing: 1px;
+}
+
+span {
+  color: #f9004d;
+}
+
+.btn {
+  transition: transform 0.4s;
+  border-radius: 30px;
+  background-color: #f9004d;
+  color: white;
+  border: 2px solid transparent;
+  font-weight: bold;
+  padding: 10px 25px;
+  border-radius: 30px;
+  margin-left: 10px;
+  border-radius: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.btn:hover {
+  transform: scale(1.2);
+  border: 2px solid transparent;
+  background-color: #f9004d;
+}
+
+.nav-link {
+  font-weight: bold;
+  text-transform: capitalize;
+  color: white;
+}
+
+.nav-link:hover {
+  color: #f9004d;
+  transition: 0.4s;
+}
+
+.nonav {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 93.5%;
+}
+
+aside {
+  flex: 0.5;
+  color: white;
+  background-color: #2f3136;
+}
+
+main {
+  flex: 4;
+  background-color: #40444b;
+  overflow-y: scroll;
+}
+
+#tabs {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#tabs li {
+  padding: 10px;
+  color: white;
+  text-transform: lowercase;
+}
+
+#tabs li.active {
+  background-color: #393c43;
+  font-weight: bold;
+}
+
+#tabs li:not(.active) {
+  cursor: pointer;
+}

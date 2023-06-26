@@ -58,7 +58,6 @@ span {
   transform: scale(1.2);
   border: 2px solid transparent;
   background-color: #f9004d;
-  color: black;
 }
 
 .nav-link {
@@ -130,4 +129,16 @@ span {
   border: none;
   top: 75%;
   font-size: 25px;
+}
+
+@media screen and (max-width: 768px) {
+  #left {
+    height: 55%;
+    margin-top: 95px;
+  }
+
+  #right {
+    height: 55%;
+    margin-top: 95px;
+  }
 }

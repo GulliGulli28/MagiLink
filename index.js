@@ -99,35 +99,38 @@ app.use((req, res, next) => {
 
   next();
 });
-// LORS DU MERGE SUPPRIMER LES COMMENTAIRES
-// const privateKey = fs.readFileSync(
-//   "/etc/letsencrypt/live/magilink.duckdns.org/privkey.pem",
-//   "utf8"
-// );
-// const certificate = fs.readFileSync(
-//   "/etc/letsencrypt/live/magilink.duckdns.org/cert.pem",
-//   "utf8"
-// );
-// const ca = fs.readFileSync(
-//   "/etc/letsencrypt/live/magilink.duckdns.org/chain.pem",
-//   "utf8"
-// );
 
-// const credentials = {
-//   key: privateKey,
-//   cert: certificate,
-//   ca: ca,
-// };
+
+const privateKey = fs.readFileSync(
+  "/etc/letsencrypt/live/magilink.zalax.xyz/privkey.pem",
+  "utf8"
+);
+const certificate = fs.readFileSync(
+  "/etc/letsencrypt/live/magilink.zalax.xyz/cert.pem",
+  "utf8"
+);
+const ca = fs.readFileSync(
+  "/etc/letsencrypt/live/magilink.zalax.xyz/chain.pem",
+  "utf8"
+);
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca,
+};
+
 
 //on défini le port sur lequel le serveur va écouter
 const port = 4000;
 
 //on importe le module http pour pouvoir créer un serveur qui va utiliser notre instance d'express
-const http = require("http").createServer(app);
-// const https = require("https").createServer(credentials, app);
+
+//const http = require("http").createServer(app);
+const https = require("https").createServer(credentials, app);
 
 //on importe le module socket.io pour pouvoir utiliser les websockets et communiquer en temps réel avec le client
-const io = require("socket.io")(http);
+const io = require("socket.io")(https);
 
 //renvoie à la page connexion.html lorsque l'on accède à la racine du serveur (pour l'instant localhost:port)
 
@@ -212,6 +215,12 @@ app.get("/section_choice", async (req, res) => {
     res.sendFile(path.join(__dirname, "public/pages/section_choice.html"));
   }
 });
+
+app.get("/CGU", (req, res) => {
+  console.log("CGU");
+  res.sendFile(path.join(__dirname, "public/assets/CGU.txt"));
+});
+
 
 app.get("/test_house1", async (req, res) => {
   console.log("test_house1");
@@ -327,7 +336,7 @@ app.get("/house_setup", async (req, res) => {
   console.log("house_setup");
   const {
     profile_id_from_user,
-    check_if_data_is_null,
+    check_data
   } = require("./serverside/js/profile.js");
   if (!req.cookies.token) {
     res.redirect("/signin");
@@ -338,7 +347,7 @@ app.get("/house_setup", async (req, res) => {
     if (!pid) {
       res.redirect("/setup_profile");
     }
-    const check = await check_if_data_is_null("maison", pid);
+    const check = await check_data("maison", pid);
     if (check) {
       res.sendFile(path.join(__dirname, "public/pages/house_discovery.html"));
     } else {
@@ -369,6 +378,11 @@ app.get("/", (req, res) => {
   //res.sendFile permet de renvoyé le client sur une page html.
   //il est possible de renvoyer du texte avec res.send("texte") ou du json avec res.json({json: "json"}) etc...
   res.sendFile(path.join(__dirname, "public/pages/accueil.html"));
+});
+
+app.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/");
 });
 
 app.get("*", (req, res) => {
@@ -417,6 +431,7 @@ app.post("/signup", async (req, res) => {
 app.post("/setup_profile", async (req, res) => {
   const { identify_by_cookie, secure } = require("./serverside/js/secure.js");
   const userid = identify_by_cookie(req.cookies, secret);
+  req.body["ville"] = req.body["ville"][1];
   const validated_input = secure(req.body);
   const { set_profile, update_user } = require("./serverside/js/profile.js");
   const check = await set_profile(validated_input, userid);
@@ -480,8 +495,12 @@ app.post("/test_house2", async (req, res) => {
   }
 });
 
+app.post('/section_choice', async (req, res) => {
+  res.redirect("/section_choice");
+});
+
 app.post("/test_house3", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { create_test_steps, set_house } = require("./serverside/js/maison.js");
   const { profile_id_from_user } = require("./serverside/js/profile.js");
   const { identify_by_cookie } = require("./serverside/js/secure.js");
@@ -493,7 +512,8 @@ app.post("/test_house3", async (req, res) => {
     console.log("ici");
     const check = await create_test_steps(pid, req.body);
     if (check) {
-      const check2 = set_house(pid, check);
+      const check2 = await set_house(pid, check);
+      //console.log("check2",check2);
       if (check2) {
         res.redirect("/house_setup");
       } else {
@@ -513,44 +533,73 @@ io.on("connection", (socket) => {
     console.log("Un utilisateur s'est déconnecté");
   });
 
-  socket.on("user_connected", (msg) => {
-    console.log(msg.name);
+  socket.on("enter_room", async (room) => {
+    const { getMessages_byChannel,getUsers_by_channel } = require("./serverside/js/message_meet.js");
+    const {profile_id_from_user} = require("./serverside/js/profile.js");
+    socket.join(room);
+    //console.log(socket.rooms,room);
+    let messages = await getMessages_byChannel(room);
+    let realmessage = []
+    messages.forEach(async(element) => {
+      realmessage.push({ "userid": element.author,"date" : element.date, "content": element.content, "autre" : {autre: element.author, moi:element.author} });
+    });
+    console.log("real",realmessage);
+    socket.emit("init_messages", { messages: JSON.stringify(realmessage) });
+    
   });
 
-  socket.on("enter_room", (room) => {
-    socket.join(room);
-    console.log(socket.rooms);
-    /*
-    Chat.findAll({
-      attributes: ["id", "name", "message", "createdAt"],
-      where: { room: room },
-    }).then((list) => {
-      socket.emit("init_messages", { messages: JSON.stringify(list) });
+  socket.on("get_cities", async (msg) => {
+    const { get_cities } = require("./serverside/js/villes.js");
+    const list = await get_cities();
+    //console.log(list);
+    const list2 = [];
+    list.forEach((element) => {
+      list2.push([element.ville_id,element.ville_nom_reel]);
     });
-    */
+    socket.emit("city_list", { cities: list2 });
+  });
+
+  socket.on("maison",async (msg) => {
+    //console.log("maison", msg);
+    const {identify_by_cookie} = require("./serverside/js/secure.js");
+    const {profile_id_from_user} = require("./serverside/js/profile.js"); 
+    idp = identify_by_cookie({token : msg.name}, secret);
+    const pid = await profile_id_from_user(idp);
+    const {check_data} = require("./serverside/js/profile.js");
+    const maison = await check_data("maison",pid);
+    socket.emit("maison", { maison: maison });
   });
 
   socket.on("leave_room", (room) => {
     socket.leave(room);
   });
 
-  socket.on("chat_message", (msg) => {
+  socket.on("chat_message", async (msg) => {
     console.log(msg);
     io.in(msg.room).emit("received_message", msg);
-    /*
-    const message = Chat.create({
-      name: msg.name,
-      message: msg.message,
-      room: msg.room,
-      createdAt: msg.createdAt,
-    })
-      .then(() => {
-        io.in(msg.room).emit("received_message", msg);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-      */
+    const { setMessage, getUsers_by_channel } = require("./serverside/js/message_meet.js");
+    const {identify_by_cookie} = require("./serverside/js/secure.js");
+    const {profile_id_from_user} = require("./serverside/js/profile.js"); 
+    idp = identify_by_cookie({token : msg.user_id}, secret);
+    const pid = await profile_id_from_user(idp);
+    const msg_added = setMessage(pid, msg.room.rooms, msg.content, msg.date);
+    if (msg_added) {
+      console.log("message envoyé");
+      const users = await getUsers_by_channel(msg.room.rooms, pid);
+      console.log(users);
+      msg["autre"] = users;
+      io.in(msg.room.rooms).emit("received_message", msg);
+    }
+
+  });
+
+  socket.on("user_connected", async (msg) => {
+    const { getChannels_byUser,create_Channel } = require("./serverside/js/message_meet.js");
+    const { identify_by_cookie } = require("./serverside/js/secure.js");
+    const userid = identify_by_cookie({ token: msg.name }, secret);
+    const channels = await getChannels_byUser(userid);
+    //console.log(channels);
+    socket.emit("init_channels", { channels: channels });
   });
 
   socket.on("enter-swipe", (userid) => {
@@ -565,16 +614,21 @@ io.on("connection", (socket) => {
 });
 
 //On demande au serveur d'écouter sur le port défini plus haut
-http.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
 
-// https.listen(443, () => {
-//   console.log(`Server is running on port 443`);
+// http.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
 // });
 
+<<<<<<< HEAD
 const {pick, like} = require("./serverside/js/baise.js");
 pick(1);
 like(43, 1);
 like(1, 100)
 console.log("finished");
+=======
+https.listen(443, () => {
+   console.log(`Server is running on port 443`);
+});
+
+const {baise} = require("./serverside/js/baise.js");
+>>>>>>> 8e73c70fb76c070b85357ca061e8b469c513c88d

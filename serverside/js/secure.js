@@ -2,16 +2,23 @@ const jwt = require('jsonwebtoken');
 const sanitizeHtml = require('sanitize-html');
 
 function identify_by_cookie(cookies,secret){
+    try{
     if (cookies.token){
         const decoded = jwt.verify(cookies.token, secret);
         return decoded.key
     }
     return false;
+    }catch(err){
+      console.error(err);
+      return false;
+    }
 }
 
 function secure(input){    
     for (let key in input)
-        input[key] = sanitizeHtml(input[key]).replace(/[.*+?^${}=`()|[\]\\]/g, '\\$&');
+        if (typeof input[key] === 'string'){
+          input[key] = sanitizeHtml(input[key]).replace(/[.*+?^${}=`()|[\]\\]/g, '\\$&');
+        }
     return input;
 }
 
