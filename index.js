@@ -628,13 +628,7 @@ io.on("connection", (socket) => {
 //   console.log(`Server is running on port ${port}`);
 // });
 
-<<<<<<< HEAD
-const {pick, like} = require("./serverside/js/baise.js");
-pick(1);
-like(43, 1);
-like(1, 100)
-console.log("finished");
-=======
+
 https.listen(443, () => {
    console.log(`Server is running on port 443`);
 });
