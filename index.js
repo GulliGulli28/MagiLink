@@ -103,24 +103,24 @@ app.use((req, res, next) => {
 });
 
 
-const privateKey = fs.readFileSync(
-  "/etc/letsencrypt/live/magilink.zalax.xyz/privkey.pem",
-  "utf8"
-);
-const certificate = fs.readFileSync(
-  "/etc/letsencrypt/live/magilink.zalax.xyz/cert.pem",
-  "utf8"
-);
-const ca = fs.readFileSync(
-  "/etc/letsencrypt/live/magilink.zalax.xyz/chain.pem",
-  "utf8"
-);
+// const privateKey = fs.readFileSync(
+//   "/etc/letsencrypt/live/magilink.zalax.xyz/privkey.pem",
+//   "utf8"
+// );
+// const certificate = fs.readFileSync(
+//   "/etc/letsencrypt/live/magilink.zalax.xyz/cert.pem",
+//   "utf8"
+// );
+// const ca = fs.readFileSync(
+//   "/etc/letsencrypt/live/magilink.zalax.xyz/chain.pem",
+//   "utf8"
+// );
 
-const credentials = {
-  key: privateKey,
-  cert: certificate,
-  ca: ca,
-};
+// const credentials = {
+//   key: privateKey,
+//   cert: certificate,
+//   ca: ca,
+// };
 
 
 //on défini le port sur lequel le serveur va écouter
@@ -128,12 +128,12 @@ const port = 4000;
 
 //on importe le module http pour pouvoir créer un serveur qui va utiliser notre instance d'express
 
-//const http = require("http").createServer(app);
-const https = require("https").createServer(credentials, app);
+const http = require("http").createServer(app);
+// const https = require("https").createServer(credentials, app);
 
 //on importe le module socket.io pour pouvoir utiliser les websockets et communiquer en temps réel avec le client
-const io = require("socket.io")(https);
-
+// const io = require("socket.io")(https);
+const io = require("socket.io")(http);
 //renvoie à la page connexion.html lorsque l'on accède à la racine du serveur (pour l'instant localhost:port)
 
 app.get("/signin", (req, res) => {
@@ -624,14 +624,14 @@ io.on("connection", (socket) => {
 
 //On demande au serveur d'écouter sur le port défini plus haut
 
-// http.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-// });
-
-
-https.listen(443, () => {
-   console.log(`Server is running on port 443`);
+http.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
+
+
+// https.listen(443, () => {
+//    console.log(`Server is running on port 443`);
+// });
 
 
 const util = require('util');

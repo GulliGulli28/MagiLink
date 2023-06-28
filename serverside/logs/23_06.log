@@ -745,3 +745,287 @@ Error
 Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 1 LIMIT 1;
 Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
 Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Server is running on port 4000
+signin
+section_choice
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile not found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = false;
+setup_profile
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile not found
+une connection s'active
+Executing (default): SELECT `ville_id`, `ville_nom_reel` FROM `ville_france_free` AS `ville_france_free`;
+Un utilisateur s'est déconnecté
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile not setuped yet
+Executing (default): INSERT INTO `Profile` (`pid`,`prenom`,`dob`,`ville`,`genre`,`bio`,`commu_picture`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?,?,?,?,?);
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+Executing (default): UPDATE `User` SET `pid`=?,`updatedAt`=? WHERE `idp` = ?
+section_choice
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+data is null
+maison is null
+test_house1
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+data is null
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+test_step_1 not setuped yet
+Executing (default): UPDATE `Profile` SET `affinity`=?,`updatedAt`=? WHERE `pid` = ?
+test_house2
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+data is null
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+test_step_2 not setuped yet
+Executing (default): UPDATE `Profile` SET `affinity`=?,`updatedAt`=? WHERE `pid` = ?
+test_house3
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+data is null
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+test_step_3 not setuped yet
+Executing (default): UPDATE `Profile` SET `affinity`=?,`updatedAt`=? WHERE `pid` = ?
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+house not setuped yet
+Executing (default): UPDATE `Profile` SET `affinity`=?,`maison`=?,`updatedAt`=? WHERE `pid` = ?
+house_setup
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+data is not null
+une connection s'active
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+data is not null
+Un utilisateur s'est déconnecté
+section_choice
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+data is not null
+une connection s'active
+user_connected
+Executing (default): SELECT `pid` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+Executing (default): SELECT `id`, `name`, `purpose`, `profiles`, `createdAt`, `updatedAt` FROM `Channel` AS `Channel` WHERE (`Channel`.`profiles` LIKE '2047%' OR `Channel`.`profiles` LIKE '%2047') AND `Channel`.`purpose` = 1;
+get_card
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT ville_france_free.ville_longitude_deg, ville_france_free.ville_latitude_deg
+        FROM ville_france_free
+        INNER JOIN Profile ON Profile.ville = ville_france_free.ville_id
+        WHERE Profile.pid = 2047
+Executing (default): SELECT Interaction.id2
+        FROM Interaction
+        INNER JOIN User ON Interaction.id1 = User.idp
+        WHERE Interaction.id1 = 1024
+        AND Interaction.res1 is null;
+Executing (default): SELECT Interaction.id1
+        FROM Interaction
+        INNER JOIN User ON Interaction.id2 = User.idp
+        WHERE Interaction.id2 = 1024
+        AND Interaction.res2 is null;
+Executing (default): SELECT Profile.pid
+    FROM Profile
+    INNER JOIN villes_france_free ON Profile.ville = villes_france_free.ville_id
+    WHERE villes_france_free.ville_latitude_deg BETWEEN -156961184.6593477 AND 156961276.49274772
+    AND villes_france_free.ville_longitude_deg BETWEEN -225615132.05416846 AND 225615142.85416847
+    LIMIT 100;
+Executing (default): SELECT `affinity` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '0';
+Executing (default): SELECT `pid` FROM `Profile` AS `Profile` WHERE `Profile`.`maison` IN ('Gryffondor', 'Poursouffle', 'Serpentard', 'Serdaigle') AND `Profile`.`pid` IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100) ORDER BY FIELD(maison, 'Gryffondor', 'Poursouffle', 'Serpentard', 'Serdaigle');
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '1';
+Executing (default): SELECT `id2` FROM `Interaction` AS `Interaction` WHERE `Interaction`.`id1` = 2047;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '2';
+Executing (default): SELECT `id1` FROM `Interaction` AS `Interaction` WHERE `Interaction`.`id2` = 2047;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '3';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 25 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '4';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 42 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '5';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 3 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '6';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 4 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '7';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 54 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '8';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 89 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '9';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 78 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '10';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 56 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '11';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 51 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '12';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '13';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 60 LIMIT 1;
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '14';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '15';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '16';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '17';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '18';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '19';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '20';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '21';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '22';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '23';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '24';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '25';
+Executing (default): INSERT INTO `Interaction` (`id1`,`id2`,`res1`,`res2`,`state`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '26';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '27';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '28';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '29';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '30';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '31';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '32';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '33';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '34';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '35';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '36';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '37';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '38';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '39';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '40';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '41';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '42';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '43';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '44';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '45';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '46';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '47';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '48';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '49';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '50';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '51';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '52';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '53';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '54';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '55';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '56';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '57';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '58';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '59';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '60';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '61';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '62';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '63';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '64';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '65';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '66';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '67';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '68';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '69';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '70';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '71';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '72';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '73';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '74';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '75';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '76';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '77';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '78';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '79';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '80';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '81';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '82';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '83';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '84';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '85';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '86';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '87';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '88';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '89';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '90';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '91';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '92';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '93';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '94';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '95';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '96';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '97';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '98';
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = '99';
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 1 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 2 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 3 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 4 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 5 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 6 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 7 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 8 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 9 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 10 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 11 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 12 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): SELECT `idp` FROM `User` AS `User` WHERE `User`.`pid` = 13 LIMIT 1;
+Executing (default): UPDATE `Interaction` SET `res1`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+Executing (default): UPDATE `Interaction` SET `res2`=?,`updatedAt`=? WHERE `id1` = ? AND `id2` = ?
+user_connected
+Executing (default): SELECT `pid` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+Executing (default): SELECT `id`, `name`, `purpose`, `profiles`, `createdAt`, `updatedAt` FROM `Channel` AS `Channel` WHERE (`Channel`.`profiles` LIKE '2047%' OR `Channel`.`profiles` LIKE '%2047') AND `Channel`.`purpose` = 1;
+Un utilisateur s'est déconnecté
+signin
+section_choice
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+data is not null
+Server is running on port 4000
+signin
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE (`User`.`username` = 'test' OR `User`.`login` = 'test') AND `User`.`pswd` = 'a2c96d518f1099a3b6afe29e443340f9f5fdf1289853fc034908444f2bcb8982' LIMIT 1;
+user found
+section_choice
+Executing (default): SELECT `idp`, `username`, `pid`, `pswd`, `login`, `channels`, `current_city`, `interactions`, `createdAt`, `updatedAt` FROM `User` AS `User` WHERE `User`.`idp` = 1024;
+profile found
+Executing (default): SELECT `pid`, `nom`, `prenom`, `dob`, `ville`, `maison`, `genre`, `settings`, `bio`, `affinity`, `meet_picture`, `commu_picture`, `createdAt`, `updatedAt` FROM `Profile` AS `Profile` WHERE `Profile`.`pid` = 2047;
+data is not null
